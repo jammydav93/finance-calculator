@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Chart from './Chart.js';
+import Outgoings from './Outgoings.js';
+
+const recurrenceOptions = ['weekly', 'monthly', 'quaterly'];
 
 class App extends React.Component {
   constructor() {
@@ -22,8 +25,10 @@ class App extends React.Component {
   }
 
   handleSubmit = (evt) => {
-    const { description, outgoings } = this.state;
-    alert(this.state.outgoings);
+    evt.preventDefault;
+    for (let i=0; i < this.state.outgoings.length; i++){
+      console.log(this.state.outgoings[i]);
+    }
   }
 
   handleAddOutgoing = () => {
@@ -40,50 +45,13 @@ class App extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <h4>outgoings</h4>
-
-        {this.state.outgoings.map((outgoing, idx) => (
-          <div classdescription="outgoing">
-            <input
-              type="text"
-              placeholder={`Outgoing #${idx + 1} description`}
-              name="description"
-              value={outgoing.description}
-              onChange={this.handleOutgoingChange(idx)}
-            />
-            <input
-              type="text"
-              placeholder={`Outgoing #${idx + 1} cost`}
-              name="cost"
-              value={outgoing.cost}
-              onChange={this.handleOutgoingChange(idx)}
-            />
-            <select
-              type="text"
-              placeholder={`regularity`}
-              name="regularity"
-              value={outgoing.regularity}
-              onChange={this.handleOutgoingChange(idx)}
-            >
-              <option value="weekly">Grapefruit</option>
-              <option value="monthly">Lime</option>
-              <option value="quaterly">Coconut</option>
-            </select>
-            <input
-              type="text"
-              placeholder={`transactionDate`}
-              name="transactionDate"
-              value={outgoing.transactionDate}
-              onChange={this.handleOutgoingChange(idx)}
-            />
-
-            <button type="button" onClick={this.handleRemoveOutgoing(idx)} classdescription="small">-</button>
-          </div>
-        ))}
-        <button type="button" onClick={this.handleAddOutgoing} classdescription="small">Add Outgoing</button>
-        <button>Incorporate</button>
-      </form>
+      <Outgoings
+        outgoings={this.state.outgoings}
+        handleOutgoingChange={this.handleOutgoingChange}
+        handleAddOutgoing={this.handleAddOutgoing}
+        handleRemoveOutgoing={this.handleRemoveOutgoing}
+        handleSubmit={this.handleSubmit}
+      />
     )
   }
 }
