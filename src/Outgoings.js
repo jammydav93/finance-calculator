@@ -1,9 +1,4 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Chart from './Chart.js';
-
-const recurrenceOptions = ['weekly', 'monthly', 'quaterly'];
+import React from 'react';
 
 class Outgoings extends React.Component {
   render() {
@@ -36,7 +31,7 @@ class Outgoings extends React.Component {
               value={outgoing.regularity}
               onChange={this.props.handleOutgoingChange(idx)}
             >
-              {recurrenceOptions.map((x) =>
+              {this.props.recurrenceOptions.map((x) =>
                 <option value={x}>{x}</option>
               )}
             </select>

@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
 import Chart from './Chart.js';
 import Outgoings from './Outgoings.js';
+import {BootstrapTable,
+       TableHeaderColumn} from 'react-bootstrap-table';
+import '../node_modules/react-bootstrap-table/css/react-bootstrap-table.css'
 
 const recurrenceOptions = ['weekly', 'monthly', 'quaterly'];
 
@@ -11,11 +13,11 @@ class App extends React.Component {
     super();
     this.state = {
       outgoings: [{ description: '', cost: '', regulairty: '', transactionDate: '' }],
+      transactions: [],
     };
   }
 
   handleOutgoingChange = (idx) => (evt) => {
-    console.log('targetname=', evt.target.name);
     const newoutgoings = this.state.outgoings.map((outgoing, sidx) => {
       if (idx !== sidx) return outgoing;
       return { ...outgoing, [evt.target.name]: evt.target.value };
@@ -26,9 +28,34 @@ class App extends React.Component {
 
   handleSubmit = (evt) => {
     evt.preventDefault;
-    for (let i=0; i < this.state.outgoings.length; i++){
-      console.log(this.state.outgoings[i]);
+    const outgoings = this.state.outgoings;
+    let transactions = [];
+
+    const date1 = new Date('November 27, 1995 03:24:00');
+    const date2 = new Date('December 31, 1996 03:24:00');
+
+    const one_day=1000*60*60*24;
+    const daysDifference = (date2 - date1)/one_day;
+
+    let runningDate = date1;
+    for (let x=0; x <= daysDifference; x++){
+      for (let i=0; i < this.state.outgoings.length; i++){
+
+        if (outgoings[i].transactionDate == runningDate.getDate()){
+          console.log('match!, date=', runningDate);
+          transactions.push({
+             date: new Date(runningDate),
+             description: outgoings[i].description,
+             cost: outgoings[i].cost
+           });
+        }
+
+      }
+      runningDate.setDate(runningDate.getDate() + 1);
     }
+
+    // No need to sort by date as already generated in order.
+    this.setState({ transactions: transactions })
   }
 
   handleAddOutgoing = () => {
@@ -45,13 +72,33 @@ class App extends React.Component {
 
   render() {
     return (
-      <Outgoings
-        outgoings={this.state.outgoings}
-        handleOutgoingChange={this.handleOutgoingChange}
-        handleAddOutgoing={this.handleAddOutgoing}
-        handleRemoveOutgoing={this.handleRemoveOutgoing}
-        handleSubmit={this.handleSubmit}
-      />
+      <div>
+        <Outgoings
+          outgoings={this.state.outgoings}
+          recurrenceOptions={recurrenceOptions}
+          handleOutgoingChange={this.handleOutgoingChange}
+          handleAddOutgoing={this.handleAddOutgoing}
+          handleRemoveOutgoing={this.handleRemoveOutgoing}
+          handleSubmit={this.handleSubmit}
+        />
+
+      <BootstrapTable data={this.state.transactions}>
+
+          <TableHeaderColumn isKey dataField='date'>
+          ID
+          </TableHeaderColumn>
+
+          <TableHeaderColumn dataField='description'>
+          Description
+          </TableHeaderColumn>
+
+          <TableHeaderColumn dataField='cost'>
+          Cost
+          </TableHeaderColumn>
+
+
+        </BootstrapTable>
+    </div>
     )
   }
 }
