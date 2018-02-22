@@ -14,6 +14,7 @@ class App extends React.Component {
     this.state = {
       outgoings: [{ description: '', cost: '', regulairty: '', transactionDate: '' }],
       transactions: [],
+
     };
   }
 
@@ -26,36 +27,45 @@ class App extends React.Component {
     this.setState({ outgoings: newoutgoings });
   }
 
-  handleSubmit = (evt) => {
-    evt.preventDefault;
-    const outgoings = this.state.outgoings;
+  generateTransactions = (outgoings) => {
     let transactions = [];
 
     const date1 = new Date('November 27, 1995 03:24:00');
     const date2 = new Date('December 31, 1996 03:24:00');
+    const beginBal = 100
 
     const one_day=1000*60*60*24;
     const daysDifference = (date2 - date1)/one_day;
 
     let runningDate = date1;
+    let transactionCount = 0;
+
     for (let x=0; x <= daysDifference; x++){
       for (let i=0; i < this.state.outgoings.length; i++){
-
         if (outgoings[i].transactionDate == runningDate.getDate()){
-          console.log('match!, date=', runningDate);
+          const initBalance = transactionCount > 0 ? transactions[transactionCount - 1].finalBalance : beginBal;
+          const cost = outgoings[i].cost
           transactions.push({
+            transactionID: transactionCount,
              date: new Date(runningDate),
              description: outgoings[i].description,
-             cost: outgoings[i].cost
+             cost,
+             initBalance,
+             finalBalance: initBalance - cost,
            });
+          transactionCount = transactionCount + 1;
         }
-
       }
       runningDate.setDate(runningDate.getDate() + 1);
     }
 
     // No need to sort by date as already generated in order.
-    this.setState({ transactions: transactions })
+    return transactions;
+  }
+
+  handleSubmit = (evt) => {
+    evt.preventDefault;
+    this.setState({ transactions: this.generateTransactions(this.state.outgoings) })
   }
 
   handleAddOutgoing = () => {
@@ -84,8 +94,16 @@ class App extends React.Component {
 
       <BootstrapTable data={this.state.transactions}>
 
-          <TableHeaderColumn isKey dataField='date'>
+          <TableHeaderColumn isKey dataField='transactionID'>
           ID
+          </TableHeaderColumn>
+
+          <TableHeaderColumn dataField='date'>
+          Date
+          </TableHeaderColumn>
+
+          <TableHeaderColumn dataField='initBalance'>
+          initBalance
           </TableHeaderColumn>
 
           <TableHeaderColumn dataField='description'>
@@ -96,6 +114,9 @@ class App extends React.Component {
           Cost
           </TableHeaderColumn>
 
+          <TableHeaderColumn dataField='finalBalance'>
+          finalBalance
+          </TableHeaderColumn>
 
         </BootstrapTable>
     </div>
