@@ -14,7 +14,7 @@ class App extends React.Component {
     this.state = {
       outgoings: [{ description: '', cost: '', regulairty: '', transactionDate: '' }],
       transactions: [],
-
+      showChart: false,
     };
   }
 
@@ -65,7 +65,10 @@ class App extends React.Component {
 
   handleSubmit = (evt) => {
     evt.preventDefault;
-    this.setState({ transactions: this.generateTransactions(this.state.outgoings) })
+    this.setState({
+      transactions: this.generateTransactions(this.state.outgoings),
+      showChart: true,
+    })
   }
 
   handleAddOutgoing = () => {
@@ -92,32 +95,27 @@ class App extends React.Component {
           handleSubmit={this.handleSubmit}
         />
 
-      <BootstrapTable data={this.state.transactions}>
+      <Chart showChart={this.state.showChart} transactions={this.state.transactions}/>
 
+      <BootstrapTable data={this.state.transactions}>
           <TableHeaderColumn isKey dataField='transactionID'>
           ID
           </TableHeaderColumn>
-
           <TableHeaderColumn dataField='date'>
           Date
           </TableHeaderColumn>
-
           <TableHeaderColumn dataField='initBalance'>
           initBalance
           </TableHeaderColumn>
-
           <TableHeaderColumn dataField='description'>
           Description
           </TableHeaderColumn>
-
           <TableHeaderColumn dataField='cost'>
           Cost
           </TableHeaderColumn>
-
           <TableHeaderColumn dataField='finalBalance'>
           finalBalance
           </TableHeaderColumn>
-
         </BootstrapTable>
     </div>
     )

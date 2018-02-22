@@ -6,9 +6,10 @@ class Outgoings extends React.Component {
       <form>
         <h4>Outgoings</h4>
         {this.props.outgoings.map((outgoing, idx) => (
-          <div classdescription='outgoing'>
+          <div key='outgoingDiv' classdescription='outgoing'>
             <input
               type='text'
+              key='description'
               placeholder={`Outgoing #${idx + 1} description`}
               name='description'
               value={outgoing.description}
@@ -16,6 +17,7 @@ class Outgoings extends React.Component {
             />
             <input
               type='number'
+              key='cost'
               placeholder={`Outgoing #${idx + 1} cost`}
               name='cost'
               pattern='[0-9]'
@@ -26,17 +28,19 @@ class Outgoings extends React.Component {
             />
             <select
               type='text'
+              key='regulairty'
               placeholder={`regularity`}
               name='regularity'
               value={outgoing.regularity}
               onChange={this.props.handleOutgoingChange(idx)}
             >
               {this.props.recurrenceOptions.map((x) =>
-                <option value={x}>{x}</option>
+                <option key={x} value={x}>{x}</option>
               )}
             </select>
             <input
               type='number'
+              key='transactionDate'
               placeholder={`transactionDate`}
               name='transactionDate'
               min='1'
@@ -46,7 +50,7 @@ class Outgoings extends React.Component {
               onChange={this.props.handleOutgoingChange(idx)}
             />
 
-          <button type='button' onClick={this.props.handleRemoveOutgoing(idx)} classdescription='small'>-</button>
+          <button key='removeButton' type='button' onClick={this.props.handleRemoveOutgoing(idx)} classdescription='small'>-</button>
           </div>
         ))}
         <button type='button' onClick={this.props.handleAddOutgoing} classdescription='small'>Add Outgoing</button>

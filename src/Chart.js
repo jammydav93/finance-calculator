@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { LineChart } from 'react-easy-chart';
 import ToolTip from './ToolTip';
 
+
 class Chart extends Component {
   constructor(props) {
     super(props);
@@ -9,10 +10,34 @@ class Chart extends Component {
     this.mouseOverHandler = this.mouseOverHandler.bind(this);
     this.mouseOutHandler = this.mouseOutHandler.bind(this);
     this.mouseMoveHandler = this.mouseMoveHandler.bind(this);
-
+    this.generateChartData = this.generateChartData.bind(this);
     this.state = {
       showToolTip: true,
     };
+  }
+
+  generateChartData = (transactions) => {
+    var data = []
+
+    for (let i=0; i < transactions.length; i++){
+      const transaction = transactions[i];
+
+      // Format the x timestamp as per react-easy-chart documentation (e.g.
+      // 2-Jan-17)
+
+      const t = transaction.date;
+      const months = [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      ];
+      const date = t.getDate() + '-' + months[t.getMonth()] + '-' + t.getYear();
+
+      data.push({
+        x: date,
+        y: transaction.finalBalance,
+      })
+    }
+    return [data]
   }
 
   mouseOverHandler(d, e) {
@@ -51,6 +76,8 @@ class Chart extends Component {
 
   render() {
     if (this.props.showChart){
+      const data = this.generateChartData(this.props.transactions);
+      console.log(data);
       return (
         <div className="Chart">
           {this.props.test}
@@ -58,19 +85,18 @@ class Chart extends Component {
             axes
             dataPoints
             grid
-            xDomainRange={[0, 100]}
-            yDomainRange={[0, 100]}
+            xType={'time'}
             mouseOverHandler={this.mouseOverHandler}
             mouseOutHandler={this.mouseOutHandler}
             mouseMoveHandler={this.mouseMoveHandler}
             width={700}
             height={350}
-            data={this.props.balanceData}
+            data={data}
           />
         </div>
       );
     }
-    return <p>no chart</p>
+    return null;
   }
 }
 
