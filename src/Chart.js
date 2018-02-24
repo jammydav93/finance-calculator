@@ -30,7 +30,9 @@ class Chart extends Component {
         "Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
       ];
-      const date = t.getDate() + '-' + months[t.getMonth()] + '-' + t.getYear();
+      const date = t.getDate() + '-' + months[t.getMonth()] + '-' + t.getFullYear().toString().substring(2);
+
+      console.log('chartdate=', date);
 
       data.push({
         x: date,

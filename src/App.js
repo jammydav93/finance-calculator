@@ -5,17 +5,34 @@ import Outgoings from './Outgoings.js';
 import {BootstrapTable,
        TableHeaderColumn} from 'react-bootstrap-table';
 import '../node_modules/react-bootstrap-table/css/react-bootstrap-table.css'
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import moment from 'moment';
+import 'moment/locale/en-au'  // without this line it didn't work
+moment.locale('en-au');
 
-const recurrenceOptions = ['weekly', 'monthly', 'quaterly'];
+const recurrenceOptions = ['monthly'];
+
+const divStyle = {
+  backgroundColor: 'yellow',
+  colour: 'black'
+};
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      outgoings: [{ description: '', cost: '', regulairty: '', transactionDate: '' }],
+      startDate: moment(),
+      endDate: moment().add(1, 'years'),
+      initBalance: 500,
+      outgoings: [{ description: 'Council Tax', cost: 42, regulairty: 'monthly', transactionDate: '9' }],
       transactions: [],
       showChart: false,
     };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleStartDateChange = this.handleStartDateChange.bind(this);
+    this.handleEndDateChange = this.handleEndDateChange.bind(this);
   }
 
   handleOutgoingChange = (idx) => (evt) => {
@@ -30,9 +47,8 @@ class App extends React.Component {
   generateTransactions = (outgoings) => {
     let transactions = [];
 
-    const date1 = new Date('November 27, 1995 03:24:00');
-    const date2 = new Date('December 31, 1996 03:24:00');
-    const beginBal = 100
+    const date1 = this.state.startDate._d;
+    const date2 = this.state.endDate._d;
 
     const one_day=1000*60*60*24;
     const daysDifference = (date2 - date1)/one_day;
@@ -43,8 +59,9 @@ class App extends React.Component {
     for (let x=0; x <= daysDifference; x++){
       for (let i=0; i < this.state.outgoings.length; i++){
         if (outgoings[i].transactionDate == runningDate.getDate()){
-          const initBalance = transactionCount > 0 ? transactions[transactionCount - 1].finalBalance : beginBal;
+          const initBalance = transactionCount > 0 ? transactions[transactionCount - 1].finalBalance : this.state.initBalance;
           const cost = outgoings[i].cost
+          console.log('running date = ', runningDate);
           transactions.push({
             transactionID: transactionCount,
              date: new Date(runningDate),
@@ -83,9 +100,60 @@ class App extends React.Component {
     });
   }
 
+  handleChange(event) {
+    this.setState({initBalance: event.target.value});
+  }
+
+  handleStartDateChange(date) {
+    this.setState({
+      startDate: date
+    });
+  }
+
+  handleEndDateChange(date) {
+    this.setState({
+      endDate: date
+    });
+  }
+
   render() {
     return (
       <div>
+
+        <div style={divStyle}>
+          <p>
+            Visualise your cash flow! In the outgoings box, enter each of your
+            regular expenses, and the date of the month they go out on.
+            Enter the start date as today, and the end date for your next pay
+            day (for example), and your current balance.
+
+            Instantly understand your cash flow in an easy to use,
+            interactive format!
+          </p>
+        </div>
+
+        <p>
+          <label>
+            Starting Balance:
+            <input type="number" value={this.state.initBalance} onChange={this.handleChange} />
+          </label>
+        </p>
+
+        <p>
+          <label>
+            Start Date:
+            <DatePicker
+            selected={this.state.startDate}
+            onChange={this.handleStartDateChange}
+            />
+            End Date:
+            <DatePicker
+            selected={this.state.endDate}
+            onChange={this.handleEndDateChange}
+            />
+          </label>
+        </p>
+
         <Outgoings
           outgoings={this.state.outgoings}
           recurrenceOptions={recurrenceOptions}

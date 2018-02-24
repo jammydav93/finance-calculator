@@ -4,7 +4,7 @@ class Outgoings extends React.Component {
   render() {
     return (
       <form>
-        <h4>Outgoings</h4>
+        <h4>Monthly Costs:</h4>
         {this.props.outgoings.map((outgoing, idx) => (
           <div key='outgoingDiv' classdescription='outgoing'>
             <input
