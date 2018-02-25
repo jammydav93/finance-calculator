@@ -32,8 +32,6 @@ class Chart extends Component {
       ];
       const date = t.getDate() + '-' + months[t.getMonth()] + '-' + t.getFullYear().toString().substring(2);
 
-      console.log('chartdate=', date);
-
       data.push({
         x: date,
         y: transaction.finalBalance,

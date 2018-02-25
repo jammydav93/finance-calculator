@@ -25,7 +25,8 @@ class App extends React.Component {
       startDate: moment(),
       endDate: moment().add(1, 'years'),
       initBalance: 500,
-      outgoings: [{ description: 'Council Tax', cost: 42, regulairty: 'monthly', transactionDate: '9' }],
+      outgoings: [{ description: 'Council Tax', cost: 42, debit: true, regulairty: 'monthly', transactionDate: '9' }],
+      incomes: [{ description: 'James Salary', cost: 50, debit: false, regulairty: 'monthly', transactionDate: '17' }],
       transactions: [],
       showChart: false,
     };
@@ -35,13 +36,17 @@ class App extends React.Component {
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
   }
 
-  handleOutgoingChange = (idx) => (evt) => {
-    const newoutgoings = this.state.outgoings.map((outgoing, sidx) => {
-      if (idx !== sidx) return outgoing;
-      return { ...outgoing, [evt.target.name]: evt.target.value };
-    });
 
-    this.setState({ outgoings: newoutgoings });
+  handleStartDateChange(date) {
+    this.setState({
+      startDate: date
+    });
+  }
+
+  handleEndDateChange(date) {
+    this.setState({
+      endDate: date
+    });
   }
 
   generateTransactions = (outgoings) => {
@@ -56,22 +61,41 @@ class App extends React.Component {
     let runningDate = date1;
     let transactionCount = 0;
 
+    const allRecurrences= this.state.incomes.concat(this.state.outgoings);
+
     for (let x=0; x <= daysDifference; x++){
-      for (let i=0; i < this.state.outgoings.length; i++){
-        if (outgoings[i].transactionDate == runningDate.getDate()){
-          const initBalance = transactionCount > 0 ? transactions[transactionCount - 1].finalBalance : this.state.initBalance;
-          const cost = outgoings[i].cost
-          console.log('running date = ', runningDate);
-          transactions.push({
-            transactionID: transactionCount,
-             date: new Date(runningDate),
-             description: outgoings[i].description,
-             cost,
-             initBalance,
-             finalBalance: initBalance - cost,
-           });
-          transactionCount = transactionCount + 1;
+      for (let i=0; i < allRecurrences.length; i++){
+
+        switch(allRecurrences[i].regulairty) {
+
+          case 'monthly':
+
+            if (allRecurrences[i].transactionDate == runningDate.getDate()){
+              const initBalance = transactionCount > 0 ? transactions[transactionCount - 1].finalBalance : this.state.initBalance;
+              const cost = allRecurrences[i].debit ? 0 - allRecurrences[i].cost : allRecurrences[i].cost;
+              console.log('cost=', typeof cost, cost);
+              transactions.push({
+                transactionID: transactionCount,
+                 date: new Date(runningDate),
+                 description: allRecurrences[i].description,
+                 cost,
+                 initBalance,
+                 finalBalance: initBalance + cost,
+               });
+              transactionCount = transactionCount + 1;
+            }
+            break
+
+          case 'weekly':
+            console.log('w');
+            break
+
+          case 'quaterly':
+            console.log('q');
+            break
+
         }
+
       }
       runningDate.setDate(runningDate.getDate() + 1);
     }
@@ -80,17 +104,21 @@ class App extends React.Component {
     return transactions;
   }
 
-  handleSubmit = (evt) => {
-    evt.preventDefault;
-    this.setState({
-      transactions: this.generateTransactions(this.state.outgoings),
-      showChart: true,
-    })
+  handleOutgoingChange = (idx) => (evt) => {
+    const newoutgoings = this.state.outgoings.map((outgoing, sidx) => {
+      if (idx !== sidx) return outgoing;
+      if (evt.target.name == 'cost') {
+        return { ...outgoing, [evt.target.name]: Number(evt.target.value) };
+      }
+      return { ...outgoing, [evt.target.name]: evt.target.value };
+    });
+
+    this.setState({ outgoings: newoutgoings });
   }
 
   handleAddOutgoing = () => {
     this.setState({
-      outgoings: this.state.outgoings.concat([{ description: '', cost: '', regularity: '', transactionDate: ''}])
+      outgoings: this.state.outgoings.concat([{ description: '', cost: '', debit: true,regularity: '', transactionDate: ''}])
     });
   }
 
@@ -100,20 +128,40 @@ class App extends React.Component {
     });
   }
 
+  handleIncomeChange = (idx) => (evt) => {
+    const newIncome = this.state.incomes.map((incoming, sidx) => {
+      if (idx !== sidx) return incoming;
+      if (evt.target.name == 'cost') {
+        return { ...incoming, [evt.target.name]: Number(evt.target.value) };
+      }
+      return { ...incoming, [evt.target.name]: evt.target.value };
+    });
+
+    this.setState({ incomes: newIncome });
+  }
+
+  handleAddIncome = () => {
+    this.setState({
+      incomes: this.state.incomes.concat([{ description: '', cost: '', debit: false, regularity: '', transactionDate: ''}])
+    });
+  }
+
+  handleRemoveIncome = (idx) => () => {
+    this.setState({
+      incomes: this.state.incomes.filter((s, sidx) => idx !== sidx)
+    });
+  }
+
   handleChange(event) {
     this.setState({initBalance: event.target.value});
   }
 
-  handleStartDateChange(date) {
+  handleSubmit = (evt) => {
+    evt.preventDefault;
     this.setState({
-      startDate: date
-    });
-  }
-
-  handleEndDateChange(date) {
-    this.setState({
-      endDate: date
-    });
+      transactions: this.generateTransactions(this.state.outgoings),
+      showChart: true,
+    })
   }
 
   render() {
@@ -139,7 +187,6 @@ class App extends React.Component {
           </label>
         </p>
 
-        <p>
           <label>
             Start Date:
             <DatePicker
@@ -152,16 +199,28 @@ class App extends React.Component {
             onChange={this.handleEndDateChange}
             />
           </label>
-        </p>
 
         <Outgoings
+          title='Incomes'
+          buttonDescrip='Add income'
+          outgoings={this.state.incomes}
+          recurrenceOptions={recurrenceOptions}
+          handleChange={this.handleIncomeChange}
+          handleAdd={this.handleAddIncome}
+          handleRemove={this.handleRemoveIncome}
+        />
+
+        <Outgoings
+          title='Outgoings'
+          buttonDescrip='Add outgoing'
           outgoings={this.state.outgoings}
           recurrenceOptions={recurrenceOptions}
-          handleOutgoingChange={this.handleOutgoingChange}
-          handleAddOutgoing={this.handleAddOutgoing}
-          handleRemoveOutgoing={this.handleRemoveOutgoing}
-          handleSubmit={this.handleSubmit}
+          handleChange={this.handleOutgoingChange}
+          handleAdd={this.handleAddOutgoing}
+          handleRemove={this.handleRemoveOutgoing}
         />
+
+      <button type='button' onClick={this.handleSubmit} classdescription='small'>Update</button>
 
       <Chart showChart={this.state.showChart} transactions={this.state.transactions}/>
 
