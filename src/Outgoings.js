@@ -1,6 +1,32 @@
 import React from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import moment from 'moment';
+import 'moment/locale/en-au'  // without this line it didn't work
+
+function DateField (props) {
+  switch(props.outgoing.regularity){
+    case 'monthly':
+      return <input key='monthlyInput' name='transactionDate' value={props.outgoing.transactionDate} onChange={props.onChange} />
+    case 'weekly':
+      return <input key='weeklyInput' name='transactionDate' value={props.outgoing.transactionDate} onChange={props.onChange} />
+    case 'quaterly':
+    case '4 weekly':
+      const date = props.outgoing.transactionDate === '' ? null: moment(props.outgoing.transactionDate);
+      return <DatePicker key='calendarInput' name='transactionDate' selected={date}  onChange={props.onChange} />;
+    default:
+      return null;
+  }
+}
 
 class Outgoings extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      recurranceType: 'monthly',
+    };
+  }
+
   render() {
     return (
       <form>
@@ -28,7 +54,7 @@ class Outgoings extends React.Component {
             />
             <select
               type='text'
-              key='regulairty'
+              key='regularity'
               placeholder={`regularity`}
               name='regularity'
               value={outgoing.regularity}
@@ -38,17 +64,8 @@ class Outgoings extends React.Component {
                 <option key={x} value={x}>{x}</option>
               )}
             </select>
-            <input
-              type='number'
-              key='transactionDate'
-              placeholder={`transactionDate`}
-              name='transactionDate'
-              min='1'
-              max='31'
-              step='1'
-              value={outgoing.transactionDate}
-              onChange={this.props.handleChange(idx)}
-            />
+
+            <DateField outgoing={outgoing} onChange={this.props.handleChange(idx)}/>
 
           <button key='removeButton' type='button' onClick={this.props.handleRemove(idx)} classdescription='small'>-</button>
           </div>

@@ -11,12 +11,33 @@ import moment from 'moment';
 import 'moment/locale/en-au'  // without this line it didn't work
 moment.locale('en-au');
 
-const recurrenceOptions = ['monthly'];
+const recurrenceOptions = ['monthly', 'weekly', '4 weekly', 'quaterly'];
 
 const divStyle = {
   backgroundColor: 'yellow',
   colour: 'black'
 };
+
+var weeknumber = moment("30-12-2018", "DD-MM-YYYY").isoWeek();
+console.log(weeknumber);
+
+Date.prototype.isLeapYear = function() {
+    var year = this.getFullYear();
+    if((year & 3) != 0) return false;
+    return ((year % 100) != 0 || (year % 400) == 0);
+};
+
+// Get Day of Year
+Date.prototype.getDOY = function() {
+    var dayCount = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+    var mn = this.getMonth();
+    var dn = this.getDate();
+    var dayOfYear = dayCount[mn] + dn;
+    if(mn > 1 && this.isLeapYear()) dayOfYear++;
+    return dayOfYear;
+};
+
+
 
 class App extends React.Component {
   constructor() {
@@ -25,8 +46,8 @@ class App extends React.Component {
       startDate: moment(),
       endDate: moment().add(1, 'years'),
       initBalance: 500,
-      outgoings: [{ description: 'Council Tax', cost: 42, debit: true, regulairty: 'monthly', transactionDate: '9' }],
-      incomes: [{ description: 'James Salary', cost: 50, debit: false, regulairty: 'monthly', transactionDate: '17' }],
+      outgoings: [{ description: 'Council Tax', cost: 42, debit: true, regularity: 'monthly', transactionDate: '' }],
+      incomes: [{ description: 'James Salary', cost: 50, debit: false, regularity: 'monthly', transactionDate: '' }],
       transactions: [],
       showChart: false,
     };
@@ -36,6 +57,11 @@ class App extends React.Component {
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
   }
 
+  handleOutgoingDateChange(date) {
+    this.setState({
+      startDate: date
+    });
+  }
 
   handleStartDateChange(date) {
     this.setState({
@@ -50,6 +76,9 @@ class App extends React.Component {
   }
 
   generateTransactions = (outgoings) => {
+
+    console.log(outgoings);
+
     let transactions = [];
 
     const date1 = this.state.startDate._d;
@@ -66,14 +95,17 @@ class App extends React.Component {
     for (let x=0; x <= daysDifference; x++){
       for (let i=0; i < allRecurrences.length; i++){
 
-        switch(allRecurrences[i].regulairty) {
+        const regularity = allRecurrences[i].regularity;
+        const transactionDate = allRecurrences[i].transactionDate;
 
-          case 'monthly':
-
-            if (allRecurrences[i].transactionDate == runningDate.getDate()){
+            if (
+              ( regularity === 'monthly' && transactionDate === runningDate.getDate()) ||
+              ( regularity === '4 weekly' && (runningDate.getDOY() - transactionDate._d.getDOY()) % 28 === 0 ) ||
+              ( regularity === 'quaterly' && transactionDate._d.getDate() === runningDate.getDate() && (runningDate.getMonth() - transactionDate._d.getMonth()) % 3 === 0 ) ||
+              ( regularity === 'weekly' && transactionDate === runningDate.getDay ())
+            ){
               const initBalance = transactionCount > 0 ? transactions[transactionCount - 1].finalBalance : this.state.initBalance;
               const cost = allRecurrences[i].debit ? 0 - allRecurrences[i].cost : allRecurrences[i].cost;
-              console.log('cost=', typeof cost, cost);
               transactions.push({
                 transactionID: transactionCount,
                  date: new Date(runningDate),
@@ -84,18 +116,6 @@ class App extends React.Component {
                });
               transactionCount = transactionCount + 1;
             }
-            break
-
-          case 'weekly':
-            console.log('w');
-            break
-
-          case 'quaterly':
-            console.log('q');
-            break
-
-        }
-
       }
       runningDate.setDate(runningDate.getDate() + 1);
     }
@@ -105,10 +125,26 @@ class App extends React.Component {
   }
 
   handleOutgoingChange = (idx) => (evt) => {
+    console.log('change! = ', evt.target);
     const newoutgoings = this.state.outgoings.map((outgoing, sidx) => {
       if (idx !== sidx) return outgoing;
-      if (evt.target.name == 'cost') {
+      if (evt.hasOwnProperty('_d')){
+        return { ...outgoing, transactionDate: evt };
+      }
+      if (evt.target.name === 'cost') {
         return { ...outgoing, [evt.target.name]: Number(evt.target.value) };
+      }
+      if (evt.target.name === 'regularity'){
+        console.log('a = ', { ...outgoing,  'transactionDate': '', [evt.target.name]: evt.target.value });
+        return { ...outgoing,  'transactionDate': '', [evt.target.name]: evt.target.value };
+      }
+      if (evt.target.name === 'transactionDate') {
+        if (outgoing.regularity === 'monthly' || outgoing.regularity === 'weekly'){
+          return { ...outgoing, [evt.target.name]: Number(evt.target.value) };
+        }
+        if (outgoing.regularity === 'quaterly'){
+          return { ...outgoing, [evt.target.name]: evt.target.value._d };
+        }
       }
       return { ...outgoing, [evt.target.name]: evt.target.value };
     });
@@ -118,7 +154,7 @@ class App extends React.Component {
 
   handleAddOutgoing = () => {
     this.setState({
-      outgoings: this.state.outgoings.concat([{ description: '', cost: '', debit: true,regularity: '', transactionDate: ''}])
+      outgoings: this.state.outgoings.concat([{ description: '', cost: '', debit: true, regularity: 'monthly', transactionDate: ''}])
     });
   }
 
@@ -131,7 +167,7 @@ class App extends React.Component {
   handleIncomeChange = (idx) => (evt) => {
     const newIncome = this.state.incomes.map((incoming, sidx) => {
       if (idx !== sidx) return incoming;
-      if (evt.target.name == 'cost') {
+      if (evt.target.name === 'cost') {
         return { ...incoming, [evt.target.name]: Number(evt.target.value) };
       }
       return { ...incoming, [evt.target.name]: evt.target.value };
@@ -142,7 +178,7 @@ class App extends React.Component {
 
   handleAddIncome = () => {
     this.setState({
-      incomes: this.state.incomes.concat([{ description: '', cost: '', debit: false, regularity: '', transactionDate: ''}])
+      incomes: this.state.incomes.concat([{ description: '', cost: '', debit: false, regularity: 'monthly', transactionDate: ''}])
     });
   }
 
