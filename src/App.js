@@ -11,7 +11,7 @@ import moment from 'moment';
 import 'moment/locale/en-au'  // without this line it didn't work
 moment.locale('en-au');
 
-const recurrenceOptions = ['daily', 'week daily', 'monthly', 'weekly', '4 weekly', 'quaterly'];
+const recurrenceOptions = ['daily', 'weekdays', 'weekly', '4 weekly', 'monthly', 'quaterly'];
 
 const divStyle = {
   backgroundColor: 'yellow',
@@ -89,7 +89,7 @@ class App extends React.Component {
 
         if (
           ( regularity === 'daily') ||
-          ( regularity === 'week daily' && runningDate._d.getDay() > 0 && runningDate._d.getDay() < 6 ) ||
+          ( regularity === 'weekdays' && runningDate._d.getDay() > 0 && runningDate._d.getDay() < 6 ) ||
           ( regularity === 'monthly' && transactionDate === runningDate._d.getDate()) ||
           ( regularity === '4 weekly' && (runningDate._d.getDOY() - transactionDate._d.getDOY()) % 28 === 0 ) ||
           ( regularity === 'quaterly' && transactionDate._d.getDate() === runningDate._d.getDate() && (runningDate._d.getMonth() - transactionDate._d.getMonth()) % 3 === 0 ) ||
