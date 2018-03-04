@@ -8,8 +8,10 @@ function DateField (props) {
 
   switch(props.outgoing.regularity){
     case 'monthly':
-      const MonthlyList = Array.apply(null, {length: 31}).map(Number.call, Number);
+      const MonthlyList = Array.from(new Array(31),(val,index)=>index+1);
+
       return <select
+        width='100%'
         type='text'
         key='regularity'
         placeholder={`regularity`}
@@ -78,65 +80,69 @@ class Outgoings extends React.Component {
       <div>
         <h2>{this.props.title}:</h2>
         <table>
-          <tr>
-            <th>Description</th>
-            <th>Cost</th>
-            <th>Regularity</th>
-            <th>Occurance Date</th>
-            <th>Remove</th>
-          </tr>
-          {this.props.outgoings.map((outgoing, idx) => (
+          <tbody>
             <tr>
-              <td>
-                <input
-                  type='text'
-                  key='description'
-                  placeholder={`Outgoing #${idx + 1} description`}
-                  name='description'
-                  value={outgoing.description}
-                  onChange={this.props.handleChange(idx)}
-                  title={this.props.title}
-                />
-              </td>
-              <td>
-                <input
-                  type='number'
-                  key='cost'
-                  placeholder={`Outgoing #${idx + 1} cost`}
-                  name='cost'
-                  pattern='[0-9]'
-                  min='0'
-                  step='0.01'
-                  value={outgoing.cost}
-                  onChange={this.props.handleChange(idx)}
-                  title={this.props.title}
-                />
-              </td>
-              <td>
-                <select
-                  type='text'
-                  key='regularity'
-                  placeholder={`regularity`}
-                  name='regularity'
-                  value={outgoing.regularity}
-                  onChange={this.props.handleChange(idx)}
-                  title={this.props.title}
-                >
-                  {this.props.recurrenceOptions.map((x) =>
-                    <option key={x} value={x}>{x}</option>
-                  )}
-                </select>
-              </td>
-              <td>
-                <DateField title={this.props.title} outgoing={outgoing} onChange={this.props.handleDateChange(idx, this.props.title)}/>
-              </td>
-              <td>
-                <button title={this.props.title} key='removeButton' type='button' onClick={this.props.handleRemove(idx)} classdescription='small'>-</button>
-              </td>
+              <th>Description</th>
+              <th>Cost</th>
+              <th>Regularity</th>
+              <th>Recurrance Date</th>
+              <th>Remove</th>
             </tr>
-          ))}
-          <button title={this.props.title} type='button' onClick={this.props.handleAdd} classdescription='small'>{this.props.buttonDescrip}</button>
+            {this.props.outgoings.map((outgoing, idx) => (
+              <tr>
+                <td>
+                  <input
+                    type='text'
+                    key='description'
+                    placeholder={`Outgoing #${idx + 1} description`}
+                    name='description'
+                    value={outgoing.description}
+                    onChange={this.props.handleChange(idx)}
+                    title={this.props.title}
+                  />
+                </td>
+                <td>
+                  £
+                  <input
+                    type='number'
+                    key='cost'
+                    placeholder={`Outgoing #${idx + 1} cost`}
+                    name='cost'
+                    pattern='[0-9]'
+                    min='0'
+                    step='0.01'
+                    value={outgoing.cost}
+                    onChange={this.props.handleChange(idx)}
+                    title={this.props.title}
+                  />
+                </td>
+                <td>
+                  <select
+                    type='text'
+                    key='regularity'
+                    placeholder={`regularity`}
+                    name='regularity'
+                    value={outgoing.regularity}
+                    onChange={this.props.handleChange(idx)}
+                    title={this.props.title}
+                  >
+                    {this.props.recurrenceOptions.map((x) =>
+                      <option key={x} value={x}>{x}</option>
+                    )}
+                  </select>
+                </td>
+                <td>
+                  <DateField title={this.props.title} outgoing={outgoing} onChange={this.props.handleDateChange(idx, this.props.title)}/>
+                </td>
+                <td>
+                  <button title={this.props.title} key='removeButton' type='button' onClick={this.props.handleRemove(idx)} classdescription='small'>-</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
+          <button title={this.props.title} type='button' onClick={this.props.handleAdd} classdescription='small'>{this.props.buttonDescrip}</button>
+
       </div>
     )
   }

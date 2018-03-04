@@ -34,6 +34,15 @@ Date.prototype.getDOY = function() {
     return dayOfYear;
 };
 
+const defaultIncomes = [
+  { description: 'Salary 1', cost: 500, debit: false, regularity: 'monthly', transactionDate: 10 }
+];
+
+const defaultOutgoings = [
+  { description: 'Rent', cost: 100, debit: true, regularity: 'monthly', transactionDate: 16 },
+  { description: 'Council Tax', cost: 20, debit: true, regularity: 'monthly', transactionDate: 21 },
+  { description: 'Train', cost: 3, debit: true, regularity: 'weekdays', transactionDate: '' },
+];
 
 class App extends React.Component {
   constructor() {
@@ -42,8 +51,8 @@ class App extends React.Component {
       startDate: moment(),
       endDate: moment().add(1, 'years'),
       initBalance: 500,
-      outgoings: [{ description: 'Council Tax', cost: 42, debit: true, regularity: 'monthly', transactionDate: '' }],
-      incomes: [{ description: 'James Salary', cost: 50, debit: false, regularity: 'monthly', transactionDate: '' }],
+      outgoings: defaultOutgoings,
+      incomes: defaultIncomes,
       transactions: [],
       showChart: false,
     };
@@ -85,8 +94,6 @@ class App extends React.Component {
         const regularity = allRecurrences[i].regularity;
         const transactionDate = allRecurrences[i].transactionDate;
 
-        console.log('init1-', initBalance);
-
         if (
           ( regularity === 'daily') ||
           ( regularity === 'weekdays' && runningDate._d.getDay() > 0 && runningDate._d.getDay() < 6 ) ||
@@ -95,11 +102,6 @@ class App extends React.Component {
           ( regularity === 'quaterly' && transactionDate._d.getDate() === runningDate._d.getDate() && (runningDate._d.getMonth() - transactionDate._d.getMonth()) % 3 === 0 ) ||
           ( regularity === 'weekly' && transactionDate === runningDate._d.getDay ())
         ){
-          console.log('init2-', initBalance);
-
-          console.log('transacxtuibslenfgth', typeof transactions.length, transactions.length, transactions.length > 0 ? 0: initBalance);
-          console.log('init', typeof initBalance, initBalance);
-
           const itemInitBalance = transactions.length > 0 ? transactions[transactions.length - 1].finalBalance : initBalance;
           const cost = allRecurrences[i].debit ? 0 - allRecurrences[i].cost : allRecurrences[i].cost;
           transactions.push({
@@ -138,10 +140,8 @@ class App extends React.Component {
   handleOutgoingChange = (idx) => (evt) => {
     const mapProperty = evt.target.title === 'incomes' ? this.state.incomes: this.state.outgoings;
     const newoutgoings = mapProperty.map((outgoing, sidx) => {
-      console.log('evttitle=', evt.target.title)
       if (idx !== sidx) return outgoing;
       if (evt.target.name === 'cost') {
-        console.log('c');
         return { ...outgoing, [evt.target.name]: Number(evt.target.value) };
       }
       if (evt.target.name === 'regularity'){
@@ -200,22 +200,24 @@ class App extends React.Component {
         </div>
 
         <table>
-          <tr>
-            <th>Starting Date</th>
-            <th>Starting Balance</th>
-            <th>End Date</th>
-          </tr>
-          <tr>
-            <td>
-              <DatePicker selected={this.state.startDate} onChange={this.handleStartDateChange}/>
-            </td>
-            <td>
-              <input type="number" value={this.state.initBalance} onChange={this.handleChange} />
-            </td>
-            <td>
-            <DatePicker selected={this.state.endDate} onChange={this.handleEndDateChange} />
-            </td>
-          </tr>
+          <tbody>
+            <tr>
+              <th>Starting Date</th>
+              <th>Starting Balance</th>
+              <th>End Date</th>
+            </tr>
+            <tr>
+              <td>
+                <DatePicker selected={this.state.startDate} onChange={this.handleStartDateChange}/>
+              </td>
+              <td>
+                £<input type="number" value={this.state.initBalance} onChange={this.handleChange} />
+              </td>
+              <td>
+              <DatePicker selected={this.state.endDate} onChange={this.handleEndDateChange} />
+              </td>
+            </tr>
+          </tbody>
         </table>
 
         <Outgoings
