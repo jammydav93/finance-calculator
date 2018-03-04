@@ -5,15 +5,52 @@ import moment from 'moment';
 import 'moment/locale/en-au'  // without this line it didn't work
 
 function DateField (props) {
+
   switch(props.outgoing.regularity){
     case 'monthly':
-      return <input title={props.title} key='monthlyInput' name='transactionDate' value={props.outgoing.transactionDate} onChange={props.onChange} />
-    case 'weekly':
-      return <input title={props.title} key='weeklyInput' name='transactionDate' value={props.outgoing.transactionDate} onChange={props.onChange} />
+      const MonthlyList = Array.apply(null, {length: 31}).map(Number.call, Number);
+      return <select
+        type='text'
+        key='regularity'
+        placeholder={`regularity`}
+        name='regularity'
+        value={props.outgoing.transactionDate}
+        onChange={props.onChange}
+      >
+      {MonthlyList.map((x) =>
+        <option key={x} value={x}>{x}</option>
+      )}
+      </select>;
+
+      case 'weekly':
+        const WeeklyList =[
+          { num: 0, day: 'Mon' },
+          { num: 1, day: 'Tue' },
+          { num: 2, day: 'Wed' },
+          { num: 3, day: 'Thu' },
+          { num: 4, day: 'Fri' },
+          { num: 5, day: 'Sat' },
+          { num: 6, day: 'Sun' },
+         ];
+
+        return <select
+          type='text'
+          key='regularity'
+          placeholder={`regularity`}
+          name='regularity'
+          value={props.outgoing.transactionDate}
+          onChange={props.onChange}
+        >
+        {WeeklyList.map((x) =>
+          <option key={x.num} value={x.num}>{x.day}</option>
+        )}
+        </select>;
     case 'quaterly':
     case '4 weekly':
       const date = props.outgoing.transactionDate === '' ? null: moment(props.outgoing.transactionDate);
       return <DatePicker title={props.title} key='calendarInput' name='transactionDate' selected={date}  onChange={props.onChange} />;
+    case 'daily':
+    case 'week daily':
     default:
       return null;
   }
