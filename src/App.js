@@ -20,8 +20,8 @@ const divStyle = {
 
 Date.prototype.isLeapYear = function() {
     var year = this.getFullYear();
-    if((year & 3) != 0) return false;
-    return ((year % 100) != 0 || (year % 400) == 0);
+    if((year & 3) !== 0) return false;
+    return ((year % 100) !== 0 || (year % 400) === 0);
 };
 
 // Get Day of Year
@@ -129,6 +129,7 @@ class App extends React.Component {
         if (outgoing.regularity === 'quaterly' || outgoing.regularity === '4 weekly'){
           return { ...outgoing, transactionDate: evt };
         }
+        return null;
 
     });
     this.setState({ [a]: newoutgoings });
@@ -198,25 +199,24 @@ class App extends React.Component {
           </p>
         </div>
 
-        <p>
-          <label>
-            Starting Balance:
-            <input type="number" value={this.state.initBalance} onChange={this.handleChange} />
-          </label>
-        </p>
-
-          <label>
-            Start Date:
-            <DatePicker
-            selected={this.state.startDate}
-            onChange={this.handleStartDateChange}
-            />
-            End Date:
-            <DatePicker
-            selected={this.state.endDate}
-            onChange={this.handleEndDateChange}
-            />
-          </label>
+        <table>
+          <tr>
+            <th>Starting Date</th>
+            <th>Starting Balance</th>
+            <th>End Date</th>
+          </tr>
+          <tr>
+            <td>
+              <DatePicker selected={this.state.startDate} onChange={this.handleStartDateChange}/>
+            </td>
+            <td>
+              <input type="number" value={this.state.initBalance} onChange={this.handleChange} />
+            </td>
+            <td>
+            <DatePicker selected={this.state.endDate} onChange={this.handleEndDateChange} />
+            </td>
+          </tr>
+        </table>
 
         <Outgoings
           title='incomes'
