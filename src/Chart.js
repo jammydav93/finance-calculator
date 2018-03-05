@@ -12,7 +12,8 @@ class Chart extends Component {
     this.mouseMoveHandler = this.mouseMoveHandler.bind(this);
     this.generateChartData = this.generateChartData.bind(this);
     this.state = {
-      showToolTip: true,
+      showToolTip: false,
+      z: null,
     };
   }
 
@@ -35,6 +36,7 @@ class Chart extends Component {
       data.push({
         x: date,
         y: transaction.finalBalance,
+        z: transaction.description,
       })
     }
     return [data]
@@ -46,32 +48,35 @@ class Chart extends Component {
       top: `${e.screenY - 1000}px`,
       left: `${e.screenX + 1000}px`,
       y: d.y,
-      x: d.x});
+      x: d.x,
+      z: d.z}
+    );
   }
 
   mouseMoveHandler(e) {
     if (this.state.showToolTip) {
-      this.setState({top: `${e.y - 10}px`, left: `${e.x + 10}px`});
+      this.setState({top: `${e.y}px`, left: `${e.x}px`});
     }
   }
 
   mouseOutHandler() {
-    this.setState({showToolTip: true});
+    this.setState({showToolTip: false});
   }
 
   createTooltip() {
-    console.log(this.state.showToolTip);
+    console.log('should sghiw tool tip!');
     if (this.state.showToolTip) {
       return (
-        <ToolTip
-          top={this.state.top}
-          left={this.state.left}
-        >
-            The x value is {this.state.x} and the y value is {this.state.y}
-        </ToolTip>
+        <div>
+            Date = {this.state.x}, Description = {this.state.z}, remaining balance = £{this.state.y}
+        </div>
       );
     }
-    return false;
+    return (
+      <div>
+        Select a data point for details
+      </div>
+    );
   }
 
   render() {
@@ -81,6 +86,7 @@ class Chart extends Component {
       return (
         <div className="Chart">
           {this.props.test}
+          {this.createTooltip()}
           <LineChart
             axes
             dataPoints
