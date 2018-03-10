@@ -6,6 +6,9 @@ import {
 } from "react-router-dom";
 import Homepage from "./Homepage";
 import Home from "./Home";
+import { login, logout, isLoggedIn } from './utils/AuthService';
+import './index.css';
+
 
 class App extends Component {
   render() {
@@ -18,12 +21,19 @@ class App extends Component {
               <li><NavLink exact to="/">Home</NavLink></li>
               <li><NavLink to="/homepage">Homepage</NavLink></li>
               <li><a href="http://localhost:3000/login">Login</a></li>
+              <li>
+               {
+                 (isLoggedIn()) ? ( <button className="btn btn-danger log" onClick={() => logout()}>Log out </button> ) : ( <button className="btn btn-info log" onClick={() => login()}>Log In</button> )
+               }
+              </li>
             </ul>
 
             <div className="content">
               <Route exact path="/" component={Home}/>
               <Route path="/homepage" component={Homepage}/>
             </div>
+
+
           </div>
         </HashRouter>
       );
