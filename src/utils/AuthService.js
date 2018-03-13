@@ -72,25 +72,13 @@ export function setIdToken() {
 }
 
 export function isLoggedIn() {
-  console.log('running isl;oggedif');
   const idToken = getIdToken();
-  console.log('id token = ///', idToken);
-  console.log('truth=', idToken);
-  console.log('truth1=', !idToken);
-  console.log('truth2=', !!idToken);
-
-  if (idToken){
-    return true;
-  }
-  return false;
+  return !!idToken && !isTokenExpired(idToken);
 }
 
 function getTokenExpirationDate(encodedToken) {
-  console.log('token=...', typeof encodedToken, encodedToken);
   const token = decode(encodedToken);
-  console.log('toke=', token)
   if (!token.exp) { return null; }
-
   const date = new Date(0);
   date.setUTCSeconds(token.exp);
 

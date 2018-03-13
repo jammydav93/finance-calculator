@@ -23,7 +23,12 @@ class App extends Component {
               <li><a href="http://localhost:3000/login">Login</a></li>
               <li>
                {
-                 (isLoggedIn()) ? ( <button className="btn btn-danger log" onClick={() => logout()}>Log out </button> ) : ( <button className="btn btn-info log" onClick={() => login()}>Log In</button> )
+                 (isLoggedIn()) ? ( <button className="btn btn-danger log" onClick={() => logout()}>Save </button> ) : ( <button className="btn btn-info log" onClick={() => login()}>Load</button> )
+               }
+              </li>
+              <li>
+               {
+                 (isLoggedIn()) ? ( <button className="btn btn-danger log" onClick={() => logout()}>Logout</button> ) : ( <button className="btn btn-info log" onClick={() => login()}>Login</button> )
                }
               </li>
             </ul>
