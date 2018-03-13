@@ -21,7 +21,7 @@ const Root = () => {
     <div className="container">
       <Router history={browserHistory}>
         <Route path="/" component={App}/>
-        <Route path="/special" component={Home} />
+        <Route path="/special" component={Home} onEnter={requireAuth} />
         <Route path="/callback" component={Callback} />
       </Router>
     </div>
