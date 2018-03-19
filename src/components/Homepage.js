@@ -1,15 +1,19 @@
 import React from 'react';
-import './App.css';
-import Chart from './Chart.js';
-import Outgoings from './Outgoings.js';
+import '../App.css';
+import Chart from '../Chart.js';
+import Outgoings from '../Outgoings.js';
+import PropTypes from 'prop-types';
 import {BootstrapTable,
        TableHeaderColumn} from 'react-bootstrap-table';
-import '../node_modules/react-bootstrap-table/css/react-bootstrap-table.css'
+//import '.../node_modules/react-bootstrap-table/css/react-bootstrap-table.css'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
+import { auth, db } from '../firebase';
 import 'moment/locale/en-au'  // without this line it didn't work
 moment.locale('en-au');
+
+
 
 const recurrenceOptions = ['daily', 'weekdays', 'weekly', '4 weekly', 'monthly', 'quaterly'];
 
@@ -41,12 +45,12 @@ const defaultIncomes = [
 const defaultOutgoings = [
   { description: 'Rent', cost: 100, debit: true, regularity: 'monthly', transactionDate: 16 },
   { description: 'Council Tax', cost: 20, debit: true, regularity: 'monthly', transactionDate: 21 },
-  { description: 'Train', cost: 3, debit: true, regularity: 'weekdays', transactionDate: '' },
+  { description: 'Train', cost: 3, debit: true, regularity: 'weekdays', transactionDate: null },
 ];
 
 class Homepage extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       startDate: moment(),
       endDate: moment().add(1, 'years'),
@@ -55,6 +59,7 @@ class Homepage extends React.Component {
       incomes: defaultIncomes,
       transactions: [],
       showChart: false,
+      callbackFunc: null
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleStartDateChange = this.handleStartDateChange.bind(this);
@@ -66,6 +71,10 @@ class Homepage extends React.Component {
     this.setState({
       startDate: date
     });
+  }
+
+  saveToDb(authUser) {
+    db.doCreateUser(authUser.uid, authUser.email);
   }
 
   handleEndDateChange(date) {
@@ -145,7 +154,7 @@ class Homepage extends React.Component {
         return { ...outgoing, [evt.target.name]: Number(evt.target.value) };
       }
       if (evt.target.name === 'regularity'){
-        return { ...outgoing,  'transactionDate': '', [evt.target.name]: evt.target.value };
+        return { ...outgoing,  'transactionDate': null, [evt.target.name]: evt.target.value };
       }
       return { ...outgoing, [evt.target.name]: evt.target.value };
     });
@@ -156,7 +165,7 @@ class Homepage extends React.Component {
     const mapProperty = evt.target.title === 'incomes' ? this.state.incomes: this.state.outgoings;
     const debit = evt.target.title === 'incomes' ? false: true;
       this.setState({
-        [evt.target.title]: mapProperty.concat([{ description: '', cost: '', debit, regularity: 'monthly', transactionDate: ''}])
+        [evt.target.title]: mapProperty.concat([{ description: null, cost: null, debit, regularity: 'monthly', transactionDate: null}])
     });
   }
 
@@ -171,7 +180,7 @@ class Homepage extends React.Component {
     this.setState({ initBalance: Number(event.target.value) });
   }
 
-  handleSubmit = (evt) => {
+  handleSubmit = (evt, props) => {
     const outgoings = this.state.outgoings;
     const incomes = this.state.incomes;
     const initBalance = this.state.initBalance;
@@ -181,6 +190,8 @@ class Homepage extends React.Component {
        transactions: this.generateTransactions(outgoings, incomes, initBalance, startDate, endDate),
        showChart: true,
      })
+     console.log('this.props.callback=', typeof this.props.callbackFromParent, this.props.callbackFromParent)
+     this.props.callbackFromParent(outgoings);
   }
 
   render() {

@@ -4,38 +4,50 @@ import {
   NavLink,
   HashRouter
 } from "react-router-dom";
-import Homepage from "./Homepage";
+import SignUp from './components/SignUp';
+import SignIn from './components/SignIn';
+import SignOutButton from './components/SignOut';
+import Navigation from './components/Navigation';
+import Homepage from "./components/Homepage";
 import Home from "./Home";
-import { login, logout, isLoggedIn } from './utils/AuthService';
+import { save, load } from './utils/firebaseHelper';
 import './index.css';
+
+import withAuthentication from './components/withAuthentication';
 
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      outgoingsFromChild: null
+    };
+  }
+
+  myCallback = (dataFromChild) => {
+          //[...we will use the dataFromChild here...]
+          this.setState({
+            userData: dataFromChild
+          });
+  }
+
+
   render() {
       return (
         <HashRouter>
           <div>
             <h1>Finance Forecaster SPA</h1>
 
-            <ul className="header">
-              <li><NavLink exact to="/">Home</NavLink></li>
-              <li><NavLink to="/homepage">Homepage</NavLink></li>
-              <li><a href="http://localhost:3000/login">Login</a></li>
-              <li>
-               {
-                 (isLoggedIn()) ? ( <button className="btn btn-danger log" onClick={() => logout()}>Save </button> ) : ( <button className="btn btn-info log" onClick={() => login()}>Load</button> )
-               }
-              </li>
-              <li>
-               {
-                 (isLoggedIn()) ? ( <button className="btn btn-danger log" onClick={() => logout()}>Logout</button> ) : ( <button className="btn btn-info log" onClick={() => login()}>Login</button> )
-               }
-              </li>
-            </ul>
+            <Navigation data={this.state.userData}/>
 
             <div className="content">
-              <Route exact path="/" component={Home}/>
-              <Route path="/homepage" component={Homepage}/>
+              <Route exact path="/" component={Home} data={this.state.outgoingsFromChild}/>
+              <Route exact path="/signup" component={SignUp}/>
+              <Route exact path="/signin" component={SignIn}/>
+              <Route exact path="/homepage" render={(props) => (
+                <Homepage callbackFromParent={this.myCallback} />
+              )}/>
             </div>
 
 
@@ -45,4 +57,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default withAuthentication(App);
