@@ -78,7 +78,7 @@ class Outgoings extends React.Component {
   render() {
     return (
       <div>
-        <h2>{this.props.title}:</h2>
+        <h2>aaa{this.props.title}:</h2>
         <table>
           <tbody>
             <tr>
@@ -89,8 +89,8 @@ class Outgoings extends React.Component {
               <th>Remove</th>
             </tr>
             {this.props.outgoings.map((outgoing, idx) => (
-              <tr>
-                <td>
+              <tr key='{outgoing}{idx}'>
+                <td key='1' >
                   <input
                     type='text'
                     key='description'
@@ -101,7 +101,7 @@ class Outgoings extends React.Component {
                     title={this.props.title}
                   />
                 </td>
-                <td>
+                <td key='2' >
                   £
                   <input
                     type='number'
@@ -116,7 +116,7 @@ class Outgoings extends React.Component {
                     title={this.props.title}
                   />
                 </td>
-                <td>
+                <td key='3' >
                   <select
                     type='text'
                     key='regularity'
@@ -131,10 +131,10 @@ class Outgoings extends React.Component {
                     )}
                   </select>
                 </td>
-                <td>
+                <td key='4'>
                   <DateField title={this.props.title} outgoing={outgoing} onChange={this.props.handleDateChange(idx, this.props.title)}/>
                 </td>
-                <td>
+                <td key='5'>
                   <button title={this.props.title} key='removeButton' type='button' onClick={this.props.handleRemove(idx)} classdescription='small'>-</button>
                 </td>
               </tr>

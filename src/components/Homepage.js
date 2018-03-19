@@ -1,19 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import '../App.css';
 import Chart from '../Chart.js';
 import Outgoings from '../Outgoings.js';
-import PropTypes from 'prop-types';
-import {BootstrapTable,
-       TableHeaderColumn} from 'react-bootstrap-table';
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 //import '.../node_modules/react-bootstrap-table/css/react-bootstrap-table.css'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
-import { auth, db } from '../firebase';
+import { db } from '../firebase';
 import 'moment/locale/en-au'  // without this line it didn't work
 moment.locale('en-au');
-
-
 
 const recurrenceOptions = ['daily', 'weekdays', 'weekly', '4 weekly', 'monthly', 'quaterly'];
 
@@ -48,8 +45,10 @@ const defaultOutgoings = [
   { description: 'Train', cost: 3, debit: true, regularity: 'weekdays', transactionDate: null },
 ];
 
+
 class Homepage extends React.Component {
-  constructor(props) {
+
+  constructor(props, { authUser }) {
     super(props);
     this.state = {
       startDate: moment(),
@@ -73,18 +72,13 @@ class Homepage extends React.Component {
     });
   }
 
-  saveToDb(authUser) {
-    db.doCreateUser(authUser.uid, authUser.email);
-  }
-
   handleEndDateChange(date) {
     this.setState({
       endDate: date
     });
   }
 
-  generateTransactions = (outgoings, incomes, initBalance, startDate, endDate) => {
-
+  generateTransactions = (allRecurrences, initBalance, startDate, endDate) => {
 
     let transactions = [];
 
@@ -92,8 +86,6 @@ class Homepage extends React.Component {
     const daysDifference = (endDate - startDate)/one_day;
 
     let runningDate = moment(startDate);
-
-    const allRecurrences= incomes.concat(outgoings);
 
     console.log('allrecurrences=', allRecurrences);
 
@@ -183,15 +175,15 @@ class Homepage extends React.Component {
   handleSubmit = (evt, props) => {
     const outgoings = this.state.outgoings;
     const incomes = this.state.incomes;
+    const allRecurrences =  incomes.concat(outgoings);
     const initBalance = this.state.initBalance;
     const startDate = this.state.startDate._d;
     const endDate = this.state.endDate._d;
      this.setState({
-       transactions: this.generateTransactions(outgoings, incomes, initBalance, startDate, endDate),
+       transactions: this.generateTransactions(allRecurrences, initBalance, startDate, endDate),
        showChart: true,
      })
-     console.log('this.props.callback=', typeof this.props.callbackFromParent, this.props.callbackFromParent)
-     this.props.callbackFromParent(outgoings);
+     this.props.callbackFromParent(allRecurrences);
   }
 
   render() {
@@ -199,6 +191,9 @@ class Homepage extends React.Component {
       <div>
 
         <div style={divStyle}>
+          <p>
+            Hi { this.context.authUser.uid }
+          </p>
           <p>
             Visualise your cash flow! In the outgoings box, enter each of your
             regular expenses, and the date of the month they go out on.
@@ -281,5 +276,9 @@ class Homepage extends React.Component {
     )
   }
 }
+
+Homepage.contextTypes = {
+  authUser: PropTypes.object,
+};
 
 export default Homepage;

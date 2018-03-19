@@ -4,6 +4,8 @@ import {
   withRouter } from 'react-router-dom';
 import { auth } from '../firebase';
 import * as routes from '../constants/routes';
+const uuidv1 = require('uuid/v1');
+uuidv1(); // ⇨ 'f64f2940-fae4-11e7-8c5f-ef356f279131'
 
 
 const SignUpPage = ({ history }) =>
@@ -13,10 +15,10 @@ const SignUpPage = ({ history }) =>
   </div>
 
 const INITIAL_STATE = {
-  username: '',
-  email: '',
-  passwordOne: '',
-  passwordTwo: '',
+  username: 'James',
+  email: uuidv1() + '@gmail.com',
+  passwordOne: 'password',
+  passwordTwo: 'password',
   error: null,
 };
 

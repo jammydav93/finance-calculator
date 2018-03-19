@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { LineChart } from 'react-easy-chart';
-import ToolTip from './ToolTip';
 
 
 class Chart extends Component {

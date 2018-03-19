@@ -15,6 +15,12 @@ import Home from './Home';
 import SignIn from './components/SignIn'
 import { Router, Route, browserHistory } from 'react-router';
 
+import store from './redux/store';
+import { addArticle } from './redux/actions';
+
+window.store = store;
+window.addArticle = addArticle;
+
 const Root = () => {
   return (
     <div className="container">
