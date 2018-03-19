@@ -12,17 +12,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import Home from './Home';
+import SignIn from './components/SignIn'
 import { Router, Route, browserHistory } from 'react-router';
-import { requireAuth } from './utils/AuthService';
-import Callback from './Callback';
 
 const Root = () => {
   return (
     <div className="container">
       <Router history={browserHistory}>
         <Route path="/" component={App}/>
-        <Route path="/special" component={Home} onEnter={requireAuth} />
-        <Route path="/callback" component={Callback} />
+        <Route path="/special" component={Home} />
+        <Route path="/signin" component={SignIn} />
       </Router>
     </div>
   )
