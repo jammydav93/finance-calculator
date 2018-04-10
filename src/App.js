@@ -14,35 +14,20 @@ import withAuthentication from './components/withAuthentication';
 
 
 class App extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      outgoingsFromChild: null
-    };
-  }
-
-  myCallback = (dataFromChild) => {
-          this.setState({
-            userData: dataFromChild
-          });
-  }
-
-
   render() {
       return (
         <HashRouter>
           <div>
             <h1>Finance Forecaster SPA</h1>
 
-            <Navigation data={this.state.userData}/>
+            <Navigation/>
 
             <div className="content">
-              <Route exact path="/" component={Home} data={this.state.outgoingsFromChild}/>
+              <Route exact path="/" component={Home}/>
               <Route exact path="/signup" component={SignUp}/>
               <Route exact path="/signin" component={SignIn}/>
               <Route exact path="/homepage" render={(props) => (
-                <Homepage callbackFromParent={() => this.myCallback} />
+                <Homepage />
               )}/>
             </div>
 

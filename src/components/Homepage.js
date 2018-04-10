@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import '../App.css';
 import Chart from '../Chart.js';
 import Outgoings from '../Outgoings.js';
@@ -8,11 +7,16 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
-import { db } from '../firebase';
-import 'moment/locale/en-au'  // without this line it didn't work
-moment.locale('en-au');
 
-const recurrenceOptions = ['daily', 'weekdays', 'weekly', '4 weekly', 'monthly', 'quaterly'];
+import { connect } from 'react-redux';
+import uuidv1 from 'uuid';
+
+import { generateTransactions } from '../helperFunctions';
+import 'moment/locale/en-au'  // without this line it didn't work
+
+import { RECURRENCE_OPTIONS } from '../constants/recurrences';
+
+moment.locale('en-au');
 
 const divStyle = {
   backgroundColor: 'yellow',
@@ -45,7 +49,6 @@ const defaultOutgoings = [
   { description: 'Train', cost: 3, debit: true, regularity: 'weekdays', transactionDate: null },
 ];
 
-
 class Homepage extends React.Component {
 
   constructor(props, { authUser }) {
@@ -70,56 +73,16 @@ class Homepage extends React.Component {
     this.setState({
       startDate: date
     });
+
+    const id = uuidv1();
+
+    this.props.addArticle({ startDate: date, id });
   }
 
   handleEndDateChange(date) {
     this.setState({
       endDate: date
     });
-  }
-
-  generateTransactions = (allRecurrences, initBalance, startDate, endDate) => {
-
-    let transactions = [];
-
-    const one_day=1000*60*60*24;
-    const daysDifference = (endDate - startDate)/one_day;
-
-    let runningDate = moment(startDate);
-
-    console.log('allrecurrences=', allRecurrences);
-
-    for (let x=0; x <= daysDifference; x++){
-
-      for (let i=0; i < allRecurrences.length; i++){
-        const regularity = allRecurrences[i].regularity;
-        const transactionDate = allRecurrences[i].transactionDate;
-
-        if (
-          ( regularity === 'daily') ||
-          ( regularity === 'weekdays' && runningDate._d.getDay() > 0 && runningDate._d.getDay() < 6 ) ||
-          ( regularity === 'monthly' && transactionDate === runningDate._d.getDate()) ||
-          ( regularity === '4 weekly' && (runningDate._d.getDOY() - transactionDate._d.getDOY()) % 28 === 0 ) ||
-          ( regularity === 'quaterly' && transactionDate._d.getDate() === runningDate._d.getDate() && (runningDate._d.getMonth() - transactionDate._d.getMonth()) % 3 === 0 ) ||
-          ( regularity === 'weekly' && transactionDate === runningDate._d.getDay ())
-        ){
-          const itemInitBalance = transactions.length > 0 ? transactions[transactions.length - 1].finalBalance : initBalance;
-          const cost = allRecurrences[i].debit ? 0 - allRecurrences[i].cost : allRecurrences[i].cost;
-          transactions.push({
-            transactionID: transactions.length,
-             date: new Date(runningDate._d),
-             description: allRecurrences[i].description,
-             cost,
-             initBalance: itemInitBalance,
-             finalBalance: itemInitBalance + cost,
-           });
-        }
-      }
-      runningDate = moment(runningDate).add(1, 'days');
-    }
-
-    // No need to sort by date as already generated in order.
-    return transactions;
   }
 
   handleOutgoingDateChange = (idx, a) => (evt) => {
@@ -157,7 +120,7 @@ class Homepage extends React.Component {
     const mapProperty = evt.target.title === 'incomes' ? this.state.incomes: this.state.outgoings;
     const debit = evt.target.title === 'incomes' ? false: true;
       this.setState({
-        [evt.target.title]: mapProperty.concat([{ description: null, cost: null, debit, regularity: 'monthly', transactionDate: null}])
+        [evt.target.title]: mapProperty.concat([{ description: '', cost: '', debit, regularity: 'monthly', transactionDate: '' }])
     });
   }
 
@@ -179,11 +142,10 @@ class Homepage extends React.Component {
     const initBalance = this.state.initBalance;
     const startDate = this.state.startDate._d;
     const endDate = this.state.endDate._d;
-     this.setState({
-       transactions: this.generateTransactions(allRecurrences, initBalance, startDate, endDate),
+    this.setState({
+       transactions: generateTransactions(allRecurrences, initBalance, startDate, endDate),
        showChart: true,
      })
-     this.props.callbackFromParent(allRecurrences);
   }
 
   render() {
@@ -192,7 +154,7 @@ class Homepage extends React.Component {
 
         <div style={divStyle}>
           <p>
-            Hi { this.context.authUser.uid }
+            Hi
           </p>
           <p>
             Visualise your cash flow! In the outgoings box, enter each of your
@@ -230,7 +192,7 @@ class Homepage extends React.Component {
           title='incomes'
           buttonDescrip='Add income'
           outgoings={this.state.incomes}
-          recurrenceOptions={recurrenceOptions}
+          recurrenceOptions={RECURRENCE_OPTIONS}
           handleChange={this.handleOutgoingChange}
           handleAdd={this.handleAddOutgoing}
           handleRemove={this.handleRemoveOutgoing}
@@ -241,7 +203,7 @@ class Homepage extends React.Component {
           title='outgoings'
           buttonDescrip='Add outgoing'
           outgoings={this.state.outgoings}
-          recurrenceOptions={recurrenceOptions}
+          recurrenceOptions={RECURRENCE_OPTIONS}
           handleChange={this.handleOutgoingChange}
           handleAdd={this.handleAddOutgoing}
           handleRemove={this.handleRemoveOutgoing}
@@ -276,9 +238,5 @@ class Homepage extends React.Component {
     )
   }
 }
-
-Homepage.contextTypes = {
-  authUser: PropTypes.object,
-};
 
 export default Homepage;

@@ -1,29 +1,31 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import LoadButton from './Load';
 import SaveButton from './Save';
 import SignOutButton from './SignOut';
 import * as routes from '../constants/routes';
+import { connect } from 'react-redux';
 
-const Navigation = (props, { authUser }) =>
-  <div>
-    { authUser
-        ? <NavigationAuth data={props.data}/>
-        : <NavigationNonAuth />
-    }
-  </div>
+const mapStateToProps = (state) => {
+  return { authUser: state.sessionState.authUser, };
+};
 
-  Navigation.contextTypes = {
-    authUser: PropTypes.object,
-  };
+const Navigation = ({authUser}) => {
+  console.log('authUser2=', authUser)
+  return (  <div>
+      {
+        authUser ? <NavigationAuth /> : <NavigationNonAuth />
+      }
+    </div> )
+}
 
-const NavigationAuth = (props) =>
+
+const NavigationAuth = () =>
   <ul>
     <li><Link to={routes.LANDING}>Landing</Link></li>
     <li><Link to={routes.HOME}>Home</Link></li>
-    <li><LoadButton/></li>
-    <li><SaveButton data={props.data}/></li>
+    <li><LoadButton /></li>
+    <li><SaveButton /></li>
     <li><SignOutButton /></li>
   </ul>
 
@@ -33,4 +35,4 @@ const NavigationNonAuth = () =>
     <li><Link to={routes.SIGN_IN}>Sign In</Link></li>
   </ul>
 
-export default Navigation;
+export default connect(mapStateToProps)(Navigation);

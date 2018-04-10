@@ -1,22 +1,24 @@
 import React from 'react';
 import { db } from '../firebase';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-const SaveButton = (props, { authUser }) =>
+
+const mapStateToProps = state => {
+  return { authUser: state.sessionState.authUser };
+};
+
+const SaveButton = ({ authUser }) =>
   <div>
     <button
       type="button"
-      onClick={() => db.doCreateUser(this.context.authUser.uid, props.data)}
+      onClick={() => {
+        console.log('saving ', authUser.uid);
+        db.doCreateUser(authUser.uid, 'test')
+      }}
     >
       Save
     </button>
 
   </div>
 
-  SaveButton.contextTypes = {
-    authUser: PropTypes.object,
-  };
-
-
-
-export default SaveButton;
+export default connect(mapStateToProps)(SaveButton);

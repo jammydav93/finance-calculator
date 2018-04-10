@@ -1,13 +1,11 @@
 import { db } from './firebase';
 
-// User API
-
 export const doCreateUser = async (user, data) => {
   const path = 'users2/' + user;
-  const result = await db.ref(path).set({
+  await db.ref(path).set({
     data,
   });
-  console.log('saved: ', result)
+  console.log('saved: ', data);
 }
 
 export const getUser = async (user) => {

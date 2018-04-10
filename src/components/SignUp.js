@@ -5,8 +5,6 @@ import {
 import { auth } from '../firebase';
 import * as routes from '../constants/routes';
 const uuidv1 = require('uuid/v1');
-uuidv1(); // ⇨ 'f64f2940-fae4-11e7-8c5f-ef356f279131'
-
 
 const SignUpPage = ({ history }) =>
   <div>
@@ -37,7 +35,6 @@ class SignUpForm extends Component {
 
   onSubmit = (event) => {
     const {
-      username,
       email,
       passwordOne,
     } = this.state;
@@ -47,9 +44,8 @@ class SignUpForm extends Component {
   } = this.props;
 
     auth.doCreateUserWithEmailAndPassword(email, passwordOne)
-      .then(authUser => {
+      .then( (authUser) => {
         this.setState(() => ({ ...INITIAL_STATE }));
-        console.log(authUser);
         history.push(routes.HOME);
       })
       .catch(error => {
@@ -62,7 +58,6 @@ class SignUpForm extends Component {
   render() {
 
     const {
-      username,
       email,
       passwordOne,
       passwordTwo,
@@ -72,18 +67,11 @@ class SignUpForm extends Component {
     const isInvalid =
       passwordOne !== passwordTwo ||
       passwordOne === '' ||
-      email === '' ||
-      username === '';
+      email === ''
 
 
     return (
       <form onSubmit={this.onSubmit}>
-        <input
-          value={username}
-          onChange={event => this.setState(byPropKey('username', event.target.value))}
-          type="text"
-          placeholder="Full Name"
-        />
         <input
           value={email}
           onChange={event => this.setState(byPropKey('email', event.target.value))}

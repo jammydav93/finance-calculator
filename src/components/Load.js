@@ -1,12 +1,22 @@
 import React from 'react';
 import { db } from '../firebase';
+import { connect } from 'react-redux';
 
-const LoadButton = () =>
+const mapStateToProps = state => {
+  return { authUser: state.sessionState.authUser };
+};
+
+const LoadButtonConnected = ({ authUser }) =>
   <button
     type="button"
-    onClick={() => db.getUser('UJdMfumwMhbF5Nhf8r1TxnYDzze2')}
+    onClick={() => {
+      console.log('loading ', authUser.uid)
+      db.getUser( authUser.uid);
+    }}
   >
     Load
   </button>
+
+const LoadButton = connect(mapStateToProps)(LoadButtonConnected);
 
 export default LoadButton;

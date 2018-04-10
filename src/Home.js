@@ -1,17 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
+import { connect } from 'react-redux';
 
-class Home extends Component {
-  render() {
-    return (
-      <div>
-      <h1>Welcome to My Awesome App</h1>
-      <h2>{this.props.data}</h2>
-      <div id="firebaseui-auth-container"></div>
-      <div id="loader">Loading...</div>
-
-      </div>
-    );
-  }
+const mapStateToProps = (state) => {
+  return { articles: state.articles}
 }
 
-export default Home;
+const Home = ({ articles }) => (
+  <div>
+    <h1>Welcome to My Awesome App</h1>
+    <div id="loader">Loading...</div>
+  </div>
+);
+
+export default connect(mapStateToProps)(Home);
