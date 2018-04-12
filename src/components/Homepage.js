@@ -11,6 +11,8 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import uuidv1 from 'uuid';
 
+import { addRecurrences } from "../redux/actions/index";
+
 import { generateTransactions } from '../helperFunctions';
 import 'moment/locale/en-au'  // without this line it didn't work
 
@@ -21,6 +23,12 @@ moment.locale('en-au');
 const divStyle = {
   backgroundColor: 'yellow',
   colour: 'black'
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addRecurrences: article => dispatch(addRecurrences(article))
+  };
 };
 
 Date.prototype.isLeapYear = function() {
@@ -75,8 +83,6 @@ class Homepage extends React.Component {
     });
 
     const id = uuidv1();
-
-    this.props.addArticle({ startDate: date, id });
   }
 
   handleEndDateChange(date) {
@@ -142,6 +148,9 @@ class Homepage extends React.Component {
     const initBalance = this.state.initBalance;
     const startDate = this.state.startDate._d;
     const endDate = this.state.endDate._d;
+
+    this.props.addRecurrences({ allRecurrences, initBalance, startDate: this.state.startDate.toISOString(), endDate: this.state.endDate.toISOString() });
+
     this.setState({
        transactions: generateTransactions(allRecurrences, initBalance, startDate, endDate),
        showChart: true,
@@ -239,4 +248,4 @@ class Homepage extends React.Component {
   }
 }
 
-export default Homepage;
+export default connect(null, mapDispatchToProps)(Homepage);
