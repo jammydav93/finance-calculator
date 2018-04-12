@@ -2,15 +2,13 @@ import moment from 'moment';
 import 'moment/locale/en-au'  // without this line it didn't work
 moment.locale('en-au');
 
-export function generateTransactions(outgoings, incomes, initBalance, startDate, endDate) {
+export function generateTransactions(allRecurrences, initBalance, startDate, endDate) {
   const transactions = [];
 
   const oneDay = 1000 * 60 * 60 * 24;
   const daysDifference = (endDate - startDate) / oneDay;
 
   let runningDate = moment(startDate);
-
-  const allRecurrences = incomes.concat(outgoings);
 
   console.log('allrecurrences=', allRecurrences);
 
