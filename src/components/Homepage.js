@@ -11,7 +11,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import uuidv1 from 'uuid';
 
-import { addRecurrences } from "../redux/actions/index";
+import { addRecurrences } from '../redux/actions/index';
 
 import { generateTransactions } from '../helperFunctions';
 import 'moment/locale/en-au'  // without this line it didn't work
