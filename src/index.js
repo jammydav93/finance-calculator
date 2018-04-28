@@ -7,6 +7,7 @@ import { Router, Route, browserHistory } from 'react-router';
 
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import { connect } from 'react-redux';
 
 window.store = store;
 

@@ -8,25 +8,30 @@ export const doCreateUser = async (user, data) => {
     data,
   });
   console.log('saved: ', data);
-
 }
 
 export const getUser = async (user) => {
-    const path = 'users2/' + user;
-    const raw_result = await db.ref(path).once('value');
+  console.log('loading user...', user);
+  const path = 'users2/' + user;
+  const raw_result = await db.ref(path).once('value');
+
+  console.log('rawres=', raw_result.val());
+
+  if (raw_result.val()) {
     const {
-      allRecurrences,
+      incomes,
+      outgoings,
       initBalance,
       startDate,
       endDate,
     } = raw_result.val().data.recurrences[0];
 
-    store.dispatch(
-      addRecurrences({
-        allRecurrences,
-        initBalance,
-        startDate,
-        endDate,
-      })
-    );
-}
+    await store.dispatch(addRecurrences({
+      incomes,
+      outgoings,
+      initBalance,
+      startDate,
+      endDate,
+    }));
+  }
+};

@@ -7,6 +7,7 @@ import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 import Navigation from './components/Navigation';
 import Homepage from "./components/Homepage";
+import Projector from "./components/Projector";
 import Home from "./Home";
 import './index.css';
 
@@ -26,7 +27,8 @@ class App extends Component {
               <Route exact path="/" component={Homepage}/>
               <Route exact path="/signup" component={SignUp}/>
               <Route exact path="/signin" component={SignIn}/>
-              <Route exact path="/homepage" component={Homepage}/>
+              <Route exact path="/homepage" component={Homepage} />
+              <Route exact path="/projector" component={Projector} />
             </div>
 
 

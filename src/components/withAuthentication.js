@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import { db } from '../firebase';
 import { firebase } from '../firebase';
 
 const withAuthentication = (Component) => {
@@ -12,7 +12,13 @@ const withAuthentication = (Component) => {
         authUser
           ? onSetAuthUser(authUser)
           : onSetAuthUser(null);
+        authUser
+          ? db.getUser(authUser.uid)
+          : console.log('user not logged in');
       });
+
+
+
     }
 
     render() {

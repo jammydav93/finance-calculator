@@ -7,7 +7,7 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
-
+import { db } from '../firebase';
 import { connect } from 'react-redux';
 import uuidv1 from 'uuid';
 
@@ -24,6 +24,13 @@ const divStyle = {
   backgroundColor: 'white',
   colour: 'black'
 };
+
+const mapStateToProps = state => (
+  {
+    authUser: state.sessionState.authUser,
+    recurrencesObject: state.recurrencesState,
+  }
+);
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -61,16 +68,32 @@ class Homepage extends React.Component {
 
   constructor(props, { authUser }) {
     super(props);
+
+    const recurrenceObject = this.props.recurrencesObject.recurrences ?
+      {
+        startDate: moment(this.props.recurrencesObject.recurrences[0].startDate),
+        endDate: moment(this.props.recurrencesObject.recurrences[0].endDate),
+        initBalance: this.props.recurrencesObject.recurrences[0].initBalance,
+        outgoings: this.props.recurrencesObject.recurrences[0].outgoings,
+        incomes: this.props.recurrencesObject.recurrences[0].incomes,
+      } : {
+        startDate: moment(),
+        endDate: moment().add(1, 'years'),
+        initBalance: 400,
+        outgoings: defaultOutgoings,
+        incomes: defaultIncomes,
+      }
+
     this.state = {
-      startDate: moment(),
-      endDate: moment().add(1, 'years'),
-      initBalance: 500,
-      outgoings: defaultOutgoings,
-      incomes: defaultIncomes,
+      startDate: recurrenceObject.startDate,
+      endDate: recurrenceObject.endDate,
+      initBalance: recurrenceObject.initBalance,
+      outgoings: recurrenceObject.outgoings,
+      incomes: recurrenceObject.incomes,
       transactions: [],
       showChart: false,
-      callbackFunc: null
     };
+
     this.handleChange = this.handleChange.bind(this);
     this.handleStartDateChange = this.handleStartDateChange.bind(this);
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
@@ -105,7 +128,7 @@ class Homepage extends React.Component {
 
     });
     this.setState({ [a]: newoutgoings });
-}
+  }
 
   handleOutgoingChange = (idx) => (evt) => {
     const mapProperty = evt.target.title === 'incomes' ? this.state.incomes: this.state.outgoings;
@@ -149,7 +172,7 @@ class Homepage extends React.Component {
     const startDate = this.state.startDate._d;
     const endDate = this.state.endDate._d;
 
-    this.props.addRecurrences({ allRecurrences, initBalance, startDate: this.state.startDate.toISOString(), endDate: this.state.endDate.toISOString() });
+    this.props.addRecurrences({ incomes, outgoings, initBalance, startDate: this.state.startDate.toISOString(), endDate: this.state.endDate.toISOString() });
 
     this.setState({
        transactions: generateTransactions(allRecurrences, initBalance, startDate, endDate),
@@ -245,4 +268,4 @@ class Homepage extends React.Component {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Homepage);
+export default connect(mapStateToProps, mapDispatchToProps)(Homepage);

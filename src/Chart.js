@@ -19,23 +19,23 @@ class Chart extends Component {
   generateChartData = (transactions) => {
     var data = []
 
-    for (let i=0; i < transactions.length; i++){
-      const transaction = transactions[i];
-
-      // Format the x timestamp as per react-easy-chart documentation (e.g.
-      // 2-Jan-17)
-
-      const t = transaction.date;
-      const months = [
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-      ];
-      const date = t.getDate() + '-' + months[t.getMonth()] + '-' + t.getFullYear().toString().substring(2);
+    for (let i=0; i < 5; i++){
+      // const transaction = transactions[i];
+      //
+      // // Format the x timestamp as per react-easy-chart documentation (e.g.
+      // // 2-Jan-17)
+      //
+      // const t = transaction.date;
+      // const months = [
+      //   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      //   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      // ];
+      // const date = t.getDate() + '-' + months[t.getMonth()] + '-' + t.getFullYear().toString().substring(2);
 
       data.push({
-        x: date,
-        y: transaction.finalBalance,
-        z: transaction.description,
+        //x: date,
+        y: 100,
+        z: 'transaction.description,'
       })
     }
     return [data]

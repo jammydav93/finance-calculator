@@ -89,7 +89,7 @@ class Outgoings extends React.Component {
               <th>Remove</th>
             </tr>
             {this.props.outgoings.map((outgoing, idx) => (
-              <tr key='{outgoing}{idx}'>
+              <tr key={this.props.title + outgoing + idx}>
                 <td key='1' >
                   <input
                     type='text'
