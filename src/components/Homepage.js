@@ -21,7 +21,7 @@ import { RECURRENCE_OPTIONS } from '../constants/recurrences';
 moment.locale('en-au');
 
 const divStyle = {
-  backgroundColor: 'yellow',
+  backgroundColor: 'white',
   colour: 'black'
 };
 
@@ -162,9 +162,6 @@ class Homepage extends React.Component {
       <div>
 
         <div style={divStyle}>
-          <p>
-            Hi
-          </p>
           <p>
             Visualise your cash flow! In the outgoings box, enter each of your
             regular expenses, and the date of the month they go out on.

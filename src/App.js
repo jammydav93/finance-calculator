@@ -23,7 +23,7 @@ class App extends Component {
             <Navigation/>
 
             <div className="content">
-              <Route exact path="/" component={Home}/>
+              <Route exact path="/" component={Homepage}/>
               <Route exact path="/signup" component={SignUp}/>
               <Route exact path="/signin" component={SignIn}/>
               <Route exact path="/homepage" render={(props) => (

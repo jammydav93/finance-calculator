@@ -78,7 +78,7 @@ class Outgoings extends React.Component {
   render() {
     return (
       <div>
-        <h2>aaa{this.props.title}:</h2>
+        <h2>{this.props.title}:</h2>
         <table>
           <tbody>
             <tr>
