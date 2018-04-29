@@ -1,41 +1,36 @@
-import React, { Component } from "react";
+import React from 'react';
 import {
   Route,
+  Switch,
   BrowserRouter
-} from "react-router-dom";
+} from 'react-router-dom';
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 import Navigation from './components/Navigation';
-import Homepage from "./components/Homepage";
-import Projector from "./components/Projector";
-import Home from "./Home";
+import Homepage from './components/Homepage';
+import Projector from './components/Projector';
 import './index.css';
 
 import withAuthentication from './components/withAuthentication';
 
 
-class App extends Component {
-  render() {
-      return (
-        <BrowserRouter>
-          <div>
-            <h1>Finance Forecaster SPA</h1>
+const App = () => (
+    <Switch>
+      <div>
+        <h1>Finance Forecaster</h1>
 
-            <Navigation/>
+        <Navigation/>
 
-            <div className="content">
-              <Route exact path="/" component={Homepage}/>
-              <Route exact path="/signup" component={SignUp}/>
-              <Route exact path="/signin" component={SignIn}/>
-              <Route exact path="/homepage" component={Homepage} />
-              <Route exact path="/projector" component={Projector} />
-            </div>
+        <div className="content">
+          <Route exact path="/" component={Homepage}/>
+          <Route exact path="/signup" component={SignUp}/>
+          <Route exact path="/signin" component={SignIn}/>
+          <Route exact path="/homepage" component={Homepage} />
+          <Route exact path="/projector" component={Projector} />
+        </div>
 
-
-          </div>
-        </BrowserRouter>
-      );
-    }
-}
+      </div>
+    </Switch>
+);
 
 export default withAuthentication(App);

@@ -7,7 +7,6 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
-import { db } from '../firebase';
 import { connect } from 'react-redux';
 import uuidv1 from 'uuid';
 

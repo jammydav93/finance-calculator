@@ -1,31 +1,26 @@
+import { BrowserRouter, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import Home from './Home';
-import SignIn from './components/SignIn'
-import { Router, Route, browserHistory } from 'react-router';
-
-import { Provider } from 'react-redux';
+import SignIn from './components/SignIn';
 import store from './redux/store';
-import { connect } from 'react-redux';
 
 window.store = store;
 
-const Root = () => {
-  return (
-    <Provider store={store}>
+const Root = () => (
+  <Provider store={store}>
 
-      <div className="container">
-        <Router history={browserHistory}>
-          <Route path="/" component={App}/>
-          <Route path="/special" component={Home} />
-          <Route path="/signin" component={SignIn} />
-        </Router>
-      </div>
+    <div className="container">
 
-    </Provider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
 
-  );
-}
+    </div>
+
+  </Provider>
+);
 
 ReactDOM.render(<Root />, document.getElementById('root'));

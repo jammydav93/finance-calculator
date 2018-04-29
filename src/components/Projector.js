@@ -10,11 +10,10 @@ const mapStateToProps = state => (
   }
 );
 
-   // transactions: generateTransactions(allRecurrences, initBalance, startDate, endDate),
-   // showChart: true,
+  // transactions: generateTransactions(allRecurrences, initBalance, startDate, endDate),
+  // showChart: true,
 
 class AllRecurrences extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -27,7 +26,7 @@ class AllRecurrences extends React.Component {
   render() {
     return (
       <div>
-        {props.selectingFormValues}
+        {this.props.selectingFormValues}
         <Recurrences type='income'/>
         <Recurrences type='outcome'/>
         <Chart showChart='true'/>
@@ -35,8 +34,6 @@ class AllRecurrences extends React.Component {
     )
   }
 }
-
-
 
 const AllRecurrencesConnected = connect(mapStateToProps)(AllRecurrences);
 
