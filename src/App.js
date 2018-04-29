@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {
   Route,
-  HashRouter
+  BrowserRouter
 } from "react-router-dom";
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
@@ -16,7 +16,7 @@ import withAuthentication from './components/withAuthentication';
 class App extends Component {
   render() {
       return (
-        <HashRouter>
+        <BrowserRouter>
           <div>
             <h1>Finance Forecaster SPA</h1>
 
@@ -26,14 +26,12 @@ class App extends Component {
               <Route exact path="/" component={Homepage}/>
               <Route exact path="/signup" component={SignUp}/>
               <Route exact path="/signin" component={SignIn}/>
-              <Route exact path="/homepage" render={(props) => (
-                <Homepage />
-              )}/>
+              <Route exact path="/homepage" component={Homepage}/>
             </div>
 
 
           </div>
-        </HashRouter>
+        </BrowserRouter>
       );
     }
 }
