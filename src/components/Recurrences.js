@@ -13,7 +13,6 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 //import validate from './validate'
 
-
 const selector = formValueSelector('selectingFormValues');
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => (
@@ -30,12 +29,11 @@ const renderDatePicker = ({ input, label, type, meta: { touched, error } }) => (
       name={input.name}
       onChange={(a)=>(input.onChange(moment(a).toISOString()))}
       dateFormat="DD-MM-YYYY"
-      selected={input.value ? moment(input.value) : moment()}
+      selected={input.value ? moment(input.value) : null}
     />
     {touched && error && <span>{error}</span>}
   </div>
 )
-
 
 const renderDateField = (member, regularity) => {
   switch (regularity) {
@@ -160,16 +158,13 @@ const mapStateToProps = state => (
 
 const renderMembersConnected = connect(mapStateToProps)(renderMembers);
 
-const FieldArraysForm = props => {
-  const { favoriteColorValue, handleSubmit, pristine, submitting } = props
-  return (
-      <form onSubmit={handleSubmit}>
-        {favoriteColorValue}
-        <FieldArray name={props.type} component={renderMembersConnected} />
-      </form>
-  )
-}
+const FieldArraysForm = props => (
+    <form>
+      <FieldArray name={props.type} component={renderMembersConnected} />
+    </form>
+);
+
 
 export default reduxForm({
-  form: 'selectingFormValues'  // a unique identifier for this form
-})(FieldArraysForm)
+  form: 'selectingFormValues',
+})(FieldArraysForm);

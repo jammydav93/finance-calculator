@@ -1,8 +1,9 @@
 import React from 'react';
-import Recurrences from './Recurrences';
-import Chart from '../Chart.js';
-import { generateTransactions } from '../helperFunctions';
 import { connect } from 'react-redux';
+import { generateTransactions } from '../helperFunctions';
+import Recurrences from './Recurrences';
+import DateRangeInput from './DateRangeInput';
+import Chart from '../Chart.js';
 
 const mapStateToProps = state => (
   {
@@ -26,10 +27,11 @@ class AllRecurrences extends React.Component {
   render() {
     return (
       <div>
-        {this.props.selectingFormValues}
+        <DateRangeInput type='startDate' label='Start Date' />
+        <DateRangeInput type='endDate' label='End Date' />
         <Recurrences type='income'/>
         <Recurrences type='outcome'/>
-        <Chart showChart='true'/>
+        <Chart />
       </div>
     )
   }
