@@ -24,23 +24,31 @@ export function generateTransactions(selectingFormValues) {
     endDate = moment(selectingFormValues.values.endDate);
   }
 
-  if (startDate, endDate){
-    const oneDay = 1000 * 60 * 60 * 24;
+  if (startDate && endDate) {
     const transactions = [];
     const daysDifference = endDate.diff(startDate, 'days');
 
     for (let x = 0; x <= daysDifference; x++) {
       for (let i = 0; i < allRecurrences.length; i++) {
-        //console.log('allRecurr[i]', allRecurrences[i]);
         const regularity = allRecurrences[i].regularity;
-        const transactionDate = allRecurrences[i].transactionDate;
+        const recurrenceDate = allRecurrences[i].recurrenceDate
+
         if (
-          (regularity === 'daily')
-        //     (regularity === 'weekdays' && runningDate._d.getDay() > 0 && runningDate._d.getDay() < 6 ) ||
-        //     (regularity === 'monthly' && transactionDate === runningDate._d.getDate()) ||
-        //     (regularity === '4 weekly' && (runningDate._d.getDOY() - transactionDate._d.getDOY()) % 28 === 0 ) ||
-        //     (regularity === 'quaterly' && transactionDate._d.getDate() === runningDate._d.getDate() && (runningDate._d.getMonth() - transactionDate._d.getMonth()) % 3 === 0 ) ||
-        //     (regularity === 'weekly' && transactionDate === runningDate._d.getDay ())
+          (regularity === 'daily') ||
+          (regularity === 'weekdays' && runningDate.isoWeekday() < 6 ) ||
+          (regularity === 'monthly' && recurrenceDate
+            && runningDate.date() === parseInt(recurrenceDate)
+          ) ||
+          (regularity === '4 weekly' && recurrenceDate
+            && (runningDate.dayOfYear() - moment(recurrenceDate).dayOfYear()) % 28 === 0
+          ) ||
+          (regularity === 'quaterly' && recurrenceDate
+            && runningDate.date() === moment(recurrenceDate).date()
+            && (runningDate.month() - moment(recurrenceDate).month()) % 3 === 0
+          ) ||
+          (regularity === 'weekly' && recurrenceDate
+            && runningDate.isoWeekday() === parseInt(recurrenceDate)
+          )
         ) {
           const itemInitBalance = transactions.length > 0 ?
             parseFloat(transactions[transactions.length - 1].finalBalance) :
@@ -49,14 +57,12 @@ export function generateTransactions(selectingFormValues) {
             parseFloat(0 - allRecurrences[i].cost) :
             parseFloat(allRecurrences[i].cost);
           transactions.push({
-            //transactionID: transactions.length,
-            date: runningDate.format('D-MMM-YY'),
+            transactionID: transactions.length,
+            date: moment(runningDate),
             description: allRecurrences[i].description,
             cost,
             initBalance: itemInitBalance,
             finalBalance: itemInitBalance + cost,
-            y: itemInitBalance + cost,
-            x: runningDate.format('D-MMM-YY'),
           });
         }
     runningDate = runningDate.add(1, 'day');
@@ -66,18 +72,7 @@ export function generateTransactions(selectingFormValues) {
     // No need to sort by date as already generated in order.
     return transactions;
   }
-
   else {
-    return [
-      {
-        x: moment().format('D-MMM-YY'),
-        y: 10,
-      },
-      {
-        x: moment().add(2, 'day').format('D-MMM-YY'),
-        y: 12,
-      }
-    ]
+    return []
   }
-
 }
