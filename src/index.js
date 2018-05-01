@@ -1,10 +1,8 @@
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import Home from './Home';
-import SignIn from './components/SignIn';
 import store from './redux/store';
 
 window.store = store;
