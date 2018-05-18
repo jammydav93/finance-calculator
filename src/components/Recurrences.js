@@ -122,9 +122,17 @@ const renderMembers = props => {
             />
           </td>
           <td>
-            <Field name={`${member}.regularity`} component="select">
+            <Field
+              name={`${member}.regularity`}
+              component="select"
+            >
               {RECURRENCE_OPTIONS.map((x) =>
-                <option key={x} value={x}>{x}</option>
+                <option
+                  key={x.value}
+                  value={x.value}
+                  disabled={x.disabled ? true : false }>
+                    {x.description}
+                </option>
               )}
             </Field>
           </td>
@@ -169,7 +177,23 @@ const FieldArraysForm = props => (
   </form>
 );
 
+const initialFieldValues = {
+  description: 'a',
+  cost: 1,
+  regularity: null,
+}
 
 export default reduxForm({
   form: 'selectingFormValues',
+  initialValues: {
+    income: [
+      { description: 'john', lastName: 'Doe', hobbies: [] },
+      { description: 'john2', lastName: 'Doe2', hobbies: [] },
+      { description: 'john3', lastName: 'Doe3', hobbies: [] }
+    ],
+    outcome: [
+      initialFieldValues,
+    ]
+  },
+
 })(FieldArraysForm);
