@@ -1,30 +1,40 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
 version: 2
 jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:8.9.4
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
-
+  build-and-test:
     working_directory: ~/repo
-
+    docker:
+      - image: circleci/node:8.9.4
     steps:
       - checkout
-
-      - run: echo "{\"firebase\":{\"apiKey\":\"${firebaseApiKey}\",\"authDomain\":\"${firebaseAuthDomain}\",\"databaseURL\":\"${firebaseDatabaseUrl}\",\"storageBucket\":\"${firebaseStorageBucket}\"}}" >> ~/repo/src/secrets.json
-
-      - run: ls ~/repo
-      - run: cat ~/repo/src/secrets.json
-
       - run: npm install
+      - run: echo "{\"firebase\":{\"apiKey\":\"${firebaseApiKey}\",\"authDomain\":\"${firebaseAuthDomain}\",\"databaseURL\":\"${firebaseDatabaseUrl}\",\"storageBucket\":\"${firebaseStorageBucket}\"}}" >> ~/repo/src/secrets.json
+      - run: echo "34.247.104.70 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBsEknIA1gczEAnqUbKKFgczdKn33k9vyya8LIn79Jyh/C/8+v4o/Ui5ZZkeZQuEVKaDrxTwebf+uXYMvRAkJLQ=" >> ~/.ssh/known_hosts
+      - run: cat ~/repo/src/secrets.json
+      - run: npm test
+  deploy:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/node:8.9.4
+    steps:
+      - checkout
+      - run: npm install
+      - run: echo "{\"firebase\":{\"apiKey\":\"${firebaseApiKey}\",\"authDomain\":\"${firebaseAuthDomain}\",\"databaseURL\":\"${firebaseDatabaseUrl}\",\"storageBucket\":\"${firebaseStorageBucket}\"}}" >> ~/repo/src/secrets.json
+      - run: echo "34.247.104.70 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBsEknIA1gczEAnqUbKKFgczdKn33k9vyya8LIn79Jyh/C/8+v4o/Ui5ZZkeZQuEVKaDrxTwebf+uXYMvRAkJLQ=" >> ~/.ssh/known_hosts
+      - run: cat ~/repo/src/secrets.json
+      - run: npm run build
+      - run: sudo apt-get install rsync
+      - run: rsync -avce ssh ~/repo ubuntu@34.247.104.70:~/deployed
+      - run: ssh ubuntu@34.247.104.70 'cd ~/deployed/repo && pwd && ls && . ~/.nvm/nvm.sh && npm i  && pm2 serve -f build'
 
-      # run tests!
-      - run: npm run test
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build-and-test
+      - deploy:
+          requires:
+            - build-and-test
+          filters:
+            branches:
+              only:
+                - master
