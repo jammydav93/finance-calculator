@@ -2,6 +2,7 @@
 
 # Secrets
 /src/secrets.json
+aws.pem
 
 # dependencies
 /node_modules
