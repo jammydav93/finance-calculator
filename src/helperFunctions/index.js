@@ -37,7 +37,7 @@ export function generateTransactions(selectingFormValues) {
           (regularity === 'daily') ||
           (regularity === 'weekdays' && runningDate.isoWeekday() < 6 ) ||
           (regularity === 'monthly' && recurrenceDate
-            && runningDate.date() === parseInt(recurrenceDate)
+            && runningDate.date() === parseInt(recurrenceDate, 10)
           ) ||
           (regularity === '4 weekly' && recurrenceDate
             && (runningDate.dayOfYear() - moment(recurrenceDate).dayOfYear()) % 28 === 0
@@ -47,7 +47,7 @@ export function generateTransactions(selectingFormValues) {
             && (runningDate.month() - moment(recurrenceDate).month()) % 3 === 0
           ) ||
           (regularity === 'weekly' && recurrenceDate
-            && runningDate.isoWeekday() === parseInt(recurrenceDate)
+            && runningDate.isoWeekday() === parseInt(recurrenceDate, 10)
           )
         ) {
           const itemInitBalance = transactions.length > 0 ?
