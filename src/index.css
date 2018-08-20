@@ -1,7 +1,6 @@
 body {
   background-color: #a0c1f7;
   padding: 20px;
-  margin: 0;
   font-family: sans-serif;
 }
 h1, h2, p, ul, li {
@@ -45,4 +44,13 @@ select {
 
 .active {
   background-color: #0099FF;
+}
+
+.ib {
+  display: flex;
+  flex-direction:row;
+}
+
+.spaced {
+  margin: 0px 10px;
 }

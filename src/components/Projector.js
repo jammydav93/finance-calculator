@@ -12,8 +12,10 @@ const mapStateToProps = state => (
 
 const AllRecurrences = () => (
   <div>
-    <DateRangeInput type='startDate' label='Start Date' />
-    <DateRangeInput type='endDate' label='End Date' />
+    <div className='ib'>
+      <DateRangeInput type='startDate' label='Start Date' />
+      <DateRangeInput type='endDate' label='End Date' />
+    </div>
     <Recurrences type='income' />
     <Recurrences type='outcome' />
     <Chart />

@@ -9,7 +9,7 @@ import moment from 'moment';
 // import validate from './validate'
 
 const renderDatePicker = ({ input, label, meta: { touched, error } }) => (
-  <div>
+  <div className='spaced'>
     { label }:
     <DatePicker
       name={input.name}
