@@ -1,11 +1,10 @@
 import moment from 'moment';
 
-export function generateTransactions(selectingFormValues) {
-  const initBalance = 100;
+export function generateTransactions(formDataValues) {
   let allRecurrences = [];
 
-  if (selectingFormValues && selectingFormValues.values) {
-    const values = selectingFormValues.values;
+  if (formDataValues) {
+    const values = formDataValues;
       if (values.income) {
         values.income.forEach((item) => {item.type = 'incoming'} );
         allRecurrences = allRecurrences.concat(values.income);
@@ -16,12 +15,13 @@ export function generateTransactions(selectingFormValues) {
       }
   }
 
-  let startDate, endDate, runningDate;
+  let startDate, endDate, runningDate, initBalance = 0;
 
-  if (selectingFormValues && selectingFormValues.values) {
-    startDate = moment(selectingFormValues.values.startDate);
-    runningDate = moment(selectingFormValues.values.startDate);
-    endDate = moment(selectingFormValues.values.endDate);
+  if (formDataValues) {
+    startDate = moment(formDataValues.startDate);
+    runningDate = moment(formDataValues.startDate);
+    endDate = moment(formDataValues.endDate);
+    initBalance = formDataValues.initialBalance;
   }
 
   if (startDate && endDate) {

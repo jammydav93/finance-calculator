@@ -10,9 +10,7 @@ const mapStateToProps = state => (
 );
 
 const Chart = ({selectingFormValues}) => {
-  const transactionData = generateTransactions(selectingFormValues);
-
-  console.log('transData.len', transactionData.length);
+  const transactionData = generateTransactions(selectingFormValues.values);
 
   if (transactionData.length === 0) {
     return null;
