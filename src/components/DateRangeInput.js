@@ -27,6 +27,7 @@ const FieldForm = props => (
   </form>
 );
 
+// No need to map intialState to form as linked within Recurrences component
 export default reduxForm({
   form: 'selectingFormValues',
 })(FieldForm);

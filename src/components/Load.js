@@ -11,7 +11,7 @@ const LoadButtonConnected = ({ authUser }) =>
     type="button"
     onClick={() => {
       console.log('loading ', authUser.uid)
-      db.getUser( authUser.uid);
+      db.getUserFormData( authUser.uid);
     }}
   >
     Load

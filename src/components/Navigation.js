@@ -21,8 +21,6 @@ const Navigation = ({authUser}) => {
 }
 
 
-
-
 const NavigationAuth = () =>
   <Navbar>
     <Navbar.Header>

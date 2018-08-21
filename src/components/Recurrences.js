@@ -1,4 +1,5 @@
 import React from 'react';
+import { path } from 'ramda'
 import {
   Field,
   FieldArray,
@@ -171,29 +172,21 @@ const mapStateToProps = state => (
 
 const renderMembersConnected = connect(mapStateToProps)(renderMembers);
 
-const FieldArraysForm = props => (
+let FieldArraysForm = props => (
   <form>
     <FieldArray name={props.type} component={renderMembersConnected} />
   </form>
 );
 
-const initialFieldValues = {
-  description: 'a',
-  cost: 1,
-  regularity: null,
-}
-
-export default reduxForm({
+FieldArraysForm = reduxForm({
   form: 'selectingFormValues',
-  initialValues: {
-    income: [
-      { description: 'john', lastName: 'Doe', hobbies: [] },
-      { description: 'john2', lastName: 'Doe2', hobbies: [] },
-      { description: 'john3', lastName: 'Doe3', hobbies: [] }
-    ],
-    outcome: [
-      initialFieldValues,
-    ]
-  },
-
+  enableReinitialize : true,
 })(FieldArraysForm);
+
+FieldArraysForm = connect(
+  state => ({
+    initialValues: path(['recurrencesState', 'loadedFormData', 'result'], state),
+  }),
+)(FieldArraysForm)
+
+export default FieldArraysForm

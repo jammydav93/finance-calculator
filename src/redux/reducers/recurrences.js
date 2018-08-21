@@ -2,15 +2,15 @@ const INITIAL_STATE = {
   recurrences: null,
 };
 
-const applyRecurrences = (state, action) => ({
+const addLoadedFormData = (state, action) => ({
   ...state,
-  recurrences: [...state, action.payload],
+  loadedFormData: action.payload,
 });
 
 function recurrenceReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case 'ADD_RECURRENCE_STATE': {
-      return applyRecurrences(state, action);
+    case 'ADD_LOADED_FORM_DATA': {
+      return addLoadedFormData(state, action);
     }
     default: return state;
   }

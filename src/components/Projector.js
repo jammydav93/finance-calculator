@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Recurrences from './Recurrences';
 import DateRangeInput from './DateRangeInput';
+//import IntitialBalance from './InitialBalance';
 import Chart from './Chart.js';
 
 const mapStateToProps = state => (
