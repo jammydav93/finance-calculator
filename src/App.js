@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Route,
   Switch,
+  withRouter
 } from 'react-router-dom';
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
@@ -12,22 +13,25 @@ import './index.css';
 import withAuthentication from './components/withAuthentication';
 
 
-const App = () => (
-  <Switch>
-    <div>
-      <h1>Finance Forecaster</h1>
+let App = () => (
+  <div>
 
-      <Navigation />
+    <h1>Finance Forecaster</h1>
 
-      <div className="content">
+    <Navigation />
+
+    <div className="content">
+      <Switch>
         <Route exact path="/" component={Projector} />
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/signin" component={SignIn} />
         <Route exact path="/projector" component={Projector} />
-      </div>
-
+      </Switch>
     </div>
-  </Switch>
+
+  </div>
 );
 
-export default withAuthentication(App);
+App = withAuthentication(App)
+
+export default withRouter(App)

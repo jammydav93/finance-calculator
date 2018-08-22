@@ -1,11 +1,12 @@
 import React from 'react';
 import { db } from '../firebase';
 import { connect } from 'react-redux';
+import { path } from 'ramda';
 
 const mapStateToProps = state => (
   {
     authUser: state.sessionState.authUser,
-    selectingFormValues: state.form.selectingFormValues.values,
+    selectingFormValues: path(['form', 'selectingFormValues', 'values'], state),
   }
 );
 
