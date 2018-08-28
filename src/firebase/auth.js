@@ -6,6 +6,6 @@ export const doGoogleSignIn = () => {
   auth.signInWithRedirect(provider).catch(function(error) {
     const errorCode = error.code;
     const errorMessage = error.message;
-    throw new Error('errorCode=', errorCode, 'errorMessage', errorMessage)
+    throw new Error(`errorCode=${errorCode} errorMessage=${errorMessage}`)
   });
 }
