@@ -3,24 +3,25 @@ import { Link } from 'react-router-dom';
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
 import LoadButton from './Load';
 import SaveButton from './Save';
+import SignInButton from './SignIn';
 import SignOutButton from './SignOut';
 import * as routes from '../constants/routes';
 import { connect } from 'react-redux';
-import { LinkContainer } from "react-router-bootstrap";
 
 const mapStateToProps = (state) => {
-  return { authUser: state.sessionState.authUser, };
+  return { authUser: state.sessionState.authUser };
 };
 
 const Navigation = ({authUser}) => {
   console.log('authUser2=', authUser)
-  return (  <div>
+  return (  
+    <div>
       {
         authUser ? <NavigationAuth /> : <NavigationNonAuth />
       }
-    </div> )
+    </div>
+  )
 }
-
 
 const NavigationAuth = () =>
   <Navbar>
@@ -50,9 +51,9 @@ const NavigationNonAuth = () =>
       </Navbar.Brand>
     </Navbar.Header>
     <Nav pullRight>
-      <LinkContainer to={routes.SIGN_IN}>
-        <NavItem>Login</NavItem>
-      </LinkContainer>
+        <NavItem>
+          <SignInButton />
+        </NavItem>
     </Nav>
   </Navbar>;
 

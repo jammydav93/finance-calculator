@@ -1,13 +1,11 @@
-import { auth } from './firebase';
-
-// Sign Up
-export const doCreateUserWithEmailAndPassword = (email, password) =>
-  auth.createUserWithEmailAndPassword(email, password);
-
-// Sign In
-export const doSignInWithEmailAndPassword = (email, password) =>
-  auth.signInWithEmailAndPassword(email, password);
-
-// Sign out
+import { auth, provider } from './firebase';
 export const doSignOut = () =>
   auth.signOut();
+
+export const doGoogleSignIn = () => {
+  auth.signInWithRedirect(provider).catch(function(error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    throw new Error('errorCode=', errorCode, 'errorMessage', errorMessage)
+  });
+}
