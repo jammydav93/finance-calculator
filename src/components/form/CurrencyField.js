@@ -11,8 +11,9 @@ const CurrencyField = ({ name, componentToRender }) =>
     format={(a) => {
       if (a) {
         const b = String(a).match(currencyRegex)
+        console.log('b=', b)
          if (b) {
-          const formatted = (b[1] ? b[1] : '') + (b[2] ? `.${b[2]}` : '')
+          const formatted = (b[1] ? b[1] / 100 : '') + (b[2] ? `.${b[2]}` : '')
           return formatted; 
          }
       }
@@ -22,8 +23,10 @@ const CurrencyField = ({ name, componentToRender }) =>
       if (a) {
         const b = a.match(currencyRegex)
         if (b) {
-          const pence = parseInt(b[1] ? b[1]*100 : 0, 10) + parseInt(b[2] ? b[2] : 0, 10)
-          return pence;
+          const pence = b[2] ? ( b[2].length === 1 ? b[2] * 10 : b[2]) : 0
+          const totalPence = parseInt(b[1] ? b[1]*100 : 0, 10) + parseInt(pence, 10)
+         console.log('totalPence=', totalPence)
+          return totalPence;
         }
       }
       return ''
