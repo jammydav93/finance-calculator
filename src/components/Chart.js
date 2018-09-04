@@ -19,7 +19,7 @@ const Chart = ({selectingFormValues}) => {
   const chartData = [];
 
   transactionData.forEach(function(item) {
-    chartData.push({x: item.date.format('D-MMM-YY'), y: item.finalBalance, description: item.description});
+    chartData.push({x: item.date.format('D-MMM-YY'), y: item.finalBalance/100, description: item.description});
   });
 
   return (
@@ -33,7 +33,6 @@ const Chart = ({selectingFormValues}) => {
         height={250}
         data={[chartData]}
       />
-
     </div>
   );
 };

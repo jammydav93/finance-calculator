@@ -1,20 +1,16 @@
 import React from 'react';
-import {
-  Field,
-  reduxForm,
-} from 'redux-form';
-// import validate from './validate'
+import { reduxForm } from 'redux-form';
+import CurrencyField from './form/CurrencyField';
 
+// import validate from './validate'
 
 const FieldForm = props => (
     <form>
       {props.label}:
       <div>
-        <Field 
+        <CurrencyField
           name={props.type}
-          label={props.label} 
-          component="input"
-          type="number"
+          componentToRender="input"
         />
       </div>
     </form>

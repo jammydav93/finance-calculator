@@ -10,6 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { RECURRENCE_OPTIONS } from '../constants/recurrences';
+import CurrencyField from './form/CurrencyField';
 // import validate from './validate'
 
 const renderField = (
@@ -116,11 +117,11 @@ const renderMembers = props => {
           </td>
           <td>
 
-            <Field
+            <CurrencyField
               name={`${member}.cost`}
-              type="text"
-              component={renderField}
+              componentToRender={renderField}
             />
+
           </td>
           <td>
             <Field

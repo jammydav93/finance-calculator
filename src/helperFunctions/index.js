@@ -51,11 +51,11 @@ export function generateTransactions(formDataValues) {
           )
         ) {
           const itemInitBalance = transactions.length > 0 ?
-            parseFloat(transactions[transactions.length - 1].finalBalance) :
-            parseFloat(initBalance);
+            transactions[transactions.length - 1].finalBalance :
+            initBalance;
           const cost = allRecurrences[i].type === 'outgoing' ?
-            parseFloat(0 - allRecurrences[i].cost) :
-            parseFloat(allRecurrences[i].cost);
+            0 - allRecurrences[i].cost :
+            allRecurrences[i].cost;
           transactions.push({
             transactionID: transactions.length,
             date: moment(runningDate),
