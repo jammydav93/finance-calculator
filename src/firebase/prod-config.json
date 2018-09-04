@@ -1,0 +1,8 @@
+{
+    "firebase": {
+    "apiKey": "AIzaSyBxEUlg7U-JFdKLUbqyHofIsG84Jty6_qs",
+    "authDomain": "financecalculator-prod.firebaseapp.com",
+    "databaseURL": "https://financecalculator-prod.firebaseio.com/",
+    "storageBucket": "financecalculator-prod.appspot.com"
+    }
+  }

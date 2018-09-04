@@ -1,11 +1,15 @@
 const firebase = require('firebase');
-const secrets = require('../secrets.json');
+const prodConfig = require('./prod-config.json');
+const ppeConfig = require('./prod-config.json');
+
+//Firebase config is not sensitive ()
+const importedConfig = process.env.NODE_ENV === 'production' ? prodConfig : ppeConfig
 
 const config = {
-  apiKey: secrets.firebase.apiKey,
-  authDomain: secrets.firebase.authDomain,
-  databaseURL: secrets.firebase.databaseURL,
-  storageBucket: secrets.firebase.storageBucket
+  apiKey: importedConfig.firebase.apiKey,
+  authDomain: importedConfig.firebase.authDomain,
+  databaseURL: importedConfig.firebase.databaseURL,
+  storageBucket: importedConfig.firebase.storageBucket
 };
 
 if (!firebase.apps.length) {
