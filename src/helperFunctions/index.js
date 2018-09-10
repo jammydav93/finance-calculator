@@ -21,8 +21,9 @@ export function generateTransactions(formDataValues) {
     startDate = moment(formDataValues.startDate);
     runningDate = moment(formDataValues.startDate);
     endDate = moment(formDataValues.endDate);
-    initBalance = formDataValues.initialBalance;
+    initBalance = formDataValues.initialBalance ? formDataValues.initialBalance : 0;
   }
+
 
   if (startDate && endDate) {
     const transactions = [];
@@ -56,7 +57,8 @@ export function generateTransactions(formDataValues) {
           const cost = allRecurrences[i].type === 'outgoing' ?
             0 - allRecurrences[i].cost :
             allRecurrences[i].cost;
-          transactions.push({
+          
+            transactions.push({
             transactionID: transactions.length,
             date: moment(runningDate),
             description: allRecurrences[i].description,
@@ -65,8 +67,8 @@ export function generateTransactions(formDataValues) {
             finalBalance: itemInitBalance + cost,
           });
         }
-    runningDate = runningDate.add(1, 'day');
       }
+      runningDate = runningDate.add(1, 'day');
     }
 
     // No need to sort by date as already generated in order.
