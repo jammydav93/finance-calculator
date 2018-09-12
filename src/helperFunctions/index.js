@@ -24,7 +24,6 @@ export function generateTransactions(formDataValues) {
     initBalance = formDataValues.initialBalance ? formDataValues.initialBalance : 0;
   }
 
-
   if (startDate && endDate) {
     const transactions = [];
     const daysDifference = endDate.diff(startDate, 'days');
