@@ -19,7 +19,7 @@ const Chart = ({selectingFormValues}) => {
   const chartData = [];
   
   transactionData.forEach(function(item) {
-    chartData.push({name: item.description, value: [item.date.toISOString(), item.finalBalance/100]})
+    chartData.push({name: item.description, value: [item.date.toISOString(), item.finalBalancePence/100]})
   });
 
   const formatDate = (date) => {

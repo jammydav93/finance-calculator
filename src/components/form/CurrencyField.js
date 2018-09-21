@@ -1,38 +1,18 @@
 import React from 'react';
 import { Field } from 'redux-form';
+import CurrencyInput from 'react-currency-input';
 
-const currencyRegex = /(\d*).?(\d?\d?)/
-
-const CurrencyField = ({ name, componentToRender }) =>
+const CurrencyField = ({ name }) =>
   <Field
     name={name}
-    type="number"
-    component={componentToRender}
-    format={(a) => {
-      if (a) {
-        const b = String(a).match(currencyRegex)
-         if (b) {
-          const formatted = (b[1] ? b[1] / 100 : '') + (b[2] ? `.${b[2]}` : '')
-          return formatted; 
-         }
-      }
-      return ''
-    }}
-    parse={(a) => {
-      if (a) {
-        const b = a.match(currencyRegex)
-        if (b) {
-          const pence = b[2] ? ( b[2].length === 1 ? b[2] * 10 : b[2]) : 0
-          const totalPence = parseInt(b[1] ? b[1]*100 : 0, 10) + parseInt(pence, 10)
-          return totalPence;
-        }
-      }
-      return ''
-    }}
+    component={props =>
+      <CurrencyInput 
+        value={ props.input.value }
+        onBlur={props.input.onChange}
+      />
+    }
   />
 
 export default CurrencyField;
-            
-
 
             

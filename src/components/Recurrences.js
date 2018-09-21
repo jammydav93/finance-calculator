@@ -28,7 +28,7 @@ const renderField = (
   </div>
 );
 
-const renderDatePicker = ({ input, label, type, meta: { touched, error } }) => (
+const renderDatePicker = ({ input, meta: { touched, error } }) => (
   <div>
     <DatePicker
       name={input.name}
@@ -119,7 +119,6 @@ const renderMembers = props => {
 
             <CurrencyField
               name={`${member}.cost`}
-              componentToRender={renderField}
             />
 
           </td>

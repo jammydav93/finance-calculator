@@ -3,30 +3,49 @@ import moment from 'moment';
 export function generateTransactions(formDataValues) {
   let allRecurrences = [];
 
+  const toPence = (a) => a ? parseInt(parseFloat(a.replace(/,/g, "")) * 100, 10) : 0
+
   if (formDataValues) {
     const values = formDataValues;
       if (values.income) {
-        values.income.forEach((item) => {item.type = 'incoming'} );
+        values.income.forEach((item) => { 
+          item.type = 'incoming'
+          item.costPence = toPence(item.cost)
+        });
         allRecurrences = allRecurrences.concat(values.income);
       }
       if (values.outcome) {
-        values.outcome.forEach((item) => {item.type = 'outgoing'} );
-        allRecurrences = allRecurrences.concat(values.outcome);
+        values.outcome.forEach((item) => {
+          item.type = 'outgoing'
+          item.costPence = toPence(item.cost)
+        });
+       allRecurrences = allRecurrences.concat(values.outcome);
       }
   }
 
-  let startDate, endDate, runningDate, initBalance = 0;
+  console.log('all=', allRecurrences)
+
+  let startDate, endDate, runningDate, initBalancePence;
 
   if (formDataValues) {
     startDate = moment(formDataValues.startDate);
     runningDate = moment(formDataValues.startDate);
     endDate = moment(formDataValues.endDate);
-    initBalance = formDataValues.initialBalance ? formDataValues.initialBalance : 0;
+    initBalancePence = toPence(formDataValues.initialBalance) || 0;
   }
 
   if (startDate && endDate) {
     const transactions = [];
     const daysDifference = endDate.diff(startDate, 'days');
+
+    transactions.push({
+      transactionID: -1,
+      date: moment(startDate),
+      description: 'Initial balance',
+      cost: null,
+      initBalancePence,
+      finalBalancePence: initBalancePence,
+    });
 
     for (let x = 0; x <= daysDifference; x++) {
       for (let i = 0; i < allRecurrences.length; i++) {
@@ -50,20 +69,24 @@ export function generateTransactions(formDataValues) {
             && runningDate.isoWeekday() === parseInt(recurrenceDate, 10)
           )
         ) {
-          const itemInitBalance = transactions.length > 0 ?
-            transactions[transactions.length - 1].finalBalance :
-            initBalance;
+          const itemInitBalancePence = transactions[transactions.length - 1].finalBalancePence
+
           const cost = allRecurrences[i].type === 'outgoing' ?
             0 - allRecurrences[i].cost :
             allRecurrences[i].cost;
-          
-            transactions.push({
+
+          const costPence = allRecurrences[i].type === 'outgoing' ?
+            0 - allRecurrences[i].costPence :
+            allRecurrences[i].costPence;
+
+          transactions.push({
             transactionID: transactions.length,
             date: moment(runningDate),
             description: allRecurrences[i].description,
             cost,
-            initBalance: itemInitBalance,
-            finalBalance: itemInitBalance + cost,
+            costPence,
+            initBalancePence: itemInitBalancePence,
+            finalBalancePence: itemInitBalancePence + costPence,
           });
         }
       }
