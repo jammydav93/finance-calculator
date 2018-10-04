@@ -7,6 +7,7 @@ import {
 } from 'redux-form';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import './recurrences.scss';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { RECURRENCE_OPTIONS } from '../constants/recurrences';
@@ -22,7 +23,6 @@ const renderField = (
   }
 ) => (
   <div>
-    <label>{label}</label>
       <input {...input} type={type} placeholder={label} />
       {touched && error && <span>{error}</span>}
   </div>
@@ -93,36 +93,59 @@ const renderDateField = (member, regularity) => {
 
 const renderMembers = props => {
   const { selectingFormValues, fields, meta: { error, submitFailed } } = props;
+
+  // return (
+  //   <table className="table-container">
+  //   <tr>
+  //     <th>Firstname</th>
+  //     <th>Lastname</th> 
+  //     <th>Age</th>
+  //   </tr>
+  //   <tr>
+  //     <td>Jill</td>
+  //     <td>Smith</td> 
+  //     <td>50</td>
+  //   </tr>
+  //   <tr>
+  //     <td>Eve</td>
+  //     <td>Jackson</td> 
+  //     <td>94</td>
+  //   </tr>
+  // </table>  
+
+//{fields.name}
+
   return (
-    <table>
-    <tbody>
-      <tr>
-        <th> {JSON.stringify(fields.name)}</th>
-      </tr>
-      <tr>
-        <th>Description</th>
-        <th>Cost</th>
-        <th>Regularity</th>
-        <th>Recurrance Date</th>
-        <th>Remove</th>
-      </tr>
-      {fields.map((member, index) => (
-        <tr key={index}>
-          <td>
-            <Field
-              name={`${member}.description`}
-              type="text"
-              component={renderField}
-            />
-          </td>
-          <td>
+    <div className="table-container">
+      <table className="table">
+        <col className="description" />
+        <col className="cost" />
+        <col className="regularity" />
+        <col className="date" />
+        <col className="remove" />
+        <tr className="table-row">
+          <th className="description header" >Description</th>
+          <th className="cost header" >Cost</th>
+          <th className="regularity header" >Type</th>
+          <th className="date header" >Date</th>
+          <th className="remove header" ></th>
+        </tr>
+        {fields.map((member, index) => (
+          <tr className="table-row" key={index}>
+            <td className="description">
+              <Field
+                name={`${member}.description`}
+                type="text"
+                component={renderField}
+              />
+            </td>
+            <td className="cost">
+              <CurrencyField
+                name={`${member}.cost`}
+              />
 
-            <CurrencyField
-              name={`${member}.cost`}
-            />
-
-          </td>
-          <td>
+            </td>
+            <td className="regularity">
             <Field
               name={`${member}.regularity`}
               component="select"
@@ -137,43 +160,40 @@ const renderMembers = props => {
               )}
             </Field>
           </td>
-          <td>
-              { renderDateField(member, selectingFormValues[fields.name][index].regularity) }
-          </td>
-          <td>
-            <button
-              type="button"
-              title="Remove Member"
-              onClick={() => fields.remove(index)}
-            >
-            -
-            </button>
-          </td>
-        </tr>
-      ))}
-      <tr>
-        <td>
-          <button type="button" onClick={() => fields.push({})}>
-            Add Member
-          </button>
-          {submitFailed && error && <span>{error}</span>}
-        </td>
-      </tr>
-    </tbody>
-    </table>
+            <td className="date">
+                { renderDateField(member, selectingFormValues[fields.name][index].regularity) }
+            </td>
+            <td className="remove">
+              <button
+                type="button"
+                title="Remove Member"
+                onClick={() => fields.remove(index)}
+              >
+              -
+              </button>
+            </td>
+          </tr>
+        ))}
+      </table>
+
+      <button type="button" onClick={() => fields.push({})}>
+        Add Member
+      </button>
+      {submitFailed && error && <span>{error}</span>}
+    </div>
   );
 };
 
 const mapStateToProps = state => (
   {
-    selectingFormValues: state.form.selectingFormValues.values,
+    selectingFormValues: path(['form', 'selectingFormValues', 'values'], state),
   }
 );
 
 const renderMembersConnected = connect(mapStateToProps)(renderMembers);
 
 let FieldArraysForm = props => (
-  <form>
+  <form className={props.className}>
     <FieldArray name={props.type} component={renderMembersConnected} />
   </form>
 );

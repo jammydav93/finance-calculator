@@ -1,0 +1,58 @@
+@mixin breakpoint($class) {
+  @if $class == mobile {
+    @media (max-width: 767px) { @content; }
+  }
+  @else if $class == tablet {
+    @media (min-width: 768px) { @content; }
+  }
+  @else if $class == desktop {
+    @media (min-width: 992px) { @content; }
+  }
+  @else {
+    @warn "Breakpoint mixin supports: mobile, tablet, desktop";
+  }
+}
+
+.app {
+  text-align: center;
+}
+
+.app-header {
+  background-color: #000;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.app-title {
+  text-align: center;
+  font-size: 1.5em;
+  @include breakpoint(mobile) {
+    background: white;
+  }
+  @include breakpoint(tablet) {
+    background: pink;
+  }
+  @include breakpoint(desktop) {
+    background: yellow;
+  }
+}
+
+body {
+  background-color: #a0c1f7;
+  padding: 20px;
+  min-width: 320px;
+  font-family: sans-serif;
+  @include breakpoint(mobile) {
+    padding: 20px 0px;
+  }
+}
+
+.content {
+  background-color: #FFF;
+  margin: 0 auto;
+}
+
+.active {
+  background-color: #0099FF;
+}

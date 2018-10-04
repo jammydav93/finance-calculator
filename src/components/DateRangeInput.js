@@ -5,11 +5,12 @@ import {
 } from 'redux-form';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import './daterangeinput.scss';
 import moment from 'moment';
 // import validate from './validate'
 
 const renderDatePicker = ({ input, label, meta: { touched, error } }) => (
-  <div className='spaced'>
+  <div className="date-input">
     { label }:
     <DatePicker
       name={input.name}
@@ -22,7 +23,7 @@ const renderDatePicker = ({ input, label, meta: { touched, error } }) => (
 );
 
 const FieldForm = props => (
-  <form>
+  <form className={props.className}>
     <Field name={props.type} label={props.label} component={renderDatePicker} />
   </form>
 );

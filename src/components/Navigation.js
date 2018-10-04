@@ -7,6 +7,7 @@ import SignInButton from './SignIn';
 import SignOutButton from './SignOut';
 import * as routes from '../constants/routes';
 import { connect } from 'react-redux';
+import './navigation.scss';
 
 const mapStateToProps = (state) => {
   return { authUser: state.sessionState.authUser };
@@ -24,24 +25,12 @@ const Navigation = ({authUser}) => {
 }
 
 const NavigationAuth = () =>
-  <Navbar>
-    <Navbar.Header>
-      <Navbar.Brand>
-        <Link to={routes.HOMEPAGE}>Home</Link>
-      </Navbar.Brand>
-    </Navbar.Header>
-    <Nav pullRight>
-      <NavItem>
-        <LoadButton />
-      </NavItem>
-      <NavItem>
-       <SaveButton />
-      </NavItem>
-      <NavItem>
-       <SignOutButton />
-      </NavItem>
-    </Nav>
-  </Navbar>;
+  <div className="navbar">
+    <Link to={routes.HOMEPAGE}>Home</Link>
+    <LoadButton />
+    <SaveButton />
+    <SignOutButton />
+  </div>
 
 const NavigationNonAuth = () =>
   <Navbar>

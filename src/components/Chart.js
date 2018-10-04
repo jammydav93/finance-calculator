@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { prop } from 'ramda'
 import { generateTransactions } from '../helperFunctions';
 import ReactEcharts from 'echarts-for-react';
 
@@ -10,7 +11,7 @@ const mapStateToProps = state => (
 );
 
 const Chart = ({selectingFormValues}) => {
-  const transactionData = generateTransactions(selectingFormValues.values);
+  const transactionData = generateTransactions(prop('values', selectingFormValues));
 
   if (transactionData.length === 0) {
     return null;
@@ -38,11 +39,6 @@ const Chart = ({selectingFormValues}) => {
     },
     legend: {
       data:['balance']
-    },
-    toolbox: {
-      feature: {
-        saveAsImage: {}
-      }
     },
     grid: {
       left: '3%',
@@ -86,8 +82,7 @@ const Chart = ({selectingFormValues}) => {
         notMerge={true}
         lazyUpdate={true}
         theme={"theme_name"}
-        onChartReady={this.onChartReadyCallback}
-        onEvents="  "
+        onEvents=""
         opts=""
       />
     </div>
