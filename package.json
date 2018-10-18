@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "babel-core": "^7.0.0-bridge.0",
     "echarts": "^4.1.0",
     "echarts-for-react": "^2.0.14",
     "firebase": "^4.11.0",
