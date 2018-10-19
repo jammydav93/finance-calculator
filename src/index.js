@@ -9,15 +9,9 @@ window.store = store;
 
 const Root = () => (
   <Provider store={store}>
-
-    <div className="container">
-
       <BrowserRouter>
         <App />
       </BrowserRouter>
-
-    </div>
-
   </Provider>
 );
 

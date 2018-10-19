@@ -1,0 +1,51 @@
+@import '../App.scss';
+
+.table-container {
+  width: 100%;
+  overflow: scroll;
+  border: 1px solid black;
+  margin: 2px;
+  padding: 0px;
+  
+  tr:nth-child(even){background-color: #f2f2f2}
+}
+
+.table-row {
+  max-height: 20px;
+}
+
+.header {
+  text-align: left
+}
+
+.description {
+  colgroup, th, td, div, select, input, button {
+    min-width: 100px;
+    max-width: 100px;
+  }
+}
+.cost {
+  colgroup, th, td, div, select, input, button {
+    min-width: 55px;
+    max-width: 55px;
+  }
+}
+.regularity {
+  colgroup, th, td, div, select, input, button {
+    min-width: 80px;
+    max-width: 80px;
+  }
+}
+.date {
+  input {
+    min-width: 75px;
+    max-width: 75px;
+  }
+}
+.remove {
+  colgroup, th, td, div, select, input, button {
+    min-width: 20px;
+    max-width: 20px;
+    float: right;
+  }
+}
