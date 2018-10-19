@@ -29,7 +29,7 @@ export function generateTransactions(formDataValues) {
 
   if (formDataValues) {
     startDate = moment(formDataValues.startDate);
-    runningDate = moment(formDataValues.startDate);
+    runningDate = moment(formDataValues.startDate).add(1, 'day');
     endDate = moment(formDataValues.endDate);
     initBalancePence = toPence(formDataValues.initialBalance) || 0;
   }
