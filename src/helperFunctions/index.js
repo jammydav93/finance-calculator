@@ -23,8 +23,6 @@ export function generateTransactions(formDataValues) {
       }
   }
 
-  console.log('all=', allRecurrences)
-
   let startDate, endDate, runningDate, initBalancePence;
 
   if (formDataValues) {
@@ -43,6 +41,7 @@ export function generateTransactions(formDataValues) {
       date: moment(startDate),
       description: 'Initial balance',
       cost: null,
+      costPence: null,
       initBalancePence,
       finalBalancePence: initBalancePence,
     });
