@@ -1,6 +1,6 @@
 const firebase = require('firebase');
 const prodConfig = require('./prod-config.json');
-const ppeConfig = require('./prod-config.json');
+const ppeConfig = require('./ppe-config.json');
 
 //Firebase config is not sensitive ()
 const importedConfig = process.env.NODE_ENV === 'production' ? prodConfig : ppeConfig
