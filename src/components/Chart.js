@@ -13,7 +13,7 @@ const mapStateToProps = state => (
 const Chart = ({selectingFormValues}) => {
   const transactionData = generateTransactions(prop('values', selectingFormValues));
 
-  if (transactionData.length === 0) {
+  if (transactionData.length <= 1) {
     return null;
   }
 
