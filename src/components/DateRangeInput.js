@@ -9,14 +9,14 @@ import './daterangeinput.scss';
 import moment from 'moment';
 // import validate from './validate'
 
-const renderDatePicker = ({ input, defaultDate, label, meta: { touched, error } }) => (
+const renderDatePicker = ({ input, label, meta: { touched, error } }) => (
   <div className="date-input">
     { label }:
     <DatePicker
       name={input.name}
       onChange={ (a) => (input.onChange(moment(a))) }
       dateFormat="DD-MM-YYYY"
-      selected={input.value ? moment(input.value) : defaultDate}
+      selected={input.value ? moment(input.value) : null}
     />
     {touched && error && <span>{error}</span>}
   </div>
