@@ -205,7 +205,7 @@ FieldArraysForm = reduxForm({
 
 FieldArraysForm = connect(
   state => ({
-    initialValues: path(['recurrencesState', 'loadedFormData', 'result'], state),
+    initialValues: path(['recurrencesState', 'formData'], state),
   }),
 )(FieldArraysForm)
 

@@ -2,10 +2,16 @@ const INITIAL_STATE = {
   recurrences: null,
 };
 
-const addLoadedFormData = (state, action) => ({
-  ...state,
-  loadedFormData: action.payload,
-});
+const addLoadedFormData = (state, action) => {
+  const { income, outcome } = action.payload.result
+  
+  const formData = { income, outcome }
+
+  return {
+    ...state,
+    formData,
+  };
+}
 
 function recurrenceReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
