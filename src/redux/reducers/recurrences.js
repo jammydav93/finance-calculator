@@ -1,6 +1,4 @@
-const INITIAL_STATE = {
-  recurrences: null,
-};
+const INITIAL_STATE = {};
 
 const addLoadedFormData = (state, action) => {
   const { income, outcome } = action.payload.result
