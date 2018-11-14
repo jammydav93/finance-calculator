@@ -11,7 +11,7 @@ import moment from 'moment';
 
 const renderDatePicker = ({ input, label, meta: { touched, error } }) => (
   <div className="date-input">
-    { label }:
+    { label }
     <DatePicker
       name={input.name}
       onChange={ (a) => (input.onChange(moment(a))) }
