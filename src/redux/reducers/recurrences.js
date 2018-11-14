@@ -1,17 +1,19 @@
 import moment from 'moment';
 
+const initialFormData = {
+  startDate: moment(),
+  endDate: moment().add(1, 'M'),
+  initialBalance: null, 
+};
+
 const INITIAL_STATE = {
-  formData: {
-    startDate: moment(),
-    endDate: moment().add(1, 'M'),
-    initialBalance: null, 
-  },
+  formData: initialFormData
 };
 
 const addLoadedFormData = (state, action) => {
   const { income, outcome } = action.payload.result
   
-  const formData = { income, outcome }
+  const formData = { ...initialFormData, income, outcome }
 
   return {
     ...state,
