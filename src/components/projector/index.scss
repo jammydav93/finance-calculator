@@ -1,24 +1,26 @@
 @import '../../App';
 
-.inline-block{
-    display: inline-block;
-    margin: 10px;
-    margin-bottom: 0px;
-    vertical-align: top;
+.primary-fields {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0px;
+  vertical-align: top;
+
+  form {
+  margin: 0px 5%;
+
+  }
 }
 
-
-
 .recurrences{
-  @extend .inline-block;
-
   @include breakpoint(mobile) {
-    width: 95%
+    width: 98%
   }
   @include breakpoint(tablet) {
-    width: 95%
+    width: 98%
   }
   @include breakpoint(desktop) {
-    width: 48%
+    width: 48%;
   }
 }

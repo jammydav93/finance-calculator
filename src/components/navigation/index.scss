@@ -1,4 +1,13 @@
+@import '../../App.scss';
+
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+
+  a, button {
+    margin: 0 10%;
+    min-height: 100%;
+    white-space: nowrap;
+  }
+
 }

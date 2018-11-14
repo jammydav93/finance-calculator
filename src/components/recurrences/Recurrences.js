@@ -94,18 +94,14 @@ const renderDateField = (member, regularity) => {
 const renderMembers = props => {
   const { selectingFormValues, type, fields, meta: { error, submitFailed } } = props;
 
-  const description = type === 'income' ? 'Incomes' : 'Outgoings';
+  const title = type === 'income' ? 'Incomes' : 'Outgoings';
+  const description = type === 'income' ? 'income' : 'outgoing';
 
   return (
-    <div className="table-container">
-      <table className="table">
-        <col className="description" />
-        <col className="cost" />
-        <col className="regularity" />
-        <col className="date" />
-        <col className="remove" />
+    <React.Fragment>
+      <table className="table-container">
         <tr className="table-row">
-          <th className="description header" >{description}</th>
+          <th className="description header" >{title}</th>
           <th className="cost header" >Amount</th>
           <th className="regularity header" >Type</th>
           <th className="date header" >Date</th>
@@ -157,11 +153,11 @@ const renderMembers = props => {
         ))}
       </table>
 
-      <button type="button" onClick={() => fields.push({})}>
-        Add Member
+      <button type="button" className="button" onClick={() => fields.push({})}>
+        Add {description}
       </button>
       {submitFailed && error && <span>{error}</span>}
-    </div>
+    </React.Fragment>
   );
 };
 

@@ -7,10 +7,10 @@ import './index.scss';
 
 const AllRecurrences = () => (
   <div>
-    <div>
-      <DateRangeInput className='inline-block' type='startDate' label='Start' />
-      <DateRangeInput className='inline-block' type='endDate' label='End' />
-      <IntitialBalance className='inline-block' type='initialBalance' label='Balance' />
+    <div className="primary-fields">
+      <DateRangeInput type='startDate' label='Start' />
+      <DateRangeInput type='endDate' label='End' />
+      <IntitialBalance type='initialBalance' label='Balance' />
     </div>
     <div>
       <Recurrences type='income' className='recurrences' />

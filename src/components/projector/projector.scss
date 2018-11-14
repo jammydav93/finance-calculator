@@ -1,0 +1,22 @@
+@import '../App';
+
+.inline-block{
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    vertical-align: top;
+}
+
+
+
+.recurrences{
+  @include breakpoint(mobile) {
+    width: 99%
+  }
+  @include breakpoint(tablet) {
+    width: 99%
+  }
+  @include breakpoint(desktop) {
+    width: 48%
+  }
+}

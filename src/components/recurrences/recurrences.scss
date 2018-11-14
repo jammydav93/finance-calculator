@@ -5,9 +5,14 @@
   overflow: scroll;
   border: 1px solid black;
   margin: 2px;
-  padding: 0px;
-  
-  tr:nth-child(even){background-color: #f2f2f2}
+  border-spacing: 2px 1px;
+
+  table {
+    display: flex;
+    justify-content: center;
+  }
+
+  tr:nth-child(odd){background-color: #f2f2f2}
 }
 
 .table-row {
@@ -19,33 +24,71 @@
 }
 
 .description {
-  colgroup, th, td, div, select, input, button {
-    min-width: 100px;
-    max-width: 100px;
+  @include breakpoint(mobile) {
+    width: 80px;
+  }
+  @include breakpoint(tablet) {
+    width: 200px;
+    
+  }
+
+  div, input {
+    width: 100%;
   }
 }
+
 .cost {
-  colgroup, th, td, div, select, input, button {
-    min-width: 55px;
-    max-width: 55px;
+  @include breakpoint(mobile) {
+    width: 50px;
+  }
+  @include breakpoint(tablet) {
+    width: 200px;
+  }
+
+  div, input {
+    width: 95%;
   }
 }
+
+
 .regularity {
-  colgroup, th, td, div, select, input, button {
-    min-width: 80px;
-    max-width: 80px;
+  @include breakpoint(mobile) {
+    min-width: 83px;
+    width: 83px;
+    max-width: 83px;
+  }
+
+  select {
+    width: 100%;
   }
 }
+
 .date {
+  @include breakpoint(mobile) {
+    width: 75px;
+  }
+  @include breakpoint(tablet) {
+    width: 75px;
+    
+  }
+
   input {
-    min-width: 75px;
-    max-width: 75px;
+    width: 100%;
   }
 }
+
 .remove {
-  colgroup, th, td, div, select, input, button {
-    min-width: 20px;
-    max-width: 20px;
-    float: right;
+  @include breakpoint(mobile) {
+    min-width: 15px;
+    max-width: 15px;
+    width: 15px;
   }
+
+  div, button {
+    width: 100%;
+  }
+}
+
+.button {
+  margin-bottom: 10px;
 }
