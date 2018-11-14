@@ -13,8 +13,8 @@
   }
 }
 
-.app {
-  text-align: center;
+.app-container {
+
 }
 
 .app-header {
@@ -27,6 +27,8 @@
 .app-title {
   text-align: center;
   font-size: 1.5em;
+  margin: 0px;
+  
   @include breakpoint(mobile) {
     background: white;
   }
@@ -40,12 +42,9 @@
 
 body {
   background-color: #a0c1f7;
-  padding: 20px;
+  padding: 0px;
   min-width: 320px;
   font-family: sans-serif;
-  @include breakpoint(mobile) {
-    padding: 20px 0px;
-  }
 }
 
 .content {

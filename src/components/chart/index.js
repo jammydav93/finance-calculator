@@ -54,9 +54,10 @@ const Chart = ({selectingFormValues}) => {
       data:['balance']
     },
     grid: {
-      left: '3%',
-      right: '3%',
-      bottom: '3%',
+      top: '20',
+      left: '20',
+      right: '40',
+      bottom: '10',
       containLabel: true
     },
     xAxis : [
@@ -80,7 +81,6 @@ const Chart = ({selectingFormValues}) => {
     ],
     series : [
       {
-        name:'name',
         type:'line',
         step: 'end',
         data: chartData,

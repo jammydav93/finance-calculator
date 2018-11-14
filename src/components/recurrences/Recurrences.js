@@ -92,28 +92,9 @@ const renderDateField = (member, regularity) => {
 };
 
 const renderMembers = props => {
-  const { selectingFormValues, fields, meta: { error, submitFailed } } = props;
+  const { selectingFormValues, type, fields, meta: { error, submitFailed } } = props;
 
-  // return (
-  //   <table className="table-container">
-  //   <tr>
-  //     <th>Firstname</th>
-  //     <th>Lastname</th> 
-  //     <th>Age</th>
-  //   </tr>
-  //   <tr>
-  //     <td>Jill</td>
-  //     <td>Smith</td> 
-  //     <td>50</td>
-  //   </tr>
-  //   <tr>
-  //     <td>Eve</td>
-  //     <td>Jackson</td> 
-  //     <td>94</td>
-  //   </tr>
-  // </table>  
-
-//{fields.name}
+  const description = type === 'income' ? 'Incomes' : 'Outgoings';
 
   return (
     <div className="table-container">
@@ -124,8 +105,8 @@ const renderMembers = props => {
         <col className="date" />
         <col className="remove" />
         <tr className="table-row">
-          <th className="description header" >Description</th>
-          <th className="cost header" >Cost</th>
+          <th className="description header" >{description}</th>
+          <th className="cost header" >Amount</th>
           <th className="regularity header" >Type</th>
           <th className="date header" >Date</th>
           <th className="remove header" ></th>
@@ -194,7 +175,7 @@ const renderMembersConnected = connect(mapStateToProps)(renderMembers);
 
 let FieldArraysForm = props => (
   <form className={props.className}>
-    <FieldArray name={props.type} component={renderMembersConnected} />
+    <FieldArray name={props.type} props={{type: props.type}} component={renderMembersConnected} />
   </form>
 );
 
