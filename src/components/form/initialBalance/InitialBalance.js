@@ -7,7 +7,9 @@ import './initialbalance.scss';
 
 const FieldForm = props => (
     <form className={`${props.className} amount`}>
-      {props.label}
+      <div className="label">
+        {props.label}
+      </div>
       <div>
         <CurrencyField
           name={props.type}

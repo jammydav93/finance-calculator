@@ -8,9 +8,9 @@ import './index.scss';
 const AllRecurrences = () => (
   <div>
     <div>
-      <DateRangeInput className='inline-block' type='startDate' label='Start date' />
-      <DateRangeInput className='inline-block' type='endDate' label='End date' />
-      <IntitialBalance className='inline-block' type='initialBalance' label='Current balance' />
+      <DateRangeInput className='inline-block' type='startDate' label='Start' />
+      <DateRangeInput className='inline-block' type='endDate' label='End' />
+      <IntitialBalance className='inline-block' type='initialBalance' label='Balance' />
     </div>
     <div>
       <Recurrences type='income' className='recurrences' />
