@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import LoadButton from '../load';
 import SaveButton from '../save';
 import SignInButton from '../signin';
@@ -33,18 +32,10 @@ const NavigationAuth = () =>
   </div>
 
 const NavigationNonAuth = () =>
-  <Navbar>
-    <Navbar.Header>
-      <Navbar.Brand>
-        <Link to={routes.HOMEPAGE}>Home</Link>
-      </Navbar.Brand>
-    </Navbar.Header>
-    <Nav pullRight>
-        <NavItem>
-          <SignInButton />
-        </NavItem>
-    </Nav>
-  </Navbar>;
+  <div className="navbar">
+    <Link to={routes.HOMEPAGE}>Home</Link>
+    <SignInButton />
+  </div>
 
 
 
