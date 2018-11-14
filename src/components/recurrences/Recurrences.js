@@ -10,8 +10,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './recurrences.scss';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { RECURRENCE_OPTIONS } from '../constants/recurrences';
-import CurrencyField from './form/CurrencyField';
+import { RECURRENCE_OPTIONS } from '../../constants/recurrences';
+import CurrencyField from '../form/currency/CurrencyField';
 // import validate from './validate'
 
 const renderField = (

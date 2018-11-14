@@ -1,11 +1,12 @@
-@import '../App';
+@import '../../App';
 
 .inline-block{
     display: inline-block;
     margin: 10px;
     vertical-align: top;
-
 }
+
+
 
 .recurrences{
   @extend .inline-block;

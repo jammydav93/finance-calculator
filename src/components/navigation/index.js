@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Navbar, Nav, NavItem } from 'react-bootstrap'
-import LoadButton from './Load';
-import SaveButton from './Save';
-import SignInButton from './SignIn';
-import SignOutButton from './SignOut';
-import * as routes from '../constants/routes';
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import LoadButton from '../load';
+import SaveButton from '../save';
+import SignInButton from '../signin';
+import SignOutButton from '../singout';
+import * as routes from '../../constants/routes';
 import { connect } from 'react-redux';
-import './navigation.scss';
+import './index.scss';
 
 const mapStateToProps = (state) => {
   return { authUser: state.sessionState.authUser };

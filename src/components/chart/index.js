@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { prop } from 'ramda'
-import { generateTransactions } from '../helperFunctions';
+import { generateTransactions } from '../../helperFunctions';
 import ReactEcharts from 'echarts-for-react';
 
 const mapStateToProps = state => (

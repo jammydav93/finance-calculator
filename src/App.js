@@ -5,13 +5,11 @@ import {
   withRouter
 } from 'react-router-dom';
 //import SignUp from './components/SignUp';
-import SignIn from './components/SignIn';
-import Navigation from './components/Navigation';
-import Projector from './components/Projector';
+import SignIn from './components/signin';
+import Navigation from './components/navigation';
+import Projector from './components/projector';
 import './App.scss';
-
 import withAuthentication from './components/withAuthentication';
-
 
 let App = () => (
   <div className="app-container" >

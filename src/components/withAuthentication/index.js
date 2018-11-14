@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { db } from '../firebase';
-import { firebase } from '../firebase';
+import { db, firebase } from '../../firebase';
 
 const withAuthentication = (Component) => {
   class WithAuthentication extends React.Component {
@@ -16,9 +15,6 @@ const withAuthentication = (Component) => {
           ? db.getUser(authUser.uid)
           : console.log('user not logged in');
       });
-
-
-
     }
 
     render() {

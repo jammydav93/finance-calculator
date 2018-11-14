@@ -1,6 +1,6 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
-import CurrencyField from './form/CurrencyField';
+import CurrencyField from '../currency/CurrencyField';
 import './initialbalance.scss';
 
 // import validate from './validate'
