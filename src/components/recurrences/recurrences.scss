@@ -78,14 +78,12 @@
 }
 
 .remove {
-  @include breakpoint(mobile) {
-    min-width: 15px;
-    max-width: 15px;
-    width: 15px;
-  }
+  min-width: 24px;
+  max-width: 24px;
+  width: 24px;
 
   div, button {
-    width: 100%;
+    padding: 0;
   }
 }
 

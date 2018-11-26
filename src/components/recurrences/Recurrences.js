@@ -5,6 +5,8 @@ import {
   FieldArray,
   reduxForm,
 } from 'redux-form';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './recurrences.scss';
@@ -141,13 +143,9 @@ const renderMembers = props => {
                 { renderDateField(member, selectingFormValues[fields.name][index].regularity) }
             </td>
             <td className="remove">
-              <button
-                type="button"
-                title="Remove Member"
-                onClick={() => fields.remove(index)}
-              >
-              -
-              </button>
+              <IconButton aria-label="Delete">
+                <DeleteIcon onClick={() => fields.remove(index)}/>
+              </IconButton>
             </td>
           </tr>
         ))}
