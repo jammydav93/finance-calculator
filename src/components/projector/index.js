@@ -3,7 +3,7 @@ import Recurrences from '../recurrences/Recurrences';
 import DateRangeInput from '../form/date/DateRangeInput';
 import IntitialBalance from '../form/initialBalance/InitialBalance';
 import Chart from '../chart';
-import './index.scss';
+import './projector.scss';
 
 const AllRecurrences = () => (
   <div>
@@ -12,9 +12,9 @@ const AllRecurrences = () => (
       <DateRangeInput type='endDate' label='End' />
       <IntitialBalance type='initialBalance' label='Balance' />
     </div>
-    <div>
-      <Recurrences type='income' className='recurrences' />
-      <Recurrences type='outcome' className='recurrences' />
+    <div className='recurrences'>
+      <Recurrences type='income' className='recurrenceTable' />
+      <Recurrences type='outcome' className='recurrenceTable' />
     </div>
     <Chart />
   </div>

@@ -1,4 +1,4 @@
-@import '../App';
+@import '../../App';
 
 .inline-block{
     display: flex;
@@ -7,16 +7,43 @@
     vertical-align: top;
 }
 
+.primary-fields {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0px;
+  vertical-align: bottom;
 
+  form {
+    margin: 0px 5%;
+  }
+}
 
-.recurrences{
+.recurrences {
+  margin: auto;
+
+  @include breakpoint(desktop) {
+    display: flex;
+    justify-content: center;
+    vertical-align: top;
+    width: 100%;
+    padding-right: 20px;
+    margin: 0;
+  }
+}
+
+.recurrenceTable{
   @include breakpoint(mobile) {
-    width: 99%
+    width: 98%;
+    display: block;
   }
   @include breakpoint(tablet) {
-    width: 99%
+    width: 98%;
+    display: block;
   }
   @include breakpoint(desktop) {
-    width: 48%
+    display: inline-block;
+    width: 48%;
+    padding-right: 20px;
   }
 }
