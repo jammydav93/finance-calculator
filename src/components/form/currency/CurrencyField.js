@@ -8,6 +8,7 @@ const isAllowedValue = (value) =>
 
 const CurrencyInput = ({ input }) => 
   <input
+    value={input.value}
     onChange={input.onChange}
     onBlur={input.onChange}
     onKeyPress={(event) => {

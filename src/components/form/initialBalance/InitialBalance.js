@@ -13,7 +13,6 @@ const FieldForm = props => (
       <div>
         <CurrencyField
           name={props.type}
-          componentToRender="input"
         />
       </div>
     </form>
