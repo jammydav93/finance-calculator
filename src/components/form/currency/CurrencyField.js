@@ -1,5 +1,6 @@
 import React from 'react';
 import { Field } from 'redux-form';
+import './currency.scss';
 
 const normalize = (value, prevValue) => {
   if (!value){
@@ -23,6 +24,7 @@ const normalize = (value, prevValue) => {
 
 const CurrencyInput = ({ input }) => 
   <input
+    className="currency"
     type="number"
     value={input.value}
     onChange={input.onChange}
