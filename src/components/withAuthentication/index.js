@@ -8,12 +8,7 @@ const withAuthentication = (Component) => {
       const { onSetAuthUser } = this.props;
 
       firebase.auth.onAuthStateChanged(authUser => {
-        authUser
-          ? onSetAuthUser(authUser)
-          : onSetAuthUser(null);
-        authUser
-          ? db.getUser(authUser.uid)
-          : console.log('user not logged in');
+        onSetAuthUser(authUser)
       });
     }
 
@@ -25,7 +20,15 @@ const withAuthentication = (Component) => {
   }
 
   const mapDispatchToProps = (dispatch) => ({
-    onSetAuthUser: (authUser) => dispatch({ type: 'AUTH_USER_SET', authUser }),
+    onSetAuthUser: (authUser) => {
+      dispatch({ type: 'AUTH_USER_SET', authUser })
+
+      if(authUser) {
+        db.loadFormData(authUser.uid)
+      } else {
+        dispatch({ type: 'CLEAR_FORM_DATA', authUser })
+      }
+    },
   });
 
   return connect(null, mapDispatchToProps)(WithAuthentication);
