@@ -4,7 +4,7 @@ import './currency.scss';
 
 const normalize = (value, prevValue) => {
   if (!value){
-    return '0.00'
+    return ''
   }
 
   const parsedValue = parseFloat(value)
