@@ -8,8 +8,7 @@ export const saveUserFormData = async (user, data) => {
   });
 }
 
-export const getUserFormData = async (user) => {
-  console.log('loading user...', user);
+export const loadFormData = async (user) => {
   const raw_result = await db.ref(`users/${user}`).once('value');
   const result = JSON.parse(raw_result.val().projector.form)
 
