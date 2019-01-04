@@ -5,8 +5,17 @@ import {
   FieldArray,
   reduxForm,
 } from 'redux-form';
-import IconButton from '@material-ui/core/IconButton';
-import { AddCircle, Delete } from '@material-ui/icons';
+import {
+  IconButton,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
+} from '@material-ui/core';
+import { 
+  AddCircle,
+  Delete,
+  ExpandMore as ExpandMoreIcon,
+} from '@material-ui/icons';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './recurrences.scss';
@@ -93,7 +102,7 @@ const renderDateField = (member, regularity) => {
   }
 };
 
-const renderMembers = props => {
+const renderMembers = (props) => {
   const { selectingFormValues, type, fields, meta: { error, submitFailed } } = props;
 
   const title = type === 'income' ? 'Incomes' : 'Outgoings';
@@ -101,60 +110,68 @@ const renderMembers = props => {
 
   return (
     <React.Fragment>
-      <table className="table-container">
-        <tr className="table-row">
-          <th className="description header" >{title} ({itemCount})</th>
-          <th className="cost header" >Amount</th>
-          <th className="regularity header" >Type</th>
-          <th className="date header" >Date</th>
-          <th className="remove header" ></th>
-        </tr>
-        {fields.map((member, index) => (
-          <tr className="table-row" key={index}>
-            <td className="description">
-              <Field
-                name={`${member}.description`}
-                type="text"
-                component={renderField}
-              />
-            </td>
-            <td className="cost">
-              <CurrencyField
-                name={`${member}.cost`}
-              />
-
-            </td>
-            <td className="regularity">
-            <Field
-              name={`${member}.regularity`}
-              component="select"
-            >
-              {RECURRENCE_OPTIONS.map((x) =>
-                <option
-                  key={x.value}
-                  value={x.value}
-                  disabled={x.disabled ? true : false }>
-                    {x.description}
-                </option>
+      <ExpansionPanel>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          {title} ({itemCount})
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <table className="table-container">
+            <tr className="table-row">
+              <th className="description header" >Description</th>
+              <th className="cost header" >Amount</th>
+              <th className="regularity header" >Type</th>
+              <th className="date header" >Date</th>
+              <th className="remove header" ></th>
+            </tr>
+            {
+              fields.map((member, index) => (
+                <tr className="table-row" key={index}>
+                  <td className="description">
+                    <Field
+                      name={`${member}.description`}
+                      type="text"
+                      component={renderField}
+                    />
+                  </td>
+                  <td className="cost">
+                    <CurrencyField
+                      name={`${member}.cost`}
+                    />
+                  </td>
+                  <td className="regularity">
+                  <Field
+                    name={`${member}.regularity`}
+                    component="select"
+                  >
+                    {RECURRENCE_OPTIONS.map((x) =>
+                      <option
+                        key={x.value}
+                        value={x.value}
+                        disabled={x.disabled ? true : false }>
+                          {x.description}
+                      </option>
+                    )}
+                  </Field>
+                </td>
+                  <td className="date">
+                      { renderDateField(member, selectingFormValues[fields.name][index].regularity) }
+                  </td>
+                  <td className="remove">
+                    <IconButton aria-label="Delete">
+                      <Delete onClick={() => fields.remove(index)}/>
+                    </IconButton>
+                  </td>
+                </tr>)
               )}
-            </Field>
-          </td>
-            <td className="date">
-                { renderDateField(member, selectingFormValues[fields.name][index].regularity) }
-            </td>
-            <td className="remove">
-              <IconButton aria-label="Delete">
-                <Delete onClick={() => fields.remove(index)}/>
-              </IconButton>
-            </td>
-          </tr>
-        ))}
-        <AddCircle onClick={() => fields.push({})} />
-      </table>
+            <AddCircle onClick={() => fields.push({})} />
+          </table>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+
       {submitFailed && error && <span>{error}</span>}
     </React.Fragment>
   );
-};
+}
 
 const mapStateToProps = state => (
   {
