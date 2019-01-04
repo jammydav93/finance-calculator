@@ -1,5 +1,4 @@
 export const RECURRENCE_OPTIONS = [
-  {description: null, value: null, disabled: true},
   {description: 'daily', value: 'daily' },
   {description: 'weekdays', value: 'weekdays' },
   {description: 'weekly', value: 'weekly' },

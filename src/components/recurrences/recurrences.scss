@@ -7,9 +7,8 @@
   margin: 2px;
   border-spacing: 2px 1px;
 
-  table {
-    display: flex;
-    justify-content: center;
+  tr > td {
+    padding: 0px 3px;
   }
 
   tr:nth-child(odd){background-color: #f2f2f2}
@@ -22,9 +21,11 @@
 .header {
   text-align: left;
   vertical-align: top;
+  font-size: 13px;
 }
 
 .description {
+
   @include breakpoint(mobile) {
     width: 80px;
   }

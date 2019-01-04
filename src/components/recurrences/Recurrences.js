@@ -5,11 +5,12 @@ import {
   FieldArray,
   reduxForm,
 } from 'redux-form';
+import { withStyles } from '@material-ui/core/styles';
 import {
   IconButton,
   ExpansionPanel,
   ExpansionPanelSummary,
-  ExpansionPanelDetails,
+  ExpansionPanelDetails as MuiExpansionPanelDetails,
 } from '@material-ui/core';
 import { 
   AddCircle,
@@ -102,6 +103,12 @@ const renderDateField = (member, regularity) => {
   }
 };
 
+const ExpansionPanelDetails = withStyles(() => ({
+  root: {
+    padding: 10,
+  },
+}))(MuiExpansionPanelDetails);
+
 const renderMembers = (props) => {
   const { selectingFormValues, type, fields, meta: { error, submitFailed } } = props;
 
@@ -112,14 +119,14 @@ const renderMembers = (props) => {
     <React.Fragment>
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          {title} ({itemCount})
+          {`${title} (${itemCount})`}
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <table className="table-container">
             <tr className="table-row">
               <th className="description header" >Description</th>
               <th className="cost header" >Amount</th>
-              <th className="regularity header" >Type</th>
+              <th className="regularity header" >Regularity</th>
               <th className="date header" >Date</th>
               <th className="remove header" ></th>
             </tr>
@@ -143,6 +150,7 @@ const renderMembers = (props) => {
                     name={`${member}.regularity`}
                     component="select"
                   >
+                    <option disabled hidden style={{display: 'none'}} value=''></option>
                     {RECURRENCE_OPTIONS.map((x) =>
                       <option
                         key={x.value}
