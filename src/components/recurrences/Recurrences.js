@@ -6,7 +6,7 @@ import {
   reduxForm,
 } from 'redux-form';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { AddCircle, Delete } from '@material-ui/icons';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './recurrences.scss';
@@ -97,7 +97,6 @@ const renderMembers = props => {
   const { selectingFormValues, type, fields, meta: { error, submitFailed } } = props;
 
   const title = type === 'income' ? 'Incomes' : 'Outgoings';
-  const description = type === 'income' ? 'income' : 'outgoing';
   const itemCount = fields.length
 
   return (
@@ -145,16 +144,13 @@ const renderMembers = props => {
             </td>
             <td className="remove">
               <IconButton aria-label="Delete">
-                <DeleteIcon onClick={() => fields.remove(index)}/>
+                <Delete onClick={() => fields.remove(index)}/>
               </IconButton>
             </td>
           </tr>
         ))}
+        <AddCircle onClick={() => fields.push({})} />
       </table>
-
-      <button type="button" className="button" onClick={() => fields.push({})}>
-        Add {description}
-      </button>
       {submitFailed && error && <span>{error}</span>}
     </React.Fragment>
   );
