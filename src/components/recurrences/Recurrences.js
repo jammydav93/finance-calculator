@@ -98,12 +98,13 @@ const renderMembers = props => {
 
   const title = type === 'income' ? 'Incomes' : 'Outgoings';
   const description = type === 'income' ? 'income' : 'outgoing';
+  const itemCount = fields.length
 
   return (
     <React.Fragment>
       <table className="table-container">
         <tr className="table-row">
-          <th className="description header" >{title}</th>
+          <th className="description header" >{title} ({itemCount})</th>
           <th className="cost header" >Amount</th>
           <th className="regularity header" >Type</th>
           <th className="date header" >Date</th>
