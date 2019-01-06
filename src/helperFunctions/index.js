@@ -1,9 +1,14 @@
 import moment from 'moment';
+import { isEmpty } from 'ramda';
 
 export function generateTransactions(formDataValues) {
   let allRecurrences = [];
 
   const toPence = (a) => a ? parseInt(parseFloat(a.replace(/,/g, "")) * 100, 10) : 0
+
+  const costPenceReducer = (transactions) => transactions.reduce(
+    (accumulator, currentValue) => accumulator + currentValue.costPence, 0
+  )
 
   if (formDataValues) {
     const values = formDataValues;
@@ -47,6 +52,9 @@ export function generateTransactions(formDataValues) {
     });
 
     for (let x = 0; x <= daysDifference; x++) {
+      let daysTransactions = []
+      const dayInitialBalance = transactions[transactions.length -1].finalBalancePence
+
       for (let i = 0; i < allRecurrences.length; i++) {
         const regularity = allRecurrences[i].regularity;
         const recurrenceDate = allRecurrences[i].recurrenceDate
@@ -68,8 +76,6 @@ export function generateTransactions(formDataValues) {
             && runningDate.isoWeekday() === parseInt(recurrenceDate, 10)
           )
         ) {
-          const itemInitBalancePence = transactions[transactions.length - 1].finalBalancePence
-
           const cost = allRecurrences[i].type === 'outgoing' ?
             0 - allRecurrences[i].cost :
             allRecurrences[i].cost;
@@ -78,17 +84,26 @@ export function generateTransactions(formDataValues) {
             0 - allRecurrences[i].costPence :
             allRecurrences[i].costPence;
 
-          transactions.push({
-            transactionID: transactions.length,
-            date: moment(runningDate),
+          daysTransactions.push({
             description: allRecurrences[i].description,
             cost,
             costPence,
-            initBalancePence: itemInitBalancePence,
-            finalBalancePence: itemInitBalancePence + costPence,
           });
         }
       }
+
+      if (!isEmpty(daysTransactions)){
+        const totalCostPence = costPenceReducer(daysTransactions)
+  
+        transactions.push({
+          transactionID: transactions.length,
+          date: moment(runningDate),
+          description: daysTransactions,
+          initBalancePence: dayInitialBalance,
+          finalBalancePence: dayInitialBalance + totalCostPence,
+        });
+      }
+
       runningDate = runningDate.add(1, 'day');
     }
 

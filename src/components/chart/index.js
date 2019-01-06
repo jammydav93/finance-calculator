@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { prop } from 'ramda'
+import { prop, is } from 'ramda'
 import { generateTransactions } from '../../helperFunctions';
 import ReactEcharts from 'echarts-for-react';
 
@@ -29,17 +29,9 @@ const Chart = ({selectingFormValues}) => {
     return parsedDate.getDate() + '/' + (parsedDate.getMonth() + 1) + '/' + parsedDate.getFullYear()
   }
 
-  const formatCost = (costPence) => {
-    if (costPence === null){
-      return ''
-    }
-
-    const prefix = costPence >= 0 ? '+' : '-'
-    const absPence = Math.abs(costPence)/100
-    const cost = absPence.toFixed(2)
-
-    return `(${prefix}£${cost})`
-  }
+  const formatCost = (amount) => amount
+    ? new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(amount)
+    : ''
 
   const option = {
     tooltip : {
@@ -47,7 +39,14 @@ const Chart = ({selectingFormValues}) => {
       formatter: function (params) {
         params = params[0];
         const date = new Date(params.value[0]);
-        return `${formatDate(date)}: ${params.name} ${formatCost(params.data.costPence)}<br>£${params.value[1]}`;
+        const formattedDescription = is(Array, params.name)
+          ? params.name.reduce(
+              (accumulator, current) =>  accumulator + `<br>${current.description} (${current.cost >= 0 ? '+' : ''}${formatCost(current.cost)})`, ''
+            )
+          : ''
+        const balance = params.value[1]
+
+        return `${formatDate(date)} -> ${formatCost(balance)}:${formattedDescription}`;
       },
     },
     legend: {
