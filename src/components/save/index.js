@@ -2,6 +2,7 @@ import React from 'react';
 import { db } from '../../firebase';
 import { connect } from 'react-redux';
 import { path } from 'ramda';
+import AlertDialogue from '../alert'
 
 const mapStateToProps = state => (
   {
@@ -10,20 +11,14 @@ const mapStateToProps = state => (
   }
 );
 
-const SaveButton = ({ authUser, selectingFormValues }) => {
-  return (
-    <div>
-      <button
-        type="button"
-        onClick={() => {
-          console.log('saving ', authUser.uid, selectingFormValues);
-          db.saveUserFormData(authUser.uid, selectingFormValues)
-        }}
-      >
-        Save
-      </button>
-    </div>
-  )
-}
+const SaveButton = ({ authUser, selectingFormValues }) =>
+  <AlertDialogue 
+    buttonTitle='Save'
+    dialogueText='Are you sure you wish to save?'
+    dialogueButtons={[
+      { text: 'Cancel', type: 'secondary'},
+      { text: 'Confirm', onClick: () => db.saveUserFormData(authUser.uid, selectingFormValues), type: 'primary'},
+    ]}
+  />
 
 export default connect(mapStateToProps)(SaveButton);
