@@ -5,7 +5,6 @@ import {
   withRouter
 } from 'react-router-dom';
 //import SignUp from './components/SignUp';
-import SignIn from './components/signin';
 import Navigation from './components/navigation';
 import Projector from './components/projector';
 import './App.scss';
@@ -17,9 +16,7 @@ let App = () => (
     <Navigation />
     <div className="content">
       <Switch>
-        <Route exact path="/" component={Projector} />
-        <Route exact path="/signin" component={SignIn} />
-        <Route exact path="/projector" component={Projector} />
+        <Route path="/" component={Projector} />
       </Switch>
     </div>
   </div>
