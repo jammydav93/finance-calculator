@@ -20,8 +20,6 @@
 }
 
 .recurrences {
-  margin: auto;
-
   @include breakpoint(desktop) {
     display: flex;
     justify-content: center;
@@ -33,14 +31,10 @@
 }
 
 .recurrenceTable{
-  @include breakpoint(mobile) {
-    width: 98%;
-    display: block;
-  }
-  @include breakpoint(tablet) {
-    width: 98%;
-    display: block;
-  }
+  width: 100%;
+  display: block;
+  padding-bottom: 10px;
+
   @include breakpoint(desktop) {
     display: inline-block;
     width: 48%;
