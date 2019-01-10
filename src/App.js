@@ -11,9 +11,11 @@ import './App.scss';
 import withAuthentication from './components/withAuthentication';
 
 let App = () => (
-  <div className="app-container" >
-    <h1 className="app-title">Finance Forecaster</h1>
-    <Navigation />
+  <div className="app" >
+    <div className="header"> 
+      <h1 className="app-title">Finance Forecaster</h1>
+      <Navigation />
+    </div>
     <div className="content">
       <Switch>
         <Route path="/" component={Projector} />

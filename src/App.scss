@@ -13,8 +13,16 @@
   }
 }
 
-.app-container {
+html, body {
+  overflow-x: hidden;
+}
 
+body {
+  min-width: 320px;
+  font-family: sans-serif;
+  background-color: #a0c1f7;
+  margin:0;
+  padding:0;
 }
 
 .app-header {
@@ -28,28 +36,9 @@
   text-align: center;
   font-size: 1.5em;
   padding: 10px 0 5px;
-  margin: 5px 0 5px;
-  
-  @include breakpoint(mobile) {
-    background: white;
-  }
-  @include breakpoint(tablet) {
-    background: pink;
-  }
-  @include breakpoint(desktop) {
-    background: yellow;
-  }
-}
-
-body {
-  background-color: #a0c1f7;
-  padding: 0px;
-  min-width: 320px;
-  font-family: sans-serif;
-
-  @include breakpoint(mobile) {
-    margin: 0;
-  }
+  margin: 0;
+  background: #3568ba;
+  color: white;
 }
 
 .content {
