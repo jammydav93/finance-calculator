@@ -13,7 +13,7 @@ const mapStateToProps = (state) => {
 const Navigation = ({authUser}) => {
   console.log('authUser2=', authUser)
   return (  
-    <div>
+    <div className='navbar'>
       {
         authUser ? <NavigationAuth /> : <NavigationNonAuth />
       }
@@ -22,17 +22,15 @@ const Navigation = ({authUser}) => {
 }
 
 const NavigationAuth = () =>
-  <div className="navbar">
+  <React.Fragment>
     <LoadButton />
     <SaveButton />
     <SignOutButton />
-  </div>
+  </React.Fragment>
+
+
 
 const NavigationNonAuth = () =>
-  <div className="navbar">
     <SignInButton />
-  </div>
-
-
 
 export default connect(mapStateToProps)(Navigation);

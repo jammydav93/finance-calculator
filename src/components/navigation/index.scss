@@ -2,13 +2,19 @@
 
 .navbar {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   margin: 5px 0;
 
-  a, button {
-    margin: 0 10%;
-    min-height: 100%;
-    white-space: nowrap;
+  div {
+    display: inline-flex;
+    width: 20%;
+    min-width: 100px;
   }
 
+  a, button {
+    height: 100%;
+    width: 100%;
+    white-space: nowrap;
+  }
 }
