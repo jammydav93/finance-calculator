@@ -1,13 +1,14 @@
 @import '../../App.scss';
 
 .navbar {
+  background: #6284BB;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 0 100px;
+  padding: 5px 100px;
 
   @include breakpoint(mobile) {
-    padding: 0 10px;
+    padding: 5px 10px;
   }
 
   div {
@@ -21,6 +22,7 @@
   }
 
   a, button {
+    background: #629EFF;
     height: 100%;
     width: 100%;
     white-space: nowrap;
