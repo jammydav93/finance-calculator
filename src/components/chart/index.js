@@ -17,11 +17,10 @@ const Chart = ({selectingFormValues}) => {
     return null;
   }
 
-  const chartData = [];
-  
-  transactionData.forEach(function(item) {
-    chartData.push({name: item.description, costPence: item.costPence, value: [item.date.toISOString(), item.finalBalancePence/100]})
-  });
+  const chartData = transactionData.map(item => ({
+      name: item.description, costPence: item.costPence, value: [item.date.toISOString(), item.finalBalancePence/100]
+    })
+  );
 
   const formatDate = (date) => {
     const parsedDate = new Date(date)
@@ -32,6 +31,11 @@ const Chart = ({selectingFormValues}) => {
   const formatCost = (amount) => amount
     ? new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(amount)
     : '£0.00'
+
+  const balancesArray = chartData.map(a => a.value[1]);
+
+  const minYValue = Math.min(...balancesArray) - 500;
+  const maxYValue = Math.max(...balancesArray) + 500;
 
   const option = {
     tooltip : {
@@ -81,9 +85,13 @@ const Chart = ({selectingFormValues}) => {
     yAxis : [
       {
         type : 'value',
+        min: minYValue,
+        max: maxYValue,
         axisLabel : {
-          formatter: '£{value}'
-        }
+          formatter: (function(value){
+            return formatCost(value);
+          })
+        },
       }
     ],
     series : [

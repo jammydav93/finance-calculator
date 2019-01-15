@@ -117,7 +117,7 @@ const renderMembers = (props) => {
 
   return (
     <React.Fragment>
-      <ExpansionPanel>
+      <ExpansionPanel defaultExpanded={true}>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           {`${title} (${itemCount})`}
         </ExpansionPanelSummary>
