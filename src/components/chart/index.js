@@ -13,7 +13,7 @@ const mapStateToProps = state => (
 const Chart = ({selectingFormValues}) => {
   const transactionData = generateTransactions(prop('values', selectingFormValues));
 
-  if (transactionData.length <= 1) {
+  if (transactionData.length < 1) {
     return null;
   }
 
@@ -31,7 +31,7 @@ const Chart = ({selectingFormValues}) => {
 
   const formatCost = (amount) => amount
     ? new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(amount)
-    : ''
+    : '£0.00'
 
   const option = {
     tooltip : {
@@ -39,11 +39,17 @@ const Chart = ({selectingFormValues}) => {
       formatter: function (params) {
         params = params[0];
         const date = new Date(params.value[0]);
-        const formattedDescription = is(Array, params.name)
-          ? params.name.reduce(
-              (accumulator, current) =>  accumulator + `<br>${current.description} (${current.cost >= 0 ? '+' : ''}${formatCost(current.cost)})`, ''
-            )
-          : ''
+
+        let formattedDescription
+
+        if (is(Array, params.name)) {
+          formattedDescription = params.name.reduce(
+            (accumulator, current) =>  accumulator + `<br>${current.description} (${current.cost >= 0 ? '+' : ''}${formatCost(current.cost)})`, ''
+          )
+        } else {
+          formattedDescription = `<br>${params.name}`
+        }
+
         const balance = params.value[1]
 
         return `${formatDate(date)} -> ${formatCost(balance)}:${formattedDescription}`;
@@ -62,6 +68,8 @@ const Chart = ({selectingFormValues}) => {
     xAxis : [
       {
         type : 'time',
+        min: chartData[0].value[0],
+        max: chartData[chartData.length -1].value[0],
         axisLabel: {
           formatter: (function(value){
             return formatDate(value);
@@ -80,7 +88,7 @@ const Chart = ({selectingFormValues}) => {
     ],
     series : [
       {
-        type:'line',
+        type: 'line',
         step: 'end',
         data: chartData,
       }

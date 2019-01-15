@@ -31,9 +31,9 @@ export function generateTransactions(formDataValues) {
   let startDate, endDate, runningDate, initBalancePence;
 
   if (formDataValues) {
-    startDate = moment(formDataValues.startDate);
+    startDate = moment(formDataValues.startDate).startOf('day').add(12, 'h');
+    endDate = moment(formDataValues.endDate).startOf('day').add(12, 'h');
     runningDate = moment(formDataValues.startDate).add(1, 'day');
-    endDate = moment(formDataValues.endDate);
     initBalancePence = toPence(formDataValues.initialBalance) || 0;
   }
 
@@ -101,6 +101,14 @@ export function generateTransactions(formDataValues) {
           description: daysTransactions,
           initBalancePence: dayInitialBalance,
           finalBalancePence: dayInitialBalance + totalCostPence,
+        });
+      } else {
+        transactions.push({
+          transactionID: transactions.length,
+          date: moment(runningDate),
+          description: 'No transactions',
+          initBalancePence: dayInitialBalance,
+          finalBalancePence: dayInitialBalance,
         });
       }
 
