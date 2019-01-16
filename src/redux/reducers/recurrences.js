@@ -2,9 +2,44 @@ import moment from 'moment';
 
 const initialFormData = {
   startDate: moment(),
-  endDate: moment().add(1, 'M'),
-  initialBalance: null,
+  endDate: moment().add(1, 'M').add(2, 'd'),
+  initialBalance: "200",
   loadedCounter: 0,
+  income: [
+    {
+      type: 'incoming',
+      cost: '1000.00',
+      costPence: 100000,
+      description: 'Salary 1',
+      recurrenceDate: '18',
+      regularity: 'monthly',
+    }
+  ],
+  outcome: [
+    {
+      type: 'outgoing',
+      cost: '500.00',
+      costPence: 50000,
+      description: 'Rent',
+      recurrenceDate: '24',
+      regularity: 'monthly',
+    },
+    {
+      type: 'outgoing',
+      cost: '60.00',
+      costPence: 6000,
+      description: 'Food',
+      recurrenceDate: '1',
+      regularity: 'weekly',
+    },
+    {
+      type: 'outgoing',
+      cost: '10.00',
+      costPence: 1000,
+      description: 'Train to work',
+      regularity: 'weekdays',
+    }
+  ],
 };
 
 const INITIAL_STATE = {
