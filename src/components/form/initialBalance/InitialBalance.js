@@ -13,6 +13,7 @@ const FieldForm = props => (
       <div>
         <CurrencyField
           name={props.type}
+          isInitialBalance={true}
         />
       </div>
     </form>
