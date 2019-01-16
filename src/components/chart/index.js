@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { prop, is } from 'ramda'
 import { generateTransactions } from '../../helperFunctions';
 import ReactEcharts from 'echarts-for-react';
-
+import './index.scss'
 const mapStateToProps = state => (
   {
     selectingFormValues: state.form.selectingFormValues,
@@ -104,7 +104,7 @@ const Chart = ({selectingFormValues}) => {
   };
 
   return (
-    <div className="Chart">
+    <div className="chart">
       <ReactEcharts
         option={option}
         notMerge={true}
