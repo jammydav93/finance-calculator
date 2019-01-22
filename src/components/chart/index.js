@@ -59,7 +59,14 @@ const Chart = ({selectingFormValues}) => {
                       week: 'MMM DD',
                   }
               }
-          }]
+          }],
+          yAxes: [
+            {
+              ticks: {
+                callback: (label) => formatCost(label)
+              },
+            }
+          ]
       },
       tooltips: {
         mode: 'x',
