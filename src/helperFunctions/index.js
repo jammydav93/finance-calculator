@@ -33,7 +33,7 @@ export function generateTransactions(formDataValues) {
   if (formDataValues) {
     startDate = moment(formDataValues.startDate).startOf('day').add(12, 'h');
     endDate = moment(formDataValues.endDate).startOf('day').add(12, 'h');
-    runningDate = moment(formDataValues.startDate).add(1, 'day');
+    runningDate = moment(formDataValues.startDate).startOf('day').add(1, 'day');
     initBalancePence = toPence(formDataValues.initialBalance) || 0;
   }
 
@@ -44,7 +44,7 @@ export function generateTransactions(formDataValues) {
     transactions.push({
       transactionID: -1,
       date: moment(startDate),
-      description: 'Initial balance',
+      daysTransactions: [{description: 'Initial balance'}],
       cost: null,
       costPence: null,
       initBalancePence,
@@ -55,7 +55,7 @@ export function generateTransactions(formDataValues) {
       let daysTransactions = []
       const dayInitialBalance = transactions[transactions.length -1].finalBalancePence
 
-      for (let i = 0; i < allRecurrences.length; i++) {
+      for (let i = 0; i < allRecurrences.length - 1; i++) {
         const regularity = allRecurrences[i].regularity;
         const recurrenceDate = allRecurrences[i].recurrenceDate
 
@@ -98,7 +98,7 @@ export function generateTransactions(formDataValues) {
         transactions.push({
           transactionID: transactions.length,
           date: moment(runningDate),
-          description: daysTransactions,
+          daysTransactions,
           initBalancePence: dayInitialBalance,
           finalBalancePence: dayInitialBalance + totalCostPence,
         });
@@ -106,7 +106,7 @@ export function generateTransactions(formDataValues) {
         transactions.push({
           transactionID: transactions.length,
           date: moment(runningDate),
-          description: 'No transactions',
+          daysTransactions: [{description: 'No transactions'}],
           initBalancePence: dayInitialBalance,
           finalBalancePence: dayInitialBalance,
         });
