@@ -81,14 +81,17 @@ const Chart = ({selectingFormValues}) => {
           title: (tooltipItems) => {
             const date = moment(tooltipItems[0].xLabel).format("DD/M/YYYY");
             const finalBalance = tooltipItems[0].yLabel
-            return `${date}: ${formatCost(finalBalance)}`
+            return `${date} | ${formatCost(finalBalance)}`
           },
           label: (tooltipItems, data) => { 
               const item = path(['datasets', [0], 'data', [tooltipItems.index]], data)
               return item.daysTransactions
                 ? item.daysTransactions.map((t) => {
                   const amountPrefix = t.cost > 0 ? '+' : ''
-                  return `${t.description} (${amountPrefix}${formatCost(t.cost)})`
+                  const formattedAmount = t.cost
+                    ? ` (${amountPrefix}${formatCost(t.cost)})` 
+                    : ''
+                  return `${t.description}${formattedAmount}`
                 })
                 : null
           },
