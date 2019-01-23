@@ -36,9 +36,8 @@ const Chart = ({selectingFormValues}) => {
           pointBackgroundColor: '#3cba9f',
           pointHoverBackgroundColor: '#3cba9f',
           pointStyle: 'circle',
-          pointRadius: 5,
-          pointHoverRadius: 10,
-          pointHitRadius: 5,
+          pointRadius: 2,
+          pointHoverRadius: 4,
         }
       ]
     };
