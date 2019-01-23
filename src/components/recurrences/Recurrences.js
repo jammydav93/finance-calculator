@@ -4,6 +4,7 @@ import {
   Field,
   FieldArray,
   reduxForm,
+  change,
 } from 'redux-form';
 import { withStyles } from '@material-ui/core/styles';
 import {
@@ -149,6 +150,9 @@ const renderMembers = (props) => {
                   <Field
                     name={`${member}.regularity`}
                     component="select"
+                    onChange={() => {
+                      props.changeFormValue(selectingFormValues, member, type, index, 'recurrenceDate', null)
+                    }}
                   >
                     <option disabled hidden style={{display: 'none'}} value=''></option>
                     {RECURRENCE_OPTIONS.map((x) =>
@@ -187,7 +191,14 @@ const mapStateToProps = state => (
   }
 );
 
-const renderMembersConnected = connect(mapStateToProps)(renderMembers);
+const mapDispatchToProps = (dispatch) => ({
+  changeFormValue: (selectingFormValues, member, type, index, key, value) => {
+    const previousData = selectingFormValues[type][index]
+    dispatch(change(['selectingFormValues'], member, {...previousData, [key]: value} ));
+  },
+})
+
+const renderMembersConnected = connect(mapStateToProps, mapDispatchToProps)(renderMembers);
 
 let FieldArraysForm = props => (
   <form className={props.className}>
