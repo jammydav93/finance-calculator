@@ -86,9 +86,10 @@ const Chart = ({selectingFormValues}) => {
           label: (tooltipItems, data) => { 
               const item = path(['datasets', [0], 'data', [tooltipItems.index]], data)
               return item.daysTransactions
-                ? item.daysTransactions.map(
-                  (t) => `${t.description}${t.cost ? ` (${formatCost(t.cost)})` : ''}`
-                )
+                ? item.daysTransactions.map((t) => {
+                  const amountPrefix = t.cost > 0 ? '+' : ''
+                  return `${t.description} (${amountPrefix}${formatCost(t.cost)})`
+                })
                 : null
           },
         }
