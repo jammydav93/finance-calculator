@@ -24,6 +24,8 @@ const Chart = ({selectingFormValues}) => {
   );
 
   const formatCost = (amount) => new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(amount || 0)
+  
+  const lineColor = '#3cba9f'
 
   const data = {
       datasets: [
@@ -32,9 +34,10 @@ const Chart = ({selectingFormValues}) => {
           label: 'Balance',
           steppedLine: true,
           fill: false,
-          borderColor: '#3cba9f',
-          pointBackgroundColor: '#3cba9f',
-          pointHoverBackgroundColor: '#3cba9f',
+          backgroundColor: lineColor,
+          borderColor: lineColor,
+          pointBackgroundColor: lineColor,
+          pointHoverBackgroundColor: lineColor,
           pointStyle: 'circle',
           pointRadius: 2,
           pointHoverRadius: 4,
@@ -44,6 +47,9 @@ const Chart = ({selectingFormValues}) => {
     
     const options = {
       maintainAspectRatio: false,
+      legend: {
+        onClick: () => {}
+      },
       scales: {
           xAxes: [{
               title: "time",
