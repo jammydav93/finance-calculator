@@ -3,6 +3,7 @@ import {
   Field,
   reduxForm,
 } from 'redux-form';
+import { TextField } from '@material-ui/core';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './daterangeinput.scss';
@@ -15,6 +16,7 @@ const renderDatePicker = ({ input, label, meta: { touched, error } }) => (
       {label}
     </div>
     <DatePicker
+      customInput={<TextField variant="outlined" />}
       name={input.name}
       onChange={ (a) => (input.onChange(moment(a))) }
       dateFormat="DD-MM-YYYY"

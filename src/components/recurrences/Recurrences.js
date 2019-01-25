@@ -12,6 +12,9 @@ import {
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails as MuiExpansionPanelDetails,
+  TextField,
+  Select,
+  MenuItem,
 } from '@material-ui/core';
 import { 
   AddCircle,
@@ -27,6 +30,13 @@ import { RECURRENCE_OPTIONS } from '../../constants/recurrences';
 import CurrencyField from '../form/currency/CurrencyField';
 // import validate from './validate'
 
+const SelectInput = ({input, options}) => 
+  <Select {...input}>
+      {options.map((x) =>
+        <MenuItem key={x.description} value={x.value}>{x.description}</MenuItem>
+      )}
+  </Select>
+
 const renderField = (
   {
     input,
@@ -36,7 +46,7 @@ const renderField = (
   }
 ) => (
   <div>
-      <input {...input} type={type} placeholder={label} />
+      <TextField {...input} type={type} placeholder={label} />
       {touched && error && <span>{error}</span>}
   </div>
 );
@@ -44,6 +54,7 @@ const renderField = (
 const renderDatePicker = ({ input, meta: { touched, error } }) => (
   <div>
     <DatePicker
+      customInput={<TextField />}
       name={input.name}
       onChange={ (a) => (input.onChange(moment(a).toISOString())) }
       dateFormat="DD-MM-YYYY"
@@ -59,36 +70,30 @@ const renderDateField = (member, regularity) => {
 
     // Use ISO weekday convention (http://momentjs.com/docs/#/get-set/iso-weekday/)
       const WeeklyList =[
-        { num: 1, day: 'Mon' },
-        { num: 2, day: 'Tue' },
-        { num: 3, day: 'Wed' },
-        { num: 4, day: 'Thu' },
-        { num: 5, day: 'Fri' },
-        { num: 6, day: 'Sat' },
-        { num: 7, day: 'Sun' },
+        { value: 2, description: 'Tue' },
+        { value: 3, description: 'Wed' },
+        { value: 4, description: 'Thu' },
+        { value: 5, description: 'Fri' },
+        { value: 6, description: 'Sat' },
+        { value: 7, description: 'Sun' },
        ];
 
       return (
         <Field
           name={`${member}.recurrenceDate`}
-          component='select'
-        >
-          {WeeklyList.map((x) =>
-            <option key={x.day} value={x.num}>{x.day}</option>
-          )}
-        </Field>);
+          component={SelectInput}
+          options={WeeklyList}
+        />
+      )
 
     case 'monthly':
-      const MonthlyList = Array.from(new Array(31), (val, index) => index+1 );
+      const MonthlyList = Array.from(new Array(31), (val, index) => ({value: index+1, description: index+1}) );
 
       return <Field
               name={`${member}.recurrenceDate`}
-              component='select'
-            >
-                {MonthlyList.map((x) =>
-                  <option key={x} value={x}>{x}</option>
-                )}
-              </Field>
+              component={SelectInput}
+              options={MonthlyList}
+            />
 
     case 'quaterly':
     case '4 weekly':
@@ -149,21 +154,12 @@ const renderMembers = (props) => {
                   <td className="regularity">
                   <Field
                     name={`${member}.regularity`}
-                    component="select"
+                    component={SelectInput}
+                    options={RECURRENCE_OPTIONS}
                     onChange={() => {
                       props.changeFormValue(selectingFormValues, member, type, index, 'recurrenceDate', null)
                     }}
-                  >
-                    <option disabled hidden style={{display: 'none'}} value=''></option>
-                    {RECURRENCE_OPTIONS.map((x) =>
-                      <option
-                        key={x.value}
-                        value={x.value}
-                        disabled={x.disabled ? true : false }>
-                          {x.description}
-                      </option>
-                    )}
-                  </Field>
+                  />
                 </td>
                   <td className="date">
                       { renderDateField(member, selectingFormValues[fields.name][index].regularity) }
