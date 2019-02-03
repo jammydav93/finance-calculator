@@ -22,22 +22,17 @@
 .recurrences {
   @include breakpoint(desktop) {
     display: flex;
-    justify-content: center;
-    vertical-align: top;
-    width: 100%;
-    padding-right: 20px;
-    margin: 0;
+    justify-content: space-between;
   }
 }
 
 .recurrenceTable{
   width: 100%;
   display: block;
-  margin: 10px 10px 10px 0px;
+  margin: 10px 0 10px;
 
   @include breakpoint(desktop) {
     display: inline-block;
-    width: 48%;
-    padding-right: 20px;
+    width: 49.5%;
   }
 }
