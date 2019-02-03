@@ -6,7 +6,7 @@ import './initialbalance.scss';
 // import validate from './validate'
 
 const FieldForm = props => (
-    <form className={`${props.className} amount`}>
+    <div className={`${props.className} amount`}>
       <div className="label">
         {props.label}
       </div>
@@ -17,7 +17,7 @@ const FieldForm = props => (
           otherProps={{ variant: 'outlined' }}
         />
       </div>
-    </form>
+    </div>
 );
 
 // No need to map intialState to form as linked within Recurrences component

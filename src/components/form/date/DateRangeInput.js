@@ -26,11 +26,13 @@ const renderDatePicker = ({ input, label, meta: { touched, error } }) => (
   </div>
 );
 
-const FieldForm = props => (
-  <form className={props.className}>
-    <Field name={props.type} defaultDate={props.defaultDate} label={props.label} component={renderDatePicker} />
-  </form>
-);
+const FieldForm = props =>
+  <Field
+    name={props.type}
+    defaultDate={props.defaultDate}
+    label={props.label}
+    component={renderDatePicker}
+  />
 
 // No need to map intialState to form as linked within Recurrences component
 export default reduxForm({

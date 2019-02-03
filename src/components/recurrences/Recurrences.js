@@ -213,10 +213,10 @@ const mapDispatchToProps = (dispatch) => ({
 
 const renderMembersConnected = connect(mapStateToProps, mapDispatchToProps)(renderMembers);
 
-let FieldArraysForm = props => (
-  <form className={props.className}>
+let FieldArraysForm = (props) => (
+  <div className={props.className}>
     <FieldArray name={props.type} props={{type: props.type}} component={renderMembersConnected} />
-  </form>
+  </div>
 );
 
 FieldArraysForm = reduxForm({
