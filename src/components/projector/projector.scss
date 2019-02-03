@@ -33,7 +33,7 @@
 .recurrenceTable{
   width: 100%;
   display: block;
-  padding-bottom: 10px;
+  margin: 10px 10px 10px 0px;
 
   @include breakpoint(desktop) {
     display: inline-block;

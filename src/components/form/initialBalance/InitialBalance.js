@@ -14,7 +14,7 @@ const FieldForm = props => (
         <CurrencyField
           name={props.type}
           isInitialBalance={true}
-          inputProps={{ variant: 'outlined' }}
+          otherProps={{ variant: 'outlined' }}
         />
       </div>
     </form>

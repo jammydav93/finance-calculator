@@ -46,7 +46,7 @@ body {
   padding: 10px 10px;
 
   @include breakpoint(mobile) {
-    padding: 10px 5px;
+    padding: 10px 3px;
   }
 }
 

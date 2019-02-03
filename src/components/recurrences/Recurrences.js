@@ -30,8 +30,8 @@ import { RECURRENCE_OPTIONS } from '../../constants/recurrences';
 import CurrencyField from '../form/currency/CurrencyField';
 // import validate from './validate'
 
-const SelectInput = ({input, options}) => 
-  <Select {...input}>
+const SelectInput = ({input, options, className}) => 
+  <Select className={`${className}`} {...input}>
       {options.map((x) =>
         <MenuItem key={x.description} value={x.value}>{x.description}</MenuItem>
       )}
@@ -42,16 +42,25 @@ const renderField = (
     input,
     label,
     type,
+    className,
     meta: { touched, error },
   }
 ) => (
   <div>
-      <TextField {...input} type={type} placeholder={label} />
+      <TextField
+        {...input}
+        className={className}
+        type={type}
+        placeholder={label} 
+        inputProps={{
+          className,
+        }}
+      />
       {touched && error && <span>{error}</span>}
   </div>
 );
 
-const renderDatePicker = ({ input, meta: { touched, error } }) => (
+const renderDatePicker = ({ input, className, meta: { touched, error } }) => (
   <div>
     <DatePicker
       customInput={<TextField />}
@@ -59,15 +68,16 @@ const renderDatePicker = ({ input, meta: { touched, error } }) => (
       onChange={ (a) => (input.onChange(moment(a).toISOString())) }
       dateFormat="DD-MM-YYYY"
       selected={input.value ? moment(input.value) : null}
+      className={className}
     />
     {touched && error && <span>{error}</span>}
   </div>
 );
 
 const renderDateField = (member, regularity) => {
+  const className = 'date'
   switch (regularity) {
     case 'weekly':
-
     // Use ISO weekday convention (http://momentjs.com/docs/#/get-set/iso-weekday/)
       const WeeklyList =[
         { value: 2, description: 'Tue' },
@@ -77,41 +87,40 @@ const renderDateField = (member, regularity) => {
         { value: 6, description: 'Sat' },
         { value: 7, description: 'Sun' },
        ];
-
       return (
         <Field
           name={`${member}.recurrenceDate`}
           component={SelectInput}
           options={WeeklyList}
+          className={className}
         />
       )
-
     case 'monthly':
       const MonthlyList = Array.from(new Array(31), (val, index) => ({value: index+1, description: index+1}) );
-
       return <Field
               name={`${member}.recurrenceDate`}
               component={SelectInput}
               options={MonthlyList}
-            />
+              className={className}
 
+            />
     case 'quaterly':
     case '4 weekly':
       return <Field
               name={`${member}.recurrenceDate`}
               component={renderDatePicker}
+              className={className}
              />;
-
     case 'daily':
     case 'week daily':
     default:
-      return null;
+      return <div className={className} />;
   }
 };
 
 const ExpansionPanelDetails = withStyles(() => ({
   root: {
-    padding: 10,
+    padding: '10px 10px 5px 5px',
   },
 }))(MuiExpansionPanelDetails);
 
@@ -128,51 +137,59 @@ const renderMembers = (props) => {
           {`${title} (${itemCount})`}
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <table className="table-container">
-            <tr className="table-row">
-              <th className="description header" >Description</th>
-              <th className="cost header" >Amount</th>
-              <th className="regularity header" >Regularity</th>
-              <th className="date header" >Date</th>
-              <th className="remove header" ></th>
-            </tr>
-            {
-              fields.map((member, index) => (
-                <tr className="table-row" key={index}>
-                  <td className="description">
-                    <Field
-                      name={`${member}.description`}
-                      type="text"
-                      component={renderField}
-                    />
-                  </td>
-                  <td className="cost">
-                    <CurrencyField
-                      name={`${member}.cost`}
-                    />
-                  </td>
-                  <td className="regularity">
-                  <Field
-                    name={`${member}.regularity`}
-                    component={SelectInput}
-                    options={RECURRENCE_OPTIONS}
-                    onChange={() => {
-                      props.changeFormValue(selectingFormValues, member, type, index, 'recurrenceDate', null)
-                    }}
-                  />
-                </td>
-                  <td className="date">
-                      { renderDateField(member, selectingFormValues[fields.name][index].regularity) }
-                  </td>
-                  <td className="remove">
-                    <IconButton aria-label="Delete">
-                      <Delete onClick={() => fields.remove(index)}/>
-                    </IconButton>
-                  </td>
-                </tr>)
-              )}
+          <div className='table-container'>
+            <table className="table">
+              <tr className="table-row">
+                <th className="description header" >Name</th>
+                <th className="amount header" >Value<br/>(£)</th>
+                <th className="regularity header" >Occurs</th>
+                <th className="date header" >Date</th>
+                <th className="remove header" ></th>
+              </tr>
+              {
+                fields.map((member, index) => (
+                  <tr className="table-row" key={index}>
+                    <td>
+                      <Field
+                        name={`${member}.description`}
+                        type="text"
+                        component={renderField}
+                        className='description'
+                      />
+                    </td>
+                    <td>
+                      <CurrencyField
+                        name={`${member}.cost`}
+                        className='amount'
+                      />
+                    </td>
+                    <td>
+                      <Field
+                        name={`${member}.regularity`}
+                        component={SelectInput}
+                        className='regularity'
+                        options={RECURRENCE_OPTIONS}
+                        onChange={() => {
+                          props.changeFormValue(selectingFormValues, member, type, index, 'recurrenceDate', null)
+                        }}
+                      />
+                    </td>
+                    <td>
+                        { renderDateField(member, selectingFormValues[fields.name][index].regularity) }
+                    </td>
+                    <td className='remove'>
+                      <IconButton aria-label="Delete">
+                        <Delete onClick={() => fields.remove(index)}/>
+                      </IconButton>
+                    </td>
+                  </tr>)
+                )}
+            </table>
+            <div className='add-button'>
             <AddCircle onClick={() => fields.push({})} />
-          </table>
+
+            </div>
+          </div>
         </ExpansionPanelDetails>
       </ExpansionPanel>
 

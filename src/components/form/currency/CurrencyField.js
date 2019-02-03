@@ -1,5 +1,6 @@
 import React from 'react';
 import { Field } from 'redux-form';
+import classnames from 'classnames';
 import { TextField } from '@material-ui/core';
 import './currency.scss';
 
@@ -22,25 +23,28 @@ const normalize = (isInitialBalance) => (value, prevValue) => {
   const normalisedValue = matches[0] || '' + matches[1] || '' + matches[2] || ''
 
   return normalisedValue
-
 }
 
-const CurrencyInput = ({ input, inputProps }) => 
+const CurrencyInput = ({ input, className, otherProps }) => 
   <TextField
     className="currency"
     type="number"
     value={input.value}
     onChange={input.onChange}
     onBlur={input.onChange}
-    {...inputProps}
+    {...otherProps}
+    inputProps={{
+      className: classnames('currency', className)
+    }}
   />
 
-const CurrencyField = ({ name, isInitialBalance = false, inputProps}) =>
+const CurrencyField = ({ name, isInitialBalance = false, className, otherProps}) =>
   <Field
     name={name}
     component={CurrencyInput}
     normalize={normalize(isInitialBalance)}
-    inputProps={inputProps}
+    otherProps={otherProps}
+    className={className}
   />
 
 export default CurrencyField;

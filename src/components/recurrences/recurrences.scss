@@ -1,80 +1,42 @@
 @import '../../App.scss';
 
-.table-container {
+.table {
   width: 100%;
-  border: 1px solid black;
   border-spacing: 2px 1px;
-
-  tr > td {
-    padding: 0px 3px;
-  }
-
-  tr:nth-child(odd){background-color: #f2f2f2}
 }
 
-.table-row {
-  max-height: 20px;
+.table-container {
+  margin: auto;
 }
 
 .header {
   text-align: left;
   vertical-align: top;
-  font-size: 13px;
 }
 
 .description {
-
-  @include breakpoint(mobile) {
-    width: 80px;
-  }
-  @include breakpoint(tablet) {
-    width: 200px;
-    
-  }
-
-  div, input {
-    width: 100%;
-  }
+  min-width: 57px;
+  max-width: 300px;
 }
 
-.cost {
-  @include breakpoint(mobile) {
-    width: 50px;
-  }
-  @include breakpoint(tablet) {
-    width: 200px;
-  }
-
-  div, input {
-    width: 95%;
-  }
+.amount {
+  min-width: 72px;
+  max-width: 95px;
 }
-
 
 .regularity {
-  @include breakpoint(mobile) {
-    min-width: 83px;
-    width: 83px;
-    max-width: 83px;
-  }
-
-  select {
-    width: 100%;
+  min-width: 95px;
+  max-width: 95px;
+  
+  @include breakpoint(tablet) {
+    min-width: 105px;
+    max-width: 105px;  
   }
 }
 
 .date {
-  @include breakpoint(mobile) {
-    width: 75px;
-  }
-  @include breakpoint(tablet) {
-    width: 75px;
-    
-  }
-
-  input {
-    width: 100%;
-  }
+  min-width: 84px;
+  max-width: 84px;
 }
 
 .remove {
@@ -87,6 +49,10 @@
   }
 }
 
-.button {
-  margin-bottom: 10px;
+.add-button {
+  display: flex;
+  svg {
+    margin: auto;
+    padding-top: 10px;
+  }
 }
