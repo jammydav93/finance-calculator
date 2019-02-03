@@ -141,7 +141,7 @@ const renderMembers = (props) => {
             <table className="table">
               <tr className="table-row">
                 <th className="description header" >Name</th>
-                <th className="amount header" >Value<br/>(£)</th>
+                <th className="amount header" >Value (£)</th>
                 <th className="regularity header" >Occurs</th>
                 <th className="date header" >Date</th>
                 <th className="remove header" ></th>
