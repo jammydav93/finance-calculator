@@ -1,5 +1,6 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import CurrencyField from '../currency/CurrencyField';
 import './initialbalance.scss';
 
@@ -15,6 +16,9 @@ const FieldForm = props => (
           name={props.type}
           isInitialBalance={true}
           otherProps={{ variant: 'outlined' }}
+          InputProps={{
+            startAdornment: <InputAdornment position="start">£</InputAdornment>,
+          }}
         />
       </div>
     </div>

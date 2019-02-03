@@ -25,7 +25,7 @@ const normalize = (isInitialBalance) => (value, prevValue) => {
   return normalisedValue
 }
 
-const CurrencyInput = ({ input, className, otherProps }) => 
+const CurrencyInput = ({ input, className, InputProps, otherProps }) => 
   <TextField
     className="currency"
     type="number"
@@ -34,15 +34,17 @@ const CurrencyInput = ({ input, className, otherProps }) =>
     onBlur={input.onChange}
     {...otherProps}
     inputProps={{
-      className: classnames('currency', className)
+      className: classnames('currency', className),
     }}
+    InputProps={InputProps} //eslint-disable-line
   />
 
-const CurrencyField = ({ name, isInitialBalance = false, className, otherProps}) =>
+const CurrencyField = ({ name, isInitialBalance = false, className, InputProps, otherProps}) =>
   <Field
     name={name}
     component={CurrencyInput}
     normalize={normalize(isInitialBalance)}
+    InputProps={InputProps}
     otherProps={otherProps}
     className={className}
   />
