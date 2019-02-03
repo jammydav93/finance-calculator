@@ -7,7 +7,7 @@ import './initialbalance.scss';
 // import validate from './validate'
 
 const FieldForm = props => (
-    <div className={`${props.className} amount`}>
+    <div className={`${props.className} initial-amount`}>
       <div className="label">
         {props.label}
       </div>

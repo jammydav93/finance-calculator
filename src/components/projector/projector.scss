@@ -8,14 +8,13 @@
 }
 
 .primary-fields {
-  padding: 10px;
   display: flex;
-  justify-content: center;
-  margin-bottom: 0px;
+  justify-content: space-between;
+  margin: 0 25%;
   vertical-align: bottom;
 
-  form {
-    margin: 0px 5%;
+  @include breakpoint(mobile){
+    margin: 0 2.5%;
   }
 }
 
