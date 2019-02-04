@@ -67,6 +67,8 @@ const renderDatePicker = ({ input, className, meta: { touched, error } }) => (
       name={input.name}
       onChange={ (a) => input.onChange(moment(a)) }
       dateFormat="dd-MM-yyyy"
+      popperClassName="date-picker-popper"
+      popperPlacement="bottom-end"
       selected={input.value ? new Date(input.value) : null}
       className={className}
     />

@@ -39,6 +39,12 @@
   max-width: 84px;
 }
 
+.date-picker-popper {
+    div[class$="triangle"] {
+      left: 80%;
+  }
+}
+
 .remove {
   min-width: 24px;
   max-width: 24px;
