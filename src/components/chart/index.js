@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { prop, path } from 'ramda'
 import { generateTransactions } from '../../helperFunctions';
-import './index.scss'
 import { Line } from 'react-chartjs-2';
 import moment from 'moment'
 

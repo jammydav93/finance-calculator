@@ -42,11 +42,15 @@ body {
 }
 
 .content {
+  margin: auto;
   background-color: #a0c1f7;
   padding: 10px 10px;
 
-  @include breakpoint(mobile) {
-    padding: 10px 3px;
+  @include breakpoint(tablet) {
+    max-width: 750px;
+  }
+  @include breakpoint(desktop) {
+    max-width: 1200px;
   }
 }
 

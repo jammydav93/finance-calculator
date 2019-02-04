@@ -6,7 +6,7 @@ import Chart from '../chart';
 import './projector.scss';
 
 const AllRecurrences = () => (
-  <div>
+  <React.Fragment>
     <div className="primary-fields">
       <DateRangeInput type='startDate' label='Start' />
       <DateRangeInput type='endDate' label='End' />
@@ -16,8 +16,10 @@ const AllRecurrences = () => (
       <Recurrences type='income' className='recurrenceTable' />
       <Recurrences type='outcome' className='recurrenceTable' />
     </div>
-    <Chart />
-  </div>
+    <div className='chart'>
+      <Chart />
+    </div>
+  </React.Fragment>
 );
 
 export default AllRecurrences
