@@ -65,9 +65,9 @@ const renderDatePicker = ({ input, className, meta: { touched, error } }) => (
     <DatePicker
       customInput={<TextField />}
       name={input.name}
-      onChange={ (a) => (input.onChange(moment(a).toISOString())) }
-      dateFormat="DD-MM-YYYY"
-      selected={input.value ? moment(input.value) : null}
+      onChange={ (a) => input.onChange(moment(a)) }
+      dateFormat="dd-MM-yyyy"
+      selected={input.value ? new Date(input.value) : null}
       className={className}
     />
     {touched && error && <span>{error}</span>}
