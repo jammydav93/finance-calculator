@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field } from 'redux-form';
 import classnames from 'classnames';
-import { TextField } from '@material-ui/core';
+import { TextField, InputAdornment } from '@material-ui/core';
 import './currency.scss';
 
 const normalize = (isInitialBalance) => (value, prevValue) => {
@@ -36,7 +36,10 @@ const CurrencyInput = ({ input, className, InputProps, otherProps }) =>
     inputProps={{
       className: classnames('currency', className),
     }}
-    InputProps={InputProps} //eslint-disable-line
+    InputProps={{  //eslint-disable-line
+      startAdornment: <InputAdornment position="start">£</InputAdornment>,
+      ...InputProps
+    }}
   />
 
 const CurrencyField = ({ name, isInitialBalance = false, className, InputProps, otherProps}) =>

@@ -44,7 +44,7 @@ body {
 .content {
   margin: auto;
   background-color: #a0c1f7;
-  padding: 10px 10px;
+  padding: 10px 5px;
 
   @include breakpoint(tablet) {
     max-width: 750px;
