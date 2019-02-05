@@ -1,7 +1,11 @@
 import React from 'react';
 import { Field } from 'redux-form';
 import classnames from 'classnames';
-import { TextField, InputAdornment } from '@material-ui/core';
+import { 
+  TextField,
+  InputAdornment as MuiInputAdornment,
+  withStyles,
+} from '@material-ui/core';
 import './currency.scss';
 
 const normalize = (isInitialBalance) => (value, prevValue) => {
@@ -24,6 +28,13 @@ const normalize = (isInitialBalance) => (value, prevValue) => {
 
   return normalisedValue
 }
+
+const InputAdornment = withStyles(() => ({
+  root: {
+    margin: '0px',
+    paddingRight: '2px',
+  },
+}))(MuiInputAdornment);
 
 const CurrencyInput = ({ input, className, InputProps, otherProps }) => 
   <TextField
