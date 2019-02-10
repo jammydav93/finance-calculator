@@ -6,9 +6,9 @@ import {
   reduxForm,
   change,
 } from 'redux-form';
-import { withStyles } from '@material-ui/core/styles';
 import {
   IconButton,
+  withStyles,
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails as MuiExpansionPanelDetails,
@@ -29,6 +29,14 @@ import moment from 'moment';
 import { RECURRENCE_OPTIONS } from '../../constants/recurrences';
 import CurrencyField from '../form/currency/CurrencyField';
 // import validate from './validate'
+
+import {
+  Table,
+  TableBody,
+  TableCell as MuiTableCell,
+  TableHead,
+  TableRow,
+} from '@material-ui/core';
 
 const SelectInput = ({input, options, className}) => 
   <Select className={`${className}`} {...input}>
@@ -122,9 +130,17 @@ const renderDateField = (member, regularity) => {
 
 const ExpansionPanelDetails = withStyles(() => ({
   root: {
-    padding: '10px 10px 5px 5px',
+    padding: '0px 3px 5px',
   },
 }))(MuiExpansionPanelDetails);
+
+const TableCell = withStyles(() => ({
+  root: {
+    padding: '2px',
+    '&:last-child': { padding: '0' },
+    '&:first-child': { paddingLeft: '0'},
+  },
+}))(MuiTableCell);
 
 const renderMembers = (props) => {
   const { selectingFormValues, type, fields, meta: { error, submitFailed } } = props;
@@ -140,61 +156,63 @@ const renderMembers = (props) => {
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <div className='table-container'>
-            <table className="table">
-              <tr className="table-row">
-                <th className="description header" >Name</th>
-                <th className="amount header" >Value (£)</th>
-                <th className="regularity header" >Occurs</th>
-                <th className="date header" >Date</th>
-                <th className="remove header" ></th>
-              </tr>
-              {
-                fields.map((member, index) => (
-                  <tr className="table-row" key={index}>
-                    <td>
-                      <Field
-                        name={`${member}.description`}
-                        type="text"
-                        component={renderField}
-                        className='description'
-                      />
-                    </td>
-                    <td>
-                      <CurrencyField
-                        name={`${member}.cost`}
-                        className='amount'
-                      />
-                    </td>
-                    <td>
-                      <Field
-                        name={`${member}.regularity`}
-                        component={SelectInput}
-                        className='regularity'
-                        options={RECURRENCE_OPTIONS}
-                        onChange={() => {
-                          props.changeFormValue(selectingFormValues, member, type, index, 'recurrenceDate', null)
-                        }}
-                      />
-                    </td>
-                    <td>
-                        { renderDateField(member, selectingFormValues[fields.name][index].regularity) }
-                    </td>
-                    <td className='remove'>
-                      <IconButton aria-label="Delete">
-                        <Delete onClick={() => fields.remove(index)}/>
-                      </IconButton>
-                    </td>
-                  </tr>)
-                )}
-            </table>
+            <Table className="table">
+              <TableHead>
+                <TableRow className="table-row">
+                  <TableCell className="description" >Name</TableCell>
+                  <TableCell className="amount" >Value (£)</TableCell>
+                  <TableCell className="regularity" >Occurs</TableCell>
+                  <TableCell className="date" >Date</TableCell>
+                  <TableCell className="remove" ></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {
+                  fields.map((member, index) => (
+                    <TableRow className="table-row" key={index}>
+                      <TableCell>
+                        <Field
+                          name={`${member}.description`}
+                          type="text"
+                          component={renderField}
+                          className='description'
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <CurrencyField
+                          name={`${member}.cost`}
+                          className='amount'
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Field
+                          name={`${member}.regularity`}
+                          component={SelectInput}
+                          className='regularity'
+                          options={RECURRENCE_OPTIONS}
+                          onChange={() => {
+                            props.changeFormValue(selectingFormValues, member, type, index, 'recurrenceDate', null)
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell>
+                          { renderDateField(member, selectingFormValues[fields.name][index].regularity) }
+                      </TableCell>
+                      <TableCell className='remove'>
+                        <IconButton aria-label="Delete">
+                          <Delete onClick={() => fields.remove(index)}/>
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>)
+                  )}
+              </TableBody>              
+            </Table>
             <div className='add-button'>
-            <AddCircle onClick={() => fields.push({})} />
-
+              <AddCircle onClick={() => fields.push({})} />
             </div>
           </div>
         </ExpansionPanelDetails>
       </ExpansionPanel>
-
       {submitFailed && error && <span>{error}</span>}
     </React.Fragment>
   );
