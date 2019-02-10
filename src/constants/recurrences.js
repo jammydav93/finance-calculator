@@ -1,8 +1,8 @@
 export const RECURRENCE_OPTIONS = [
-  {description: 'daily', value: 'daily' },
-  {description: 'weekdays', value: 'weekdays' },
-  {description: 'weekly', value: 'weekly' },
-  {description: '4 weekly', value: '4 weekly' },
-  {description: 'monthly', value: 'monthly' },
-  {description: 'quaterly', value: 'quaterly'},
+  {description: 'daily', value: 'daily', showDateColumn: false },
+  {description: 'weekdays', value: 'weekdays', showDateColumn: false },
+  {description: 'weekly', value: 'weekly', showDateColumn: true },
+  {description: '4 weekly', value: '4 weekly', showDateColumn: true },
+  {description: 'monthly', value: 'monthly', showDateColumn: true },
+  {description: 'quaterly', value: 'quaterly', showDateColumn: true },
 ];
