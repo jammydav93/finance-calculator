@@ -26,7 +26,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './recurrences.scss';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { RECURRENCE_OPTIONS } from '../../constants/recurrences';
+import { RECURRENCE_OPTIONS, WEEKLY_OPTIONS } from '../../constants'
 import CurrencyField from '../form/currency/CurrencyField';
 // import validate from './validate'
 
@@ -94,20 +94,11 @@ const renderDateField = (member, regularity) => {
   const className = 'date'
   switch (regularity) {
     case 'weekly':
-    // Use ISO weekday convention (http://momentjs.com/docs/#/get-set/iso-weekday/)
-      const WeeklyList =[
-        { value: 2, description: 'Tue' },
-        { value: 3, description: 'Wed' },
-        { value: 4, description: 'Thu' },
-        { value: 5, description: 'Fri' },
-        { value: 6, description: 'Sat' },
-        { value: 7, description: 'Sun' },
-       ];
       return (
         <Field
           name={`${member}.recurrenceDate`}
           component={SelectInput}
-          options={WeeklyList}
+          options={WEEKLY_OPTIONS}
         />
       )
     case 'monthly':
