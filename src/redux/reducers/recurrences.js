@@ -51,6 +51,7 @@ const addLoadedFormData = (state, action) => {
   const incrementedLoadedCounter = state.formData.loadedCounter + 1
   const formData = { 
     ...initialFormData,
+    initialBalance: null, 
     income,
     outcome,
     loadedCounter: incrementedLoadedCounter
