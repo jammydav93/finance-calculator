@@ -19,7 +19,7 @@
 }
 
 .recurrences {
-  @include breakpoint(desktop) {
+  @include breakpoint(tablet) {
     display: flex;
     justify-content: space-between;
   }
@@ -30,7 +30,7 @@
   display: block;
   margin: 10px 0 10px;
 
-  @include breakpoint(desktop) {
+  @include breakpoint(tablet) {
     display: inline-block;
     width: 49.5%;
   }
