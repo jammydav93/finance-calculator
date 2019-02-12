@@ -6,15 +6,10 @@
   flex-direction: row;
   justify-content: space-between;
   padding: 5px 100px;
+  min-height: 36px;
 
   @include breakpoint(mobile) {
     padding: 5px 10px;
-  }
-
-  div {
-    display: inline-flex;
-    width: 20%;
-    min-width: 100px;
   }
 
   div:only-child {
@@ -26,5 +21,13 @@
     height: 100%;
     width: 100%;
     white-space: nowrap;
+  }
+}
+
+.button {
+  display: inline-flex;
+  div, button {
+    width: 20%;
+    min-width: 100px;
   }
 }

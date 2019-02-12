@@ -1,10 +1,12 @@
 const INITIAL_STATE = {
   authUser: null,
+  loading: true,
 };
 
 const applySetAuthUser = (state, action) => ({
   ...state,
   authUser: action.authUser,
+  loading: false,
 });
 
 function sessionReducer(state = INITIAL_STATE, action) {

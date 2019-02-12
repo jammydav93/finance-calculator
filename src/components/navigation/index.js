@@ -3,34 +3,49 @@ import LoadButton from '../load';
 import SaveButton from '../save';
 import SignInButton from '../signin';
 import SignOutButton from '../singout';
+import Loading from '../loading';
 import { connect } from 'react-redux';
 import './index.scss';
 
 const mapStateToProps = (state) => {
-  return { authUser: state.sessionState.authUser };
-};
+  const {
+    authUser,
+    loading
+  } = state.sessionState
 
-const Navigation = ({authUser}) => {
-  console.log('authUser2=', authUser)
-  return (  
-    <div className='navbar'>
-      {
-        authUser ? <NavigationAuth /> : <NavigationNonAuth />
-      }
-    </div>
-  )
+  return {
+    authUser,
+    loading,
+  }
 }
 
+const showAuthedNavBar = (authUser) =>
+  authUser ? <NavigationAuth /> : <NavigationNonAuth />
+
+const Navigation = (props) => (
+    <div className='navbar'>
+      {
+        props.loading ? <Loading /> : showAuthedNavBar(props.authUser)
+      }
+    </div>
+)
+
 const NavigationAuth = () =>
-  <React.Fragment>
+<React.Fragment>
+  <div className='button'>
     <LoadButton />
+  </div>
+  <div className='button'>
     <SaveButton />
+  </div>
+  <div className='button'>
     <SignOutButton />
-  </React.Fragment>
-
-
+  </div>
+</React.Fragment>
 
 const NavigationNonAuth = () =>
-    <SignInButton />
+  <div className='button'>
+    <SignInButton />  
+  </div>
 
 export default connect(mapStateToProps)(Navigation);

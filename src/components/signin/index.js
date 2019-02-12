@@ -5,10 +5,8 @@ import {
 } from '@material-ui/core'
 
 const SignInButton = () =>
-  <div>
-    <Button variant="outlined" color="primary" onClick={auth.doGoogleSignIn}>
-      Login
-    </Button>
-  </div>
+  <Button variant="outlined" color="primary" onClick={auth.doGoogleSignIn}>
+    Login
+  </Button>
 
 export default SignInButton;
