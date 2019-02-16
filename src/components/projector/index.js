@@ -12,12 +12,12 @@ const AllRecurrences = () => (
       <DateRangeInput type='endDate' label='End' />
       <IntitialBalance type='initialBalance' label='Balance' />
     </div>
-    <div className='recurrences'>
-      <Recurrences type='income' className='recurrenceTable' />
-      <Recurrences type='outcome' className='recurrenceTable' />
-    </div>
-    <div className='chart'>
-      <Chart />
+    <div className='recurrences-and-chart'>
+      <div className='recurrences'>
+        <Recurrences type='income' className='recurrenceTable' />
+        <Recurrences type='outcome' className='recurrenceTable' />
+      </div>
+      <Chart className='chart' />
     </div>
   </React.Fragment>
 );
