@@ -6,15 +6,16 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from '@material-ui/core'
+} from '@material-ui/core';
+import PropTypes from 'prop-types';
 
 class AlertDialog extends React.Component {
-  constructor(props){
-      super(props)
-  
-      this.state = {
-        open: false,
-      };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      open: false,
+    };
   }
 
   handleClickOpen = () => {
@@ -27,10 +28,14 @@ class AlertDialog extends React.Component {
 
   render() {
     const {
-        buttonTitle,
-        dialogueText,
-        dialogueButtons,
-    } = this.props
+      buttonTitle,
+      dialogueText,
+      dialogueButtons,
+    } = this.props;
+
+    const {
+      open,
+    } = this.state;
 
     return (
       <div>
@@ -38,7 +43,7 @@ class AlertDialog extends React.Component {
           {buttonTitle}
         </Button>
         <Dialog
-          open={this.state.open}
+          open={open}
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
@@ -50,18 +55,18 @@ class AlertDialog extends React.Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            {dialogueButtons.map((button) => (
+            {dialogueButtons.map(button => (
               <Button
                 onClick={() => {
-                  if(button.onClick){
-                      button.onClick()
-                  };
+                  if (button.onClick) {
+                    button.onClick();
+                  }
                   this.handleClose();
                 }}
                 color={button.type}
               >
                 {button.text}
-              </Button>                
+              </Button>
             ))}
           </DialogActions>
         </Dialog>
@@ -69,5 +74,11 @@ class AlertDialog extends React.Component {
     );
   }
 }
+
+AlertDialog.propTypes = {
+  buttonTitle: PropTypes.string.isRequired,
+  dialogueText: PropTypes.string.isRequired,
+  dialogueButtons: PropTypes.string.isRequired,
+};
 
 export default AlertDialog;

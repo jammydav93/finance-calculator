@@ -5,7 +5,7 @@ const initialFormData = {
   loading: false,
   startDate: moment(),
   endDate: moment().add(1, 'M').add(2, 'd'),
-  initialBalance: "200",
+  initialBalance: '200',
   loadedCounter: 0,
   income: [
     {
@@ -15,7 +15,7 @@ const initialFormData = {
       description: 'Salary 1',
       recurrenceDate: '18',
       regularity: 'monthly',
-    }
+    },
   ],
   outcome: [
     {
@@ -40,49 +40,49 @@ const initialFormData = {
       costPence: 1000,
       description: 'Train to work',
       regularity: 'weekdays',
-    }
+    },
   ],
 };
 
 const INITIAL_STATE = {
-  formData: initialFormData
+  formData: initialFormData,
 };
 
 const addLoadedFormData = (state, action) => {
-  const { income, outcome } = action.payload.result
-  const incrementedLoadedCounter = pathOr(0, ['formData', 'loadedCounter'], state) + 1
-  const formData = { 
+  const { income, outcome } = action.payload.result;
+  const incrementedLoadedCounter = pathOr(0, ['formData', 'loadedCounter'], state) + 1;
+  const formData = {
     ...initialFormData,
-    initialBalance: null, 
+    initialBalance: null,
     income,
     outcome,
-    loadedCounter: incrementedLoadedCounter
-  }
+    loadedCounter: incrementedLoadedCounter,
+  };
 
   return {
     ...state,
     loading: false,
     formData,
   };
-}
+};
 
-const loadUserData = (state) => ({
+const loadUserData = state => ({
   ...state,
-  loading: true
-})
+  loading: true,
+});
 
-const clearFormData = () => INITIAL_STATE
+const clearFormData = () => INITIAL_STATE;
 
 function recurrenceReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case 'LOAD_USER_DATA':
-      return loadUserData()
+      return loadUserData();
     case 'CLEAR_FORM_DATA':
-      return clearFormData()
+      return clearFormData();
     case 'ADD_LOADED_FORM_DATA':
-      return addLoadedFormData(state, action)
+      return addLoadedFormData(state, action);
     default:
-      return state
+      return state;
   }
 }
 

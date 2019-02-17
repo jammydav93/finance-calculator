@@ -1,9 +1,9 @@
 import {
-    RECURRENCE_OPTIONS,
-    WEEKLY_OPTIONS,
-} from './recurrences'
+  RECURRENCE_OPTIONS,
+  WEEKLY_OPTIONS,
+} from './recurrences';
 
 export {
-    RECURRENCE_OPTIONS,
-    WEEKLY_OPTIONS,
-}
+  RECURRENCE_OPTIONS,
+  WEEKLY_OPTIONS,
+};

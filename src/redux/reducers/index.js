@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { reducer as reduxFormReducer } from 'redux-form'
+import { reducer as reduxFormReducer } from 'redux-form';
 import sessionReducer from './session';
 import recurrenceReducer from './recurrences';
 
