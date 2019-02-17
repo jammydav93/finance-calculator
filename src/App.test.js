@@ -1,7 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import { App } from './App';
+import { shallow } from 'enzyme';
 
-it('renders without crashing', () => {
-  expect(1).toEqual(1);
+it('App snapshots match', () => {
+  const component = shallow(<App />)
+
+  expect(component).toMatchSnapshot();
 });
