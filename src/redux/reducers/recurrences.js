@@ -1,6 +1,8 @@
 import moment from 'moment';
+import { pathOr } from 'ramda';
 
 const initialFormData = {
+  loading: false,
   startDate: moment(),
   endDate: moment().add(1, 'M').add(2, 'd'),
   initialBalance: "200",
@@ -48,7 +50,7 @@ const INITIAL_STATE = {
 
 const addLoadedFormData = (state, action) => {
   const { income, outcome } = action.payload.result
-  const incrementedLoadedCounter = state.formData.loadedCounter + 1
+  const incrementedLoadedCounter = pathOr(0, ['formData', 'loadedCounter'], state) + 1
   const formData = { 
     ...initialFormData,
     initialBalance: null, 
@@ -59,14 +61,22 @@ const addLoadedFormData = (state, action) => {
 
   return {
     ...state,
+    loading: false,
     formData,
   };
 }
+
+const loadUserData = (state) => ({
+  ...state,
+  loading: true
+})
 
 const clearFormData = () => INITIAL_STATE
 
 function recurrenceReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
+    case 'LOAD_USER_DATA':
+      return loadUserData()
     case 'CLEAR_FORM_DATA':
       return clearFormData()
     case 'ADD_LOADED_FORM_DATA':

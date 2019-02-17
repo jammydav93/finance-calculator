@@ -148,14 +148,16 @@ const showDateCol = (selectingFormValues, type, index) => {
 
 
 const renderMembers = (props) => {
-  const { selectingFormValues, type, fields, meta: { error, submitFailed } } = props;
+  const { formExpandedDefault, selectingFormValues, type, fields, meta: { error, submitFailed } } = props;
 
   const title = type === 'income' ? 'Incomes' : 'Outgoings';
   const itemCount = fields.length
 
+  console.log('formExpandedDefault=', formExpandedDefault)
+
   return (
     <React.Fragment>
-      <ExpansionPanel defaultExpanded={true}>
+      <ExpansionPanel defaultExpanded={formExpandedDefault}>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           {`${title} (${itemCount})`}
         </ExpansionPanelSummary>
@@ -244,7 +246,7 @@ const renderMembersConnected = connect(mapStateToProps, mapDispatchToProps)(rend
 
 let FieldArraysForm = (props) => (
   <div className={props.className}>
-    <FieldArray name={props.type} props={{type: props.type}} component={renderMembersConnected} />
+    <FieldArray name={props.type} props={{type: props.type, formExpandedDefault: props.formExpandedDefault}} component={renderMembersConnected} />
   </div>
 );
 

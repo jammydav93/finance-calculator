@@ -22,6 +22,7 @@ const withAuthentication = (Component) => {
   const mapDispatchToProps = (dispatch) => ({
     onSetAuthUser: (authUser) => {
       dispatch({ type: 'AUTH_USER_SET', authUser })
+      dispatch({ type: 'LOAD_USER_DATA' })
 
       if(authUser) {
         db.loadFormData(authUser.uid)
