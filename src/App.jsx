@@ -7,7 +7,7 @@ import WithAuthentication from './components/withAuthentication';
 export const App = () => (
   <div className="app">
     <div className="header">
-      <h1 className="app-title">Finance Forecaster</h1>
+      <h1 className="app-title">Money Flux</h1>
       <Navigation />
     </div>
     <div className="content">
