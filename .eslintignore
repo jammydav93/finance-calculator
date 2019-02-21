@@ -3,6 +3,7 @@ build/*
 node_modules/*
 public/*
 .circleci/*
+coverage/*
 
 src/registerServiceWorker.js
 src/index.js

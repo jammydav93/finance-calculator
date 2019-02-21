@@ -39,6 +39,7 @@
     "lint": "eslint --ext .js --ext .jsx .",
     "build": "react-scripts build",
     "test": "npm run lint && react-scripts test --env=jsdom",
+    "test-with-coverage": "npm test -- --coverage",
     "eject": "react-scripts eject"
   },
   "browserslist": [
@@ -46,5 +47,19 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!<rootDir>/node_modules/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 2,
+        "functions": 2,
+        "lines": 2,
+        "statements": 2
+      }
+    }
+  }
 }

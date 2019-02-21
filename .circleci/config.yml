@@ -10,7 +10,7 @@ jobs:
       - run: echo "{\"firebase\":{\"apiKey\":\"${firebaseApiKey}\",\"authDomain\":\"${firebaseAuthDomain}\",\"databaseURL\":\"${firebaseDatabaseUrl}\",\"storageBucket\":\"${firebaseStorageBucket}\"}}" >> ~/repo/src/secrets.json
       - run: echo "34.247.104.70 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBsEknIA1gczEAnqUbKKFgczdKn33k9vyya8LIn79Jyh/C/8+v4o/Ui5ZZkeZQuEVKaDrxTwebf+uXYMvRAkJLQ=" >> ~/.ssh/known_hosts
       - run: cat ~/repo/src/secrets.json
-      - run: npm test
+      - run: npm run test-with-coverage
   deploy:
     working_directory: ~/repo
     docker:
