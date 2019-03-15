@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import IntitialBalance from '../form/initialBalance/InitialBalance';
 import Recurrences from '../recurrences/Recurrences';
 import DateRangeInput from '../form/date/DateRangeInput';
-import Chart from '../chart';
 import Loading from '../loading';
 import './projector.scss';
+import TransactionChartTable from '../TransactionsChartTable';
 
 const AllRecurrences = ({ formExpandedDefault }) => (
   <React.Fragment>
@@ -21,7 +21,7 @@ const AllRecurrences = ({ formExpandedDefault }) => (
         <Recurrences type="income" className="recurrenceTable" formExpandedDefault={formExpandedDefault} />
         <Recurrences type="outcome" className="recurrenceTable" formExpandedDefault={formExpandedDefault} />
       </div>
-      <Chart className="chart" />
+      <TransactionChartTable />
     </div>
   </React.Fragment>
 );
