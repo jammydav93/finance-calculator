@@ -4,20 +4,27 @@ import {
   TableHead,
   TableBody,
   TableRow,
-  TableCell,
+  TableCell as MuiTableCell,
+  withStyles,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import './index.scss';
 import { formatCost, formatDate } from '../../../helperFunctions';
 
+const TableCell = withStyles(() => ({
+  root: {
+    padding: '0 10px',
+  },
+}))(MuiTableCell);
+
 const renderDaysTransactions = daysTransactions => (
-  <ul>
+  <div>
     {daysTransactions.map(({ cost, description }) => (
-      <li>
+      <span>
         {`${description}${cost ? ` (${formatCost(cost)})` : ''}`}
-      </li>
+      </span>
     ))}
-  </ul>
+  </div>
+
 );
 
 const Chart = ({ transactions }) => {
@@ -26,11 +33,11 @@ const Chart = ({ transactions }) => {
   }
 
   return (
-    <div className="transactions-table">
+    <div className="transactions-table1">
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell className="date">Date</TableCell>
+            <TableCell className="trans-date">Date</TableCell>
             <TableCell className="descriptions">Transactions</TableCell>
             <TableCell className="balance">Balance</TableCell>
           </TableRow>
@@ -38,7 +45,7 @@ const Chart = ({ transactions }) => {
         <TableBody>
           {transactions.map(row => (
             <TableRow key={row.id}>
-              <TableCell>{formatDate(row.date)}</TableCell>
+              <TableCell className="trans-date">{formatDate(row.date)}</TableCell>
               <TableCell>{renderDaysTransactions(row.daysTransactions)}</TableCell>
               <TableCell align="right">{formatCost(row.finalBalancePence / 100)}</TableCell>
             </TableRow>
