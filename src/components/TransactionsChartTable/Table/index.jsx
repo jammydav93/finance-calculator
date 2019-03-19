@@ -7,14 +7,14 @@ import {
   TableCell,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-
-import { formatCost } from '../../../helperFunctions';
+import './index.scss';
+import { formatCost, formatDate } from '../../../helperFunctions';
 
 const renderDaysTransactions = daysTransactions => (
   <ul>
-    {daysTransactions.map(transaction => (
+    {daysTransactions.map(({ cost, description }) => (
       <li>
-        {`${transaction.description} (${formatCost(transaction.cost)})`}
+        {`${description}${cost ? ` (${formatCost(cost)})` : ''}`}
       </li>
     ))}
   </ul>
@@ -30,16 +30,16 @@ const Chart = ({ transactions }) => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell align="right">Date</TableCell>
-            <TableCell align="right">Transactions</TableCell>
-            <TableCell align="right">Balance</TableCell>
+            <TableCell className="date">Date</TableCell>
+            <TableCell className="descriptions">Transactions</TableCell>
+            <TableCell className="balance">Balance</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {transactions.map(row => (
             <TableRow key={row.id}>
-              <TableCell align="right">{row.date}</TableCell>
-              <TableCell align="right">{renderDaysTransactions(row.daysTransactions)}</TableCell>
+              <TableCell>{formatDate(row.date)}</TableCell>
+              <TableCell>{renderDaysTransactions(row.daysTransactions)}</TableCell>
               <TableCell align="right">{formatCost(row.finalBalancePence / 100)}</TableCell>
             </TableRow>
           ))}
