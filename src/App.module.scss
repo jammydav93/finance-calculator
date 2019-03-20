@@ -50,9 +50,10 @@ body {
     width: 99%;
   }
   @include breakpoint(desktop) {
-    width: 99%;
+    width: 80%;
   }
 }
+
 
 .active {
   background-color: #0099FF;

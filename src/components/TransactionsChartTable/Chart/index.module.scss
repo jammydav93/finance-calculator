@@ -1,0 +1,12 @@
+@import '../../../App.module.scss';
+
+.chart {
+    min-height: 275px;
+
+    @include breakpoint(tablet) {
+        min-height: 350px;
+    }
+    @include breakpoint(desktop) {
+        min-height: 450px;
+    }
+}

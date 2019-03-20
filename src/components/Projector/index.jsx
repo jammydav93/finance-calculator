@@ -16,13 +16,11 @@ const AllRecurrences = ({ formExpandedDefault }) => (
       <DateRangeInput type="endDate" label="End" />
       <IntitialBalance type="initialBalance" label="Balance" />
     </div>
-    <div className={styles['recurrences-and-chart']}>
-      <div className={styles.recurrences}>
-        <Recurrences type="income" className={styles.recurrenceTable} formExpandedDefault={formExpandedDefault} />
-        <Recurrences type="outcome" className={styles.recurrenceTable} formExpandedDefault={formExpandedDefault} />
-      </div>
-      <TransactionChartTable />
+    <div className={styles.recurrences}>
+      <Recurrences type="income" className={styles.recurrenceTable} formExpandedDefault={formExpandedDefault} />
+      <Recurrences type="outcome" className={styles.recurrenceTable} formExpandedDefault={formExpandedDefault} />
     </div>
+    <TransactionChartTable />
   </React.Fragment>
 );
 

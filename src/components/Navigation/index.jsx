@@ -24,7 +24,9 @@ const showAuthedNavBar = authUser => (authUser ? <NavigationAuth /> : <Navigatio
 
 const Navigation = ({ loading, authUser }) => (
   <div className={styles.navbar}>
-    { loading ? <Loading /> : showAuthedNavBar(authUser) }
+    <div className={styles['navbar-children']}>
+      { loading ? <Loading /> : showAuthedNavBar(authUser) }
+    </div>
   </div>
 );
 

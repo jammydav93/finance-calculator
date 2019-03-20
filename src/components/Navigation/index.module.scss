@@ -2,25 +2,33 @@
 
 .navbar {
   background: #6284BB;
+}
+
+.navbar-children {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 5px 100px;
-  min-height: 36px;
 
-  @include breakpoint(mobile) {
-    padding: 5px 10px;
-  }
-
-  div:only-child {
-    margin: 0 auto;
-  }
+  margin: auto;
 
   a, button {
     background: #629EFF;
     height: 100%;
     width: 100%;
     white-space: nowrap;
+  }
+
+  div:only-child {
+    margin: 0 auto;
+  }
+
+  padding: 5px;
+
+  @include breakpoint(tablet) {
+    width: 99%;
+  }
+  @include breakpoint(desktop) {
+    width: 80%;
   }
 }
 

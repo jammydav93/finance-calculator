@@ -1,12 +1,5 @@
 @import '../../App.module.scss';
 
-.inline-block{
-    display: flex;
-    justify-content: center;
-    margin: 10px;
-    vertical-align: top;
-}
-
 .primary-fields {
   display: flex;
   justify-content: space-between;
@@ -30,13 +23,7 @@
 
   @include breakpoint(tablet) {
     display: flex;
-    padding: 0 10px;
     justify-content: space-between;
-  }
-
-  @include breakpoint(tablet) {
-    min-width: 750px;
-    max-width: 750px;
   }
 }
 
@@ -51,17 +38,6 @@
     min-width: 350px;
     padding-right: 10px;
   }
-}
-
-.chart {
-  background: white;
-  min-width: 350px;
-  width: calc(100% - 850px);
-  max-width: 100%;
-  margin: auto;
-  margin-top: 10px;
-  flex-grow: 1;
-  min-height: 250px;
 }
 
 .recurrences-and-chart {

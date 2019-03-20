@@ -3,6 +3,7 @@ import { path } from 'ramda';
 import { Line } from 'react-chartjs-2';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import styles from './index.module.scss';
 
 import { formatCost } from '../../../helperFunctions';
 
@@ -95,7 +96,7 @@ const Chart = ({ transactions }) => {
   };
 
   return (
-    <div>
+    <div className={styles.chart}>
       <Line data={data} options={options} />
     </div>
   );
