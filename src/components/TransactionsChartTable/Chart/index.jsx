@@ -95,7 +95,7 @@ const Chart = ({ transactions }) => {
   };
 
   return (
-    <div className="transactions-chart">
+    <div>
       <Line data={data} options={options} />
     </div>
   );

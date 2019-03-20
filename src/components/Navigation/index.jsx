@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import LoadButton from '../load';
-import SaveButton from '../save';
-import SignInButton from '../signin';
-import SignOutButton from '../signout';
-import Loading from '../loading';
-import './index.scss';
+import LoadButton from '../Load';
+import SaveButton from '../Save';
+import SignInButton from '../Signin';
+import SignOutButton from '../Signout';
+import Loading from '../Loading';
+import styles from './index.module.scss';
 
 const mapStateToProps = (state) => {
   const {
@@ -23,7 +23,7 @@ const mapStateToProps = (state) => {
 const showAuthedNavBar = authUser => (authUser ? <NavigationAuth /> : <NavigationNonAuth />);
 
 const Navigation = ({ loading, authUser }) => (
-  <div className="navbar">
+  <div className={styles.navbar}>
     { loading ? <Loading /> : showAuthedNavBar(authUser) }
   </div>
 );
@@ -35,21 +35,21 @@ Navigation.propTypes = {
 
 const NavigationAuth = () => (
   <React.Fragment>
-    <div className="button">
+    <div className={styles.button}>
       <LoadButton />
     </div>
-    <div className="button">
+    <div className={styles.button}>
       <SaveButton />
     </div>
 
-    <div className="button">
+    <div className={styles.button}>
       <SignOutButton />
     </div>
   </React.Fragment>
 );
 
 const NavigationNonAuth = () => (
-  <div className="button">
+  <div className={styles.button}>
     <SignInButton />
   </div>
 );

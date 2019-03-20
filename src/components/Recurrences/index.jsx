@@ -29,11 +29,11 @@ import {
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import './recurrences.scss';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import styles from './index.module.scss';
 import { RECURRENCE_OPTIONS, WEEKLY_OPTIONS } from '../../constants';
-import CurrencyField from '../form/currency/CurrencyField';
+import CurrencyField from '../Form/Currency';
 // import validate from './validate'
 
 
@@ -44,7 +44,7 @@ const Select = withStyles(() => ({
 }))(MuiSelect);
 
 const SelectInput = ({ input, options }) => (
-  <Select className="select" {...input}>
+  <Select className={styles.select} {...input}>
     {options.map(x => <MenuItem key={x.description} value={x.value}>{x.description}</MenuItem>)}
   </Select>
 );
@@ -194,15 +194,15 @@ const RenderMembers = (props) => {
           {`${title} (${itemCount})`}
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <div className="table-container">
-            <Table className="table">
+          <div className={styles['table-container']}>
+            <Table className={styles.table}>
               <TableHead>
-                <TableRow className="table-row">
-                  <TableCell className="description">Name</TableCell>
-                  <TableCell className="amount">Value (£)</TableCell>
-                  <TableCell className="regularity">Occurs</TableCell>
-                  <TableCell className="date">Date</TableCell>
-                  <TableCell className="remove" />
+                <TableRow className={styles['table-row']}>
+                  <TableCell className={styles.description}>Name</TableCell>
+                  <TableCell className={styles.amount}>Value (£)</TableCell>
+                  <TableCell className={styles.regularity}>Occurs</TableCell>
+                  <TableCell className={styles.date}>Date</TableCell>
+                  <TableCell className={styles.remove} />
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -210,19 +210,19 @@ const RenderMembers = (props) => {
                   fields.map((member, index) => {
                     const shouldShowDateCol = showDateCol(selectingFormValues, type, index);
                     return (
-                      <TableRow className="table-row" key={fields.get(index)}>
+                      <TableRow className={styles['table-row']} key={fields.get(index)}>
                         <TableCell>
                           <Field
                             name={`${member}.description`}
                             type="text"
                             component={RenderField}
-                            className="description"
+                            className={styles.description}
                           />
                         </TableCell>
                         <TableCell>
                           <CurrencyField
                             name={`${member}.cost`}
-                            className="amount"
+                            className={styles.aomunt}
                           />
                         </TableCell>
                         <TableCell colSpan={shouldShowDateCol ? 1 : 2}>
@@ -247,7 +247,7 @@ const RenderMembers = (props) => {
                           </TableCell>
                           )
                         }
-                        <TableCell className="remove">
+                        <TableCell className={styles.remove}>
                           <IconButton aria-label="Delete">
                             <Delete onClick={() => fields.remove(index)} />
                           </IconButton>
@@ -258,7 +258,7 @@ const RenderMembers = (props) => {
                 }
               </TableBody>
             </Table>
-            <div className="add-button">
+            <div className={styles['add-button']}>
               <AddCircle onClick={() => fields.push({})} />
             </div>
           </div>

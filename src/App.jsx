@@ -1,16 +1,16 @@
 import React from 'react';
-import Navigation from './components/navigation';
-import Projector from './components/projector';
-import './App.scss';
-import WithAuthentication from './components/withAuthentication';
+import Navigation from './components/Navigation';
+import Projector from './components/Projector';
+import styles from './App.module.scss';
+import WithAuthentication from './components/WithAuthentication';
 
 export const App = () => (
-  <div className="app">
-    <div className="header">
-      <h1 className="app-title">Money Flux</h1>
+  <div className={styles.app}>
+    <div className={styles.header}>
+      <h1 className={styles['app-title']}>Money Flux</h1>
       <Navigation />
     </div>
-    <div className="content">
+    <div className={styles.content}>
       <Projector />
     </div>
   </div>

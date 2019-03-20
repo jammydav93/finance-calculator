@@ -1,6 +1,6 @@
 import React from 'react';
 import { auth } from '../../firebase';
-import AlertDialogue from '../alert';
+import AlertDialogue from '../Alert';
 
 const SignOutButton = () => (
   <AlertDialogue

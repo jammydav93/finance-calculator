@@ -7,13 +7,13 @@ import { TextField } from '@material-ui/core';
 import DatePicker from 'react-datepicker';
 import PropTypes from 'prop-types';
 import 'react-datepicker/dist/react-datepicker.css';
-import './daterangeinput.scss';
 import moment from 'moment';
+import styles from './index.module.scss';
 // import validate from './validate'
 
 const renderDatePicker = ({ input, label }) => (
-  <div className="date-input">
-    <div className="label">
+  <div className={styles['date-input']}>
+    <div className={styles.label}>
       {label}
     </div>
     <DatePicker

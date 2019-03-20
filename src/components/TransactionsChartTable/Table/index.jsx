@@ -33,19 +33,19 @@ const Chart = ({ transactions }) => {
   }
 
   return (
-    <div className="transactions-table1">
+    <div>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell className="trans-date">Date</TableCell>
-            <TableCell className="descriptions">Transactions</TableCell>
-            <TableCell className="balance">Balance</TableCell>
+            <TableCell>Date</TableCell>
+            <TableCell>Transactions</TableCell>
+            <TableCell>Balance</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {transactions.map(row => (
             <TableRow key={row.id}>
-              <TableCell className="trans-date">{formatDate(row.date)}</TableCell>
+              <TableCell>{formatDate(row.date)}</TableCell>
               <TableCell>{renderDaysTransactions(row.daysTransactions)}</TableCell>
               <TableCell align="right">{formatCost(row.finalBalancePence / 100)}</TableCell>
             </TableRow>

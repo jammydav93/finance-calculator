@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { db } from '../../firebase';
-import AlertDialogue from '../alert';
+import AlertDialogue from '../Alert';
 
 const mapStateToProps = state => ({ authUser: state.sessionState.authUser });
 

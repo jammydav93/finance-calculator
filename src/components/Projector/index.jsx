@@ -2,24 +2,24 @@ import React from 'react';
 import { path } from 'ramda';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import IntitialBalance from '../form/initialBalance/InitialBalance';
-import Recurrences from '../recurrences/Recurrences';
-import DateRangeInput from '../form/date/DateRangeInput';
-import Loading from '../loading';
-import './projector.scss';
+import IntitialBalance from '../Form/InitialBalance';
+import Recurrences from '../Recurrences';
+import DateRangeInput from '../Form/Date';
+import Loading from '../Loading';
+import styles from './index.module.scss';
 import TransactionChartTable from '../TransactionsChartTable';
 
 const AllRecurrences = ({ formExpandedDefault }) => (
   <React.Fragment>
-    <div className="primary-fields">
+    <div className={styles['primary-fields']}>
       <DateRangeInput type="startDate" label="Start" />
       <DateRangeInput type="endDate" label="End" />
       <IntitialBalance type="initialBalance" label="Balance" />
     </div>
-    <div className="recurrences-and-chart">
-      <div className="recurrences">
-        <Recurrences type="income" className="recurrenceTable" formExpandedDefault={formExpandedDefault} />
-        <Recurrences type="outcome" className="recurrenceTable" formExpandedDefault={formExpandedDefault} />
+    <div className={styles['recurrences-and-chart']}>
+      <div className={styles.recurrences}>
+        <Recurrences type="income" className={styles.recurrenceTable} formExpandedDefault={formExpandedDefault} />
+        <Recurrences type="outcome" className={styles.recurrenceTable} formExpandedDefault={formExpandedDefault} />
       </div>
       <TransactionChartTable />
     </div>

@@ -7,7 +7,7 @@ import {
   withStyles,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import './currency.scss';
+import styles from './index.module.scss';
 
 const normalize = isInitialBalance => (value) => {
   if (!value) {
@@ -41,14 +41,14 @@ const CurrencyInput = ({
   input, className, otherProps,
 }) => (
   <TextField
-    className="currency"
+    className={styles.currency}
     type="number"
     value={input.value}
     onChange={input.onChange}
     onBlur={input.onChange}
     {...otherProps}
     inputProps={{
-      className: classnames('currency', className),
+      className: classnames(styles.currency, className),
     }}
     InputProps={{  //eslint-disable-line
       startAdornment: <InputAdornment position="start">£</InputAdornment>,

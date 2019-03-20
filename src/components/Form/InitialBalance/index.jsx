@@ -1,13 +1,13 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
-import CurrencyField from '../currency/CurrencyField';
-import './initialbalance.scss';
+import CurrencyField from '../Currency';
+import styles from './index.module.scss';
 // import validate from './validate'
 
 const FieldForm = ({ label, type }) => (
-  <div className="initial-amount">
-    <div className="label">
+  <div className={styles['initial-amount']}>
+    <div className={styles.label}>
       {label}
     </div>
     <div>
