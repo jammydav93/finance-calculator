@@ -7,15 +7,15 @@ import {
   change,
 } from 'redux-form';
 import {
-  IconButton,
+  IconButton as MuiIconButton,
   withStyles,
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails as MuiExpansionPanelDetails,
-  TextField,
+  TextField as MuiTextField,
   Select as MuiSelect,
   MenuItem,
-  Table,
+  Table as MuiTable,
   TableBody,
   TableCell as MuiTableCell,
   TableHead,
@@ -36,15 +36,14 @@ import { RECURRENCE_OPTIONS, WEEKLY_OPTIONS } from '../../constants';
 import CurrencyField from '../Form/Currency';
 // import validate from './validate'
 
-
 const Select = withStyles(() => ({
-  root: {
-    div: { width: '100%' },
+  select: {
+    paddingRight: 0,
   },
 }))(MuiSelect);
 
 const SelectInput = ({ input, options }) => (
-  <Select className={styles.select} {...input}>
+  <Select {...input}>
     {options.map(x => <MenuItem key={x.description} value={x.value}>{x.description}</MenuItem>)}
   </Select>
 );
@@ -53,6 +52,12 @@ SelectInput.propTypes = {
   input: PropTypes.object.isRequired,
   options: PropTypes.array.isRequired,
 };
+
+const TextField = withStyles(() => ({
+  root: {
+    width: '100%',
+  },
+}))(MuiTextField);
 
 const RenderField = (
   {
@@ -154,18 +159,30 @@ const renderDateField = (member, regularity) => {
 
 const ExpansionPanelDetails = withStyles(() => ({
   root: {
-    padding: '0px 3px 5px',
+    padding: '0px 0px 5px',
+    display: 'block',
   },
 }))(MuiExpansionPanelDetails);
 
 const TableCell = withStyles(() => ({
   root: {
-    input: { width: '100%' },
     padding: '2px',
-    '&:last-child': { padding: '0' },
-    '&:first-child': { paddingLeft: '0' },
+    '&:last-child': { padding: '2px' },
   },
 }))(MuiTableCell);
+
+const Table = withStyles(() => ({
+  root: {
+    tableLayout: 'auto',
+    width: '100%',
+  },
+}))(MuiTable);
+
+const IconButton = withStyles(() => ({
+  root: {
+    padding: 0,
+  },
+}))(MuiIconButton);
 
 const showDateCol = (selectingFormValues, type, index) => {
   const regularity = path([type, index, 'regularity'], selectingFormValues);
@@ -194,73 +211,70 @@ const RenderMembers = (props) => {
           {`${title} (${itemCount})`}
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <div className={styles['table-container']}>
-            <Table className={styles.table}>
-              <TableHead>
-                <TableRow className={styles['table-row']}>
-                  <TableCell className={styles.description}>Name</TableCell>
-                  <TableCell className={styles.amount}>Value (£)</TableCell>
-                  <TableCell className={styles.regularity}>Occurs</TableCell>
-                  <TableCell className={styles.date}>Date</TableCell>
-                  <TableCell className={styles.remove} />
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {
-                  fields.map((member, index) => {
-                    const shouldShowDateCol = showDateCol(selectingFormValues, type, index);
-                    return (
-                      <TableRow className={styles['table-row']} key={fields.get(index)}>
-                        <TableCell>
-                          <Field
-                            name={`${member}.description`}
-                            type="text"
-                            component={RenderField}
-                            className={styles.description}
-                          />
+          <Table className={styles.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell className={styles.name}>Name</TableCell>
+                <TableCell className={styles.cost}>Value (£)</TableCell>
+                <TableCell className={styles.regularity}>Occurs</TableCell>
+                <TableCell className={styles.date}>Date</TableCell>
+                <TableCell className={styles.remove} />
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {
+                fields.map((member, index) => {
+                  const shouldShowDateCol = showDateCol(selectingFormValues, type, index);
+
+                  return (
+                    <TableRow key={fields.get(index)}>
+                      <TableCell className={styles.name}>
+                        <Field
+                          name={`${member}.description`}
+                          type="text"
+                          component={RenderField}
+                        />
+                      </TableCell>
+                      <TableCell className={styles.cost}>
+                        <CurrencyField
+                          name={`${member}.cost`}
+                        />
+                      </TableCell>
+                      <TableCell colSpan={shouldShowDateCol ? 1 : 2} className={styles.regularity}>
+                        <Field
+                          name={`${member}.regularity`}
+                          component={SelectInput}
+                          options={RECURRENCE_OPTIONS}
+                          onChange={() => {
+                            changeFormValue(selectingFormValues, member, type, index, 'recurrenceDate', null);
+                          }}
+                        />
+                      </TableCell>
+                      { shouldShowDateCol
+                        && (
+                        <TableCell className={styles.date}>
+                          {
+                            renderDateField(
+                              member,
+                              selectingFormValues[fields.name][index].regularity,
+                            )
+                          }
                         </TableCell>
-                        <TableCell>
-                          <CurrencyField
-                            name={`${member}.cost`}
-                            className={styles.aomunt}
-                          />
-                        </TableCell>
-                        <TableCell colSpan={shouldShowDateCol ? 1 : 2}>
-                          <Field
-                            name={`${member}.regularity`}
-                            component={SelectInput}
-                            options={RECURRENCE_OPTIONS}
-                            onChange={() => {
-                              changeFormValue(selectingFormValues, member, type, index, 'recurrenceDate', null);
-                            }}
-                          />
-                        </TableCell>
-                        { shouldShowDateCol
-                          && (
-                          <TableCell>
-                            {
-                              renderDateField(
-                                member,
-                                selectingFormValues[fields.name][index].regularity,
-                              )
-                            }
-                          </TableCell>
-                          )
-                        }
-                        <TableCell className={styles.remove}>
-                          <IconButton aria-label="Delete">
-                            <Delete onClick={() => fields.remove(index)} />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })
-                }
-              </TableBody>
-            </Table>
-            <div className={styles['add-button']}>
-              <AddCircle onClick={() => fields.push({})} />
-            </div>
+                        )
+                      }
+                      <TableCell className={styles.remove}>
+                        <IconButton aria-label="Delete">
+                          <Delete onClick={() => fields.remove(index)} />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              }
+            </TableBody>
+          </Table>
+          <div className={styles['add-button']}>
+            <AddCircle onClick={() => fields.push({})} />
           </div>
         </ExpansionPanelDetails>
       </ExpansionPanel>

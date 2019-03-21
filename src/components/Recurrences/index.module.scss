@@ -1,60 +1,53 @@
 @import '../../App.module.scss';
 
 .table {
+  table-layout:fixed;
+  width:100%;
+}
+
+.name {
+  // in fixed mode '%' is of the remaining space
+  min-width: 100%;
   width: 100%;
-  border-spacing: 2px 1px;
+  max-width: 100%;
 }
 
-.table-container {
-  margin: auto;
-  width: 100%;
-}
+.cost {
+    min-width: 67px;
+    width: 67px;
+    max-width: 67px;
 
-.description {
-  min-width: 55px;
-}
-
-.amount { 
-  min-width: 67px;
-  max-width: 67px;
-
-  @include breakpoint(desktop) {
-    max-width: 80px;  
-  }
+    @include breakpoint(tablet) {
+      max-width: 90px;  
+      min-width: 90px;  
+      width: 90px;  
+    }
 }
 
 .regularity {
-  min-width: 95px;
-  max-width: 95px;
+  min-width: 89px;
+  width: 89px;
+  max-width: 89px;
 
-  input {
+  div {
     width: 100%;
   }
 }
 
-.select {
-  width: 100%;
-}
-
 .date {
-  min-width: 81px;
-  max-width: 81px;
-}
+  min-width: 78px;
+  width: 78px;
+  max-width: 78px;
 
-.date-picker-popper {
-    div[class$="triangle"] {
-      left: 80%;
+  div {
+    width: 100%;
   }
 }
 
 .remove {
-  min-width: 24px;
-  max-width: 24px;
-  width: 24px;
-
-  div, button {
-    padding: 0;
-  }
+  min-width: 20px;
+  width: 20px;
+  max-width: 20px;
 }
 
 .add-button {
