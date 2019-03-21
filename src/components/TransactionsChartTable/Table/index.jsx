@@ -21,6 +21,7 @@ const renderDaysTransactions = daysTransactions => (
     {daysTransactions.map(({ cost, description }) => (
       <span>
         {`${description}${cost ? ` (${formatCost(cost)})` : ''}`}
+        <br />
       </span>
     ))}
   </div>
