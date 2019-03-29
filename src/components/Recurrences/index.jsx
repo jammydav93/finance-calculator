@@ -43,7 +43,7 @@ const Select = withStyles(() => ({
 }))(MuiSelect);
 
 const SelectInput = ({ input, options }) => (
-  <Select {...input}>
+  <Select style={{ width: '100%' }} {...input}>
     {options.map(x => <MenuItem key={x.description} value={x.value}>{x.description}</MenuItem>)}
   </Select>
 );
