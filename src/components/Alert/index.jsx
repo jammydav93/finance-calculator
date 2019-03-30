@@ -39,7 +39,7 @@ class AlertDialog extends React.Component {
 
     return (
       <div>
-        <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
+        <Button color="inherit" onClick={this.handleClickOpen}>
           {buttonTitle}
         </Button>
         <Dialog

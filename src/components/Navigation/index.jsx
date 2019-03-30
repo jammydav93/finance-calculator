@@ -1,12 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  withStyles,
+} from '@material-ui/core';
 import LoadButton from '../Load';
 import SaveButton from '../Save';
 import SignInButton from '../Signin';
 import SignOutButton from '../Signout';
 import Loading from '../Loading';
-import styles from './index.module.scss';
 
 const mapStateToProps = (state) => {
   const {
@@ -22,38 +27,54 @@ const mapStateToProps = (state) => {
 
 const showAuthedNavBar = authUser => (authUser ? <NavigationAuth /> : <NavigationNonAuth />);
 
-const Navigation = ({ loading, authUser }) => (
-  <div className={styles.navbar}>
-    <div className={styles['navbar-children']}>
-      { loading ? <Loading /> : showAuthedNavBar(authUser) }
-    </div>
-  </div>
-);
-
-Navigation.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  authUser: PropTypes.object.isRequired,
-};
-
 const NavigationAuth = () => (
   <React.Fragment>
-    <div className={styles.button}>
-      <LoadButton />
-    </div>
-    <div className={styles.button}>
-      <SaveButton />
-    </div>
-
-    <div className={styles.button}>
-      <SignOutButton />
-    </div>
+    <LoadButton />
+    <SaveButton />
+    <SignOutButton />
   </React.Fragment>
 );
 
 const NavigationNonAuth = () => (
-  <div className={styles.button}>
-    <SignInButton />
-  </div>
+  <SignInButton />
 );
 
-export default connect(mapStateToProps)(Navigation);
+const styles1 = {
+  root: {
+    flexGrow: 1,
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
+};
+
+function ButtonAppBar(props) {
+  const { classes, loading, authUser } = props;
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" color="inherit" className={classes.grow}>
+            MoneyFlux
+          </Typography>
+          { loading ? <Loading /> : showAuthedNavBar(authUser) }
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
+}
+
+ButtonAppBar.propTypes = {
+  classes: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired,
+  authUser: PropTypes.object.isRequired,
+};
+
+const styledAppBar = withStyles(styles1)(ButtonAppBar);
+
+
+export default connect(mapStateToProps)(styledAppBar);

@@ -5,7 +5,7 @@ import {
 import { auth } from '../../firebase';
 
 const SignInButton = () => (
-  <Button variant="outlined" color="primary" onClick={auth.doGoogleSignIn}>
+  <Button color="inherit" onClick={auth.doGoogleSignIn}>
     Login
   </Button>
 );
