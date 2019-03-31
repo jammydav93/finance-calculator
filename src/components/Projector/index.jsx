@@ -1,6 +1,7 @@
 import React from 'react';
 import { path } from 'ramda';
 import { connect } from 'react-redux';
+import { Paper } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import IntitialBalance from '../Form/InitialBalance';
 import Recurrences from '../Recurrences';
@@ -11,11 +12,13 @@ import TransactionChartTable from '../TransactionsChartTable';
 
 const AllRecurrences = ({ formExpandedDefault }) => (
   <React.Fragment>
-    <div className={styles['primary-fields']}>
-      <DateRangeInput type="startDate" label="Start" />
-      <DateRangeInput type="endDate" label="End" />
-      <IntitialBalance type="initialBalance" label="Balance" />
-    </div>
+    <Paper>
+      <div className={styles['primary-fields']}>
+        <DateRangeInput type="startDate" label="Start" />
+        <DateRangeInput type="endDate" label="End" />
+        <IntitialBalance type="initialBalance" label="Balance" />
+      </div>
+    </Paper>
     <div className={styles.recurrences}>
       <Recurrences type="income" className={styles.recurrenceTable} formExpandedDefault={formExpandedDefault} />
       <Recurrences type="outcome" className={styles.recurrenceTable} formExpandedDefault={formExpandedDefault} />

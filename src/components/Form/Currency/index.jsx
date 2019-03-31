@@ -38,11 +38,12 @@ const InputAdornment = withStyles(() => ({
 }))(MuiInputAdornment);
 
 const CurrencyInput = ({
-  input, className, otherProps,
+  input, className, otherProps, label,
 }) => (
   <TextField
     className={styles.currency}
     type="number"
+    label={label}
     value={input.value}
     onChange={input.onChange}
     onBlur={input.onChange}
@@ -59,22 +60,25 @@ const CurrencyInput = ({
 CurrencyInput.defaultProps = {
   className: '',
   otherProps: {},
+  label: '',
 };
 
 CurrencyInput.propTypes = {
   input: PropTypes.object.isRequired,
   className: PropTypes.string,
   otherProps: PropTypes.object,
+  label: PropTypes.string,
 };
 
 const CurrencyField = ({
-  name, isInitialBalance = false, className, otherProps,
+  name, isInitialBalance = false, className, otherProps, label,
 }) => (
   <Field
     name={name}
     component={CurrencyInput}
     normalize={normalize(isInitialBalance)}
     otherProps={otherProps}
+    label={label}
     className={className}
   />
 );
@@ -83,6 +87,7 @@ CurrencyField.defaultProps = {
   isInitialBalance: false,
   className: '',
   otherProps: {},
+  label: '',
 };
 
 CurrencyField.propTypes = {
@@ -90,6 +95,7 @@ CurrencyField.propTypes = {
   isInitialBalance: PropTypes.bool,
   className: PropTypes.string,
   otherProps: PropTypes.object,
+  label: PropTypes.string,
 };
 
 export default CurrencyField;

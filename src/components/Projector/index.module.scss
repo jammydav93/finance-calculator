@@ -1,6 +1,7 @@
 @import '../../App.module.scss';
 
 .primary-fields {
+  padding: 10px 5px 5px 5px;
   display: flex;
   justify-content: space-between;
   margin: 0 25%;
@@ -8,6 +9,10 @@
 
   @include breakpoint(mobile){
     margin: 0;
+  }
+
+  > div {
+    width: 110px;
   }
 }
 

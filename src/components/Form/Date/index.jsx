@@ -8,22 +8,16 @@ import DatePicker from 'react-datepicker';
 import PropTypes from 'prop-types';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
-import styles from './index.module.scss';
 // import validate from './validate'
 
 const renderDatePicker = ({ input, label }) => (
-  <div className={styles['date-input']}>
-    <div className={styles.label}>
-      {label}
-    </div>
-    <DatePicker
-      customInput={<TextField variant="outlined" />}
-      name={input.name}
-      onChange={a => (input.onChange(moment(a)))}
-      dateFormat="dd-MM-yyyy"
-      selected={input.value ? new Date(input.value) : null}
-    />
-  </div>
+  <DatePicker
+    customInput={<TextField label={label} variant="outlined" />}
+    name={input.name}
+    onChange={a => (input.onChange(moment(a)))}
+    dateFormat="dd-MM-yyyy"
+    selected={input.value ? new Date(input.value) : null}
+  />
 );
 
 renderDatePicker.propTypes = {
