@@ -10,6 +10,7 @@ import Loading from '../Loading';
 import styles from './index.module.scss';
 import TransactionChartTable from '../TransactionsChartTable';
 import Notification from '../Notification';
+import Introduction from './Introduction';
 
 const AllRecurrences = ({ formExpandedDefault }) => (
   <React.Fragment>
@@ -33,17 +34,22 @@ AllRecurrences.propTypes = {
   formExpandedDefault: PropTypes.bool.isRequired,
 };
 
-const renderProjector = ({ loading, loadingForm, loadedFormData }) => {
+const renderProjector = ({
+  loading, loadingForm, loadedFormData, isLoggedIn,
+}) => {
   if (loading) {
     return null;
   } if (loadingForm) {
     return <Loading />;
+  } if (!isLoggedIn) {
+    return <Introduction />;
   }
 
   return <AllRecurrences formExpandedDefault={!loadedFormData} />;
 };
 
 renderProjector.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   loadingForm: PropTypes.bool.isRequired,
   loadedFormData: PropTypes.bool.isRequired,
@@ -51,6 +57,7 @@ renderProjector.propTypes = {
 
 const mapStateToProps = state => ({
   loading: state.sessionState.loading,
+  isLoggedIn: state.sessionState.authUser,
   loadingForm: state.recurrencesState.loading,
   loadedFormData: path(['recurrencesState', 'formData', 'loadedCounter'], state) > 0,
 });

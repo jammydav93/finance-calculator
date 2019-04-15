@@ -1,6 +1,6 @@
 const INITIAL_STATE = {
-  level: 'warning',
-  message: 'this is a warning',
+  level: null,
+  message: null,
 };
 
 const addNotification = ({ level, message }) => ({
