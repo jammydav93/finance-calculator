@@ -9,6 +9,7 @@ import DateRangeInput from '../Form/Date';
 import Loading from '../Loading';
 import styles from './index.module.scss';
 import TransactionChartTable from '../TransactionsChartTable';
+import Notification from '../Notification';
 
 const AllRecurrences = ({ formExpandedDefault }) => (
   <React.Fragment>
@@ -24,6 +25,7 @@ const AllRecurrences = ({ formExpandedDefault }) => (
       <Recurrences type="outcome" className={styles.recurrenceTable} formExpandedDefault={formExpandedDefault} />
     </div>
     <TransactionChartTable />
+    <Notification />
   </React.Fragment>
 );
 

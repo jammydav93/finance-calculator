@@ -1,8 +1,11 @@
-export const ADD_LODED_FORM_DATA = 'ADD_LOADED_FORM_DATA';
+import { addLoadedFormData } from './recurrences';
+import {
+  addNotification,
+  clearNotification,
+} from './notification';
 
-export const addLoadedFormData = article => (
-  {
-    type: 'ADD_LOADED_FORM_DATA',
-    payload: article,
-  }
-);
+export {
+  addLoadedFormData,
+  addNotification,
+  clearNotification,
+};

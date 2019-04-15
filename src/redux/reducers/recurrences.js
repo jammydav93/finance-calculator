@@ -49,7 +49,7 @@ const INITIAL_STATE = {
 };
 
 const addLoadedFormData = (state, action) => {
-  const { income, outcome } = action.payload.result;
+  const { income, outcome } = action.payload;
   const incrementedLoadedCounter = pathOr(0, ['formData', 'loadedCounter'], state) + 1;
   const formData = {
     ...initialFormData,
@@ -61,22 +61,28 @@ const addLoadedFormData = (state, action) => {
 
   return {
     ...state,
-    loading: false,
     formData,
   };
 };
 
-const loadUserData = state => ({
+const startLoadUserData = state => ({
   ...state,
   loading: true,
+});
+
+const endLoadUserData = state => ({
+  ...state,
+  loading: false,
 });
 
 const clearFormData = () => INITIAL_STATE;
 
 function recurrenceReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case 'LOAD_USER_DATA':
-      return loadUserData();
+    case 'START_LOADING_USER_DATA':
+      return startLoadUserData();
+    case 'END_LOADING_USER_DATA':
+      return endLoadUserData();
     case 'CLEAR_FORM_DATA':
       return clearFormData();
     case 'ADD_LOADED_FORM_DATA':
