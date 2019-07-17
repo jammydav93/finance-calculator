@@ -10,19 +10,6 @@ jobs:
       - run: echo "{\"firebase\":{\"apiKey\":\"${firebaseApiKey}\",\"authDomain\":\"${firebaseAuthDomain}\",\"databaseURL\":\"${firebaseDatabaseUrl}\",\"storageBucket\":\"${firebaseStorageBucket}\"}}" >> ~/repo/src/secrets.json
       - run: echo "34.247.104.70 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBsEknIA1gczEAnqUbKKFgczdKn33k9vyya8LIn79Jyh/C/8+v4o/Ui5ZZkeZQuEVKaDrxTwebf+uXYMvRAkJLQ=" >> ~/.ssh/known_hosts
       - run: npm run test-with-coverage
-  deploy-ec2:
-    working_directory: ~/repo
-    docker:
-      - image: circleci/node:10.15.0
-    steps:
-      - checkout
-      - run: npm install
-      - run: echo "{\"firebase\":{\"apiKey\":\"${firebaseApiKey}\",\"authDomain\":\"${firebaseAuthDomain}\",\"databaseURL\":\"${firebaseDatabaseUrl}\",\"storageBucket\":\"${firebaseStorageBucket}\"}}" >> ~/repo/src/secrets.json
-      - run: echo "34.247.104.70 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBsEknIA1gczEAnqUbKKFgczdKn33k9vyya8LIn79Jyh/C/8+v4o/Ui5ZZkeZQuEVKaDrxTwebf+uXYMvRAkJLQ=" >> ~/.ssh/known_hosts
-      - run: npm run build
-      - run: sudo apt-get install rsync
-      - run: rsync -avce ssh ~/repo ubuntu@34.247.104.70:~/deployed
-      - run: ssh ubuntu@34.247.104.70 'cd ~/deployed/repo && pwd && ls && . ~/.nvm/nvm.sh && npm i  && pm2 serve -f build'
   deploy-s3:
     working_directory: ~/repo
     docker:
@@ -44,13 +31,6 @@ workflows:
   build_and_test:
     jobs:
       - build-and-test
-      - deploy-ec2:
-          requires:
-            - build-and-test
-          filters:
-            branches:
-              only:
-                - master
       - deploy-s3:
           requires:
             - build-and-test
