@@ -21,7 +21,7 @@
     "react-scripts": "^3.0.1",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
-    "redux-form": "^8.2.4"
+    "redux-form": "^8.2.5"
   },
   "devDependencies": {
     "body-parser": "^1.19.0",
