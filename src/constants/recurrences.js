@@ -1,4 +1,5 @@
 const RECURRENCE_OPTIONS = [
+  { description: 'one-off', value: 'one-off', showDateColumn: true },
   { description: 'daily', value: 'daily', showDateColumn: false },
   { description: 'weekdays', value: 'weekdays', showDateColumn: false },
   { description: 'weekly', value: 'weekly', showDateColumn: true },

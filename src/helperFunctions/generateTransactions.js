@@ -75,6 +75,7 @@ const generateTransactions = (formDataValues = {}) => {
           || (regularity === 'weekly' && recurrenceDate
             && runningDate.isoWeekday() === parseInt(recurrenceDate, 10)
           )
+   || (regularity === 'one-off' && recurrenceDate && moment(runningDate).isSame(recurrenceDate, 'day'))
         ) {
           const cost = allRecurrences[i].type === 'outgoing'
             ? Number(0 - allRecurrences[i].cost)

@@ -66,19 +66,7 @@ const RenderField = (
     type,
     className,
   },
-) => (
-  <div>
-    <TextField
-      {...input}
-      className={className}
-      type={type}
-      placeholder={label}
-      inputProps={{
-        className,
-      }}
-    />
-  </div>
-);
+) => <div><TextField {...input} className={className} type={type} placeholder={label} inputProps={{ className }} /></div>; //eslint-disable-line
 
 RenderField.defaultProps = {
   label: '',
@@ -143,6 +131,7 @@ const renderDateField = (member, regularity) => {
     }
     case 'quaterly':
     case '4 weekly':
+    case 'one-off':
       return (
         <Field
           name={`${member}.recurrenceDate`}
@@ -250,16 +239,16 @@ const RenderMembers = (props) => {
                           }}
                         />
                       </TableCell>
-                      { shouldShowDateCol
+                      {shouldShowDateCol
                         && (
-                        <TableCell className={styles.date}>
-                          {
-                            renderDateField(
-                              member,
-                              selectingFormValues[fields.name][index].regularity,
-                            )
-                          }
-                        </TableCell>
+                          <TableCell className={styles.date}>
+                            {
+                              renderDateField(
+                                member,
+                                selectingFormValues[fields.name][index].regularity,
+                              )
+                            }
+                          </TableCell>
                         )
                       }
                       <TableCell className={styles.remove}>
