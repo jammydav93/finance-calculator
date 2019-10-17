@@ -5,7 +5,10 @@ import styles from './App.module.scss';
 import WithAuthentication from './components/WithAuthentication';
 
 export const App = () => (
-  <div className={styles.app}>
+  <div
+    version={process.env.REACT_APP_VERSION}
+    className={styles.app}
+  >
     <div className={styles.header}>
       <Navigation />
     </div>
