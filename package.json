@@ -1,6 +1,6 @@
 {
   "name": "finance-forecaster",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.3",
@@ -35,9 +35,9 @@
     "express": "^4.17.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "REACT_APP_VERSION=local react-scripts start",
     "lint": "eslint --ext .js --ext .jsx .",
-    "build": "react-scripts build",
+    "build": "REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version') react-scripts build",
     "test": "npm run lint && react-scripts test --env=jsdom",
     "test-with-coverage": "npm test -- --coverage",
     "eject": "react-scripts eject"

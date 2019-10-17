@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  Switch,
+  Route,
+} from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Projector from './components/Projector';
 import styles from './App.module.scss';
@@ -10,7 +14,14 @@ export const App = () => (
       <Navigation />
     </div>
     <div className={styles.content}>
-      <Projector />
+      <Switch>
+        <Route path="/version">
+          <div>{process.env.REACT_APP_VERSION}</div>
+        </Route>
+        <Route path="/">
+          <Projector />
+        </Route>
+      </Switch>
     </div>
   </div>
 );
