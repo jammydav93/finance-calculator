@@ -7,6 +7,62 @@ const costPenceReducer = transactions => transactions.reduce(
   (accumulator, currentValue) => accumulator + currentValue.costPence, 0,
 );
 
+const getLastWorkingDay = (initDate) => {
+  const isWeekday = initDate.isoWeekday() < 6;
+
+  if (isWeekday) {
+    return initDate;
+  }
+  const nextDate = initDate.clone().subtract(1, 'day');
+  return getLastWorkingDay(nextDate);
+};
+
+// Mon-Fri = 1-5
+const isIsoWeekday = date => date.isoWeekday() < 6;
+
+const isMonthly = (runningDate, recurrenceDate) => recurrenceDate
+  && runningDate.date() === parseInt(recurrenceDate, 10);
+
+const isFourWeekly = (runningDate, recurrenceDate) => recurrenceDate
+  && (runningDate.dayOfYear() - moment(recurrenceDate).dayOfYear()) % 28 === 0;
+
+const isQuaterly = (runningDate, recurrenceDate) => recurrenceDate
+  && runningDate.date() === moment(recurrenceDate).date()
+  && (runningDate.month() - moment(recurrenceDate).month()) % 3 === 0;
+
+const isWeekly = (runningDate, recurrenceDate) => recurrenceDate
+  && runningDate.isoWeekday() === parseInt(recurrenceDate, 10);
+
+const isSameDate = (date1, date2) => date1.isSame(date2, 'day');
+
+const isLastMontlyWeekday = (runningDate) => {
+  const lastWeekdayOfMonth = getLastWorkingDay(runningDate.clone().endOf('month'));
+  return isSameDate(runningDate, lastWeekdayOfMonth);
+};
+
+const shouldAddTransaction = (regularity, runningDate, recurrenceDate) => {
+  switch (regularity) {
+    case 'daily':
+      return true;
+    case 'weekdays':
+      return isIsoWeekday(runningDate);
+    case 'monthly':
+      return isMonthly(runningDate, recurrenceDate);
+    case '4 weekly':
+      return isFourWeekly(runningDate, recurrenceDate);
+    case 'quaterly':
+      return isQuaterly(runningDate, recurrenceDate);
+    case 'weekly':
+      return isWeekly(runningDate, recurrenceDate);
+    case 'last monthly weekday':
+      return isLastMontlyWeekday(runningDate);
+    case 'one-off':
+      return isSameDate(runningDate, recurrenceDate);
+    default:
+      return false;
+  }
+};
+
 const generateTransactions = (formDataValues = {}) => {
   const {
     startDate,
@@ -59,41 +115,7 @@ const generateTransactions = (formDataValues = {}) => {
           recurrenceDate,
         } = allRecurrences[i];
 
-        const getLastWorkingDay = (initDate) => {
-
-          const isWeekday = initDate.isoWeekday() < 6
-
-          if (isWeekday) {
-            return initDate
-          } else {
-            const nextDate = initDate.subtract(1, 'day')
-            return getLastWorkingDay(nextDate)
-          }
-        }
-
-        const lastMontlyWeekday = getLastWorkingDay(runningDate.clone().endOf('month'))
-
-        if (
-          (regularity === 'daily')
-          || (regularity === 'weekdays' && runningDate.isoWeekday() < 6)
-          || (regularity === 'monthly' && recurrenceDate
-            && runningDate.date() === parseInt(recurrenceDate, 10)
-          )
-          || (regularity === '4 weekly' && recurrenceDate
-            && (runningDate.dayOfYear() - moment(recurrenceDate).dayOfYear()) % 28 === 0
-          )
-          || (regularity === 'quaterly' && recurrenceDate
-            && runningDate.date() === moment(recurrenceDate).date()
-            && (runningDate.month() - moment(recurrenceDate).month()) % 3 === 0
-          )
-          || (regularity === 'weekly' && recurrenceDate
-            && runningDate.isoWeekday() === parseInt(recurrenceDate, 10)
-          )
-          || (regularity === 'last monthly weekday'
-            && moment(runningDate).isSame(lastMontlyWeekday, 'day')
-          )
-          || (regularity === 'one-off' && recurrenceDate && moment(runningDate).isSame(recurrenceDate, 'day'))
-        ) {
+        if (shouldAddTransaction(regularity, runningDate, recurrenceDate)) {
           const cost = allRecurrences[i].type === 'outgoing'
             ? Number(0 - allRecurrences[i].cost)
             : Number(allRecurrences[i].cost);
