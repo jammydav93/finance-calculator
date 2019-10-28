@@ -4,6 +4,7 @@ const RECURRENCE_OPTIONS = [
   { description: 'weekdays', value: 'weekdays', showDateColumn: false },
   { description: 'weekly', value: 'weekly', showDateColumn: true },
   { description: '4 weekly', value: '4 weekly', showDateColumn: true },
+  { description: 'last monthly weekday', value: 'last monthly weekday', showDateColumn: false },
   { description: 'monthly', value: 'monthly', showDateColumn: true },
   { description: 'quaterly', value: 'quaterly', showDateColumn: true },
 ];

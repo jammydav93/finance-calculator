@@ -59,6 +59,20 @@ const generateTransactions = (formDataValues = {}) => {
           recurrenceDate,
         } = allRecurrences[i];
 
+        const getLastWorkingDay = (initDate) => {
+
+          const isWeekday = initDate.isoWeekday() < 6
+
+          if (isWeekday) {
+            return initDate
+          } else {
+            const nextDate = initDate.subtract(1, 'day')
+            return getLastWorkingDay(nextDate)
+          }
+        }
+
+        const lastMontlyWeekday = getLastWorkingDay(runningDate.clone().endOf('month'))
+
         if (
           (regularity === 'daily')
           || (regularity === 'weekdays' && runningDate.isoWeekday() < 6)
@@ -75,7 +89,10 @@ const generateTransactions = (formDataValues = {}) => {
           || (regularity === 'weekly' && recurrenceDate
             && runningDate.isoWeekday() === parseInt(recurrenceDate, 10)
           )
-   || (regularity === 'one-off' && recurrenceDate && moment(runningDate).isSame(recurrenceDate, 'day'))
+          || (regularity === 'last monthly weekday'
+            && moment(runningDate).isSame(lastMontlyWeekday, 'day')
+          )
+          || (regularity === 'one-off' && recurrenceDate && moment(runningDate).isSame(recurrenceDate, 'day'))
         ) {
           const cost = allRecurrences[i].type === 'outgoing'
             ? Number(0 - allRecurrences[i].cost)
