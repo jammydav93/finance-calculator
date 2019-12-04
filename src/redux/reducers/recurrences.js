@@ -1,5 +1,10 @@
 import moment from 'moment';
 import { pathOr } from 'ramda';
+import {
+  MONTHLY,
+  WEEKLY,
+  WEEKDAYS,
+} from '../../constants/recurrences';
 
 const initialFormData = {
   loading: false,
@@ -14,7 +19,7 @@ const initialFormData = {
       costPence: 100000,
       description: 'Salary 1',
       recurrenceDate: '18',
-      regularity: 'monthly',
+      regularity: MONTHLY,
     },
   ],
   outcome: [
@@ -24,7 +29,7 @@ const initialFormData = {
       costPence: 50000,
       description: 'Rent',
       recurrenceDate: '24',
-      regularity: 'monthly',
+      regularity: MONTHLY,
     },
     {
       type: 'outgoing',
@@ -32,14 +37,14 @@ const initialFormData = {
       costPence: 6000,
       description: 'Food',
       recurrenceDate: '1',
-      regularity: 'weekly',
+      regularity: WEEKLY,
     },
     {
       type: 'outgoing',
       cost: '10.00',
       costPence: 1000,
       description: 'Train to work',
-      regularity: 'weekdays',
+      regularity: WEEKDAYS,
     },
   ],
 };
