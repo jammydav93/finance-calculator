@@ -16,14 +16,14 @@ describe('generateTransactions', () => {
         cost: '1.00',
         costPence: 100,
         description: 'income1',
-        regularity: 'weekdays',
+        regularity: 'WEEKDAYS',
         type: 'incoming',
       }],
       outcome: [{
         cost: '2.00',
         costPence: 200,
         description: 'outcome1',
-        regularity: 'weekdays',
+        regularity: 'WEEKDAYS',
         type: 'outgoing',
       }],
     };

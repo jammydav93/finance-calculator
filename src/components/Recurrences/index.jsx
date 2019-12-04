@@ -32,8 +32,19 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import styles from './index.module.scss';
-import { RECURRENCE_OPTIONS, WEEKLY_OPTIONS } from '../../constants';
 import CurrencyField from '../Form/Currency';
+import {
+  RECURRENCE_OPTIONS,
+  WEEKLY_OPTIONS,
+  MONTHLY,
+  QUATERLY,
+  FOUR_WEEKLY,
+  DAILY,
+  ONE_OFF,
+  WEEKDAYS,
+  LAST_MONTHLY_WEEKDAY,
+  WEEKLY,
+} from '../../constants/recurrences';
 // import validate from './validate'
 
 const Select = withStyles(() => ({
@@ -108,7 +119,7 @@ RenderDatePicker.propTypes = {
 const renderDateField = (member, regularity) => {
   const className = 'date';
   switch (regularity) {
-    case 'weekly':
+    case WEEKLY:
       return (
         <Field
           name={`${member}.recurrenceDate`}
@@ -116,7 +127,7 @@ const renderDateField = (member, regularity) => {
           options={WEEKLY_OPTIONS}
         />
       );
-    case 'monthly': {
+    case MONTHLY: {
       const MonthlyList = Array.from(
         new Array(31), (val, index) => ({ value: index + 1, description: index + 1 }),
       );
@@ -129,9 +140,9 @@ const renderDateField = (member, regularity) => {
         />
       );
     }
-    case 'quaterly':
-    case '4 weekly':
-    case 'one-off':
+    case QUATERLY:
+    case FOUR_WEEKLY:
+    case ONE_OFF:
       return (
         <Field
           name={`${member}.recurrenceDate`}
@@ -139,8 +150,9 @@ const renderDateField = (member, regularity) => {
           className={className}
         />
       );
-    case 'daily':
-    case 'week daily':
+    case DAILY:
+    case WEEKDAYS:
+    case LAST_MONTHLY_WEEKDAY:
     default:
       return <div className={className} />;
   }

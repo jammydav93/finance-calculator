@@ -1,5 +1,17 @@
 import moment from 'moment';
 import { isEmpty, map } from 'ramda';
+import {
+  DAILY,
+  MONTHLY,
+  WEEKDAYS,
+  FOUR_WEEKLY,
+  QUATERLY,
+  WEEKLY,
+  LAST_MONTHLY_WEEKDAY,
+  ONE_OFF,
+  INCOMING_TRANSACTION,
+  OUTGOING_TRANSACTION,
+} from '../constants/recurrences';
 
 const toPence = a => (a ? parseInt(parseFloat(a.replace(/,/g, '')) * 100, 10) : 0);
 
@@ -42,21 +54,21 @@ const isLastMontlyWeekday = (runningDate) => {
 
 const shouldAddTransaction = (regularity, runningDate, recurrenceDate) => {
   switch (regularity) {
-    case 'daily':
+    case DAILY:
       return true;
-    case 'weekdays':
+    case WEEKDAYS:
       return isIsoWeekday(runningDate);
-    case 'monthly':
+    case MONTHLY:
       return isMonthly(runningDate, recurrenceDate);
-    case '4 weekly':
+    case FOUR_WEEKLY:
       return isFourWeekly(runningDate, recurrenceDate);
-    case 'quaterly':
+    case QUATERLY:
       return isQuaterly(runningDate, recurrenceDate);
-    case 'weekly':
+    case WEEKLY:
       return isWeekly(runningDate, recurrenceDate);
-    case 'last monthly weekday':
+    case LAST_MONTHLY_WEEKDAY:
       return isLastMontlyWeekday(runningDate);
-    case 'one-off':
+    case ONE_OFF:
       return isSameDate(runningDate, recurrenceDate);
     default:
       return false;
@@ -78,11 +90,19 @@ const generateTransactions = (formDataValues = {}) => {
   }
 
   const incomeRecurrences = formDataValues.income
-    ? map(i => ({ ...i, type: 'incoming', costPence: toPence(i.cost) }), formDataValues.income)
+    ? map(i => ({
+      ...i,
+      type: INCOMING_TRANSACTION,
+      costPence: toPence(i.cost),
+    }), formDataValues.income)
     : [];
 
   const outcomeRecurrences = formDataValues.outcome
-    ? map(i => ({ ...i, type: 'outgoing', costPence: toPence(i.cost) }), formDataValues.outcome)
+    ? map(i => ({
+      ...i,
+      type: OUTGOING_TRANSACTION,
+      costPence: toPence(i.cost),
+    }), formDataValues.outcome)
     : [];
 
   const allRecurrences = incomeRecurrences.concat(outcomeRecurrences);
@@ -116,11 +136,11 @@ const generateTransactions = (formDataValues = {}) => {
         } = allRecurrences[i];
 
         if (shouldAddTransaction(regularity, runningDate, recurrenceDate)) {
-          const cost = allRecurrences[i].type === 'outgoing'
+          const cost = allRecurrences[i].type === OUTGOING_TRANSACTION
             ? Number(0 - allRecurrences[i].cost)
             : Number(allRecurrences[i].cost);
 
-          const costPence = allRecurrences[i].type === 'outgoing'
+          const costPence = allRecurrences[i].type === OUTGOING_TRANSACTION
             ? 0 - allRecurrences[i].costPence
             : allRecurrences[i].costPence;
 
