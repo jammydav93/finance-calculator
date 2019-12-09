@@ -192,11 +192,10 @@ const showDateCol = (formValues, type, index) => {
   return regularityConfig && regularityConfig.showDateColumn;
 };
 
-
 const RenderMembers = (props) => {
   const {
     formExpandedDefault,
-    selectingFormValues,
+    formValues,
     type,
     fields,
     changeFormValue,
@@ -225,10 +224,10 @@ const RenderMembers = (props) => {
             <TableBody>
               {
                 fields.map((member, index) => {
-                  const shouldShowDateCol = showDateCol(selectingFormValues, type, index);
+                  const shouldShowDateCol = showDateCol(formValues, type, index);
 
                   return (
-                    <TableRow key={fields.get(index)}>
+                    <TableRow key={member}>
                       <TableCell className={styles.name}>
                         <Field
                           name={`${member}.description`}
@@ -247,7 +246,7 @@ const RenderMembers = (props) => {
                           component={SelectInput}
                           options={RECURRENCE_OPTIONS}
                           onChange={() => {
-                            changeFormValue(selectingFormValues, member, type, index, 'recurrenceDate', null);
+                            changeFormValue(formValues, member, type, index, 'recurrenceDate', null);
                           }}
                         />
                       </TableCell>
@@ -257,15 +256,15 @@ const RenderMembers = (props) => {
                             {
                               renderDateField(
                                 member,
-                                selectingFormValues[fields.name][index].regularity,
+                                formValues[fields.name][index].regularity,
                               )
                             }
                           </TableCell>
                         )
                       }
                       <TableCell className={styles.remove}>
-                        <IconButton aria-label="Delete">
-                          <Delete onClick={() => fields.remove(index)} />
+                        <IconButton aria-label="Delete" onClick={() => fields.remove(index)}>
+                          <Delete />
                         </IconButton>
                       </TableCell>
                     </TableRow>
@@ -285,21 +284,20 @@ const RenderMembers = (props) => {
 
 RenderMembers.defaultProps = {
   fields: [],
+  formValues: {},
 };
 
 RenderMembers.propTypes = {
   formExpandedDefault: PropTypes.bool.isRequired,
-  selectingFormValues: PropTypes.object.isRequired,
+  formValues: PropTypes.object,
   type: PropTypes.string.isRequired,
   fields: PropTypes.object,
   changeFormValue: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => (
-  {
-    selectingFormValues: path(['form', 'selectingFormValues', 'values'], state),
-  }
-);
+const mapStateToProps = state => ({
+  formValues: path(['form', 'selectingFormValues', 'values'], state),
+});
 
 const mapDispatchToProps = dispatch => ({
   changeFormValue: (selectingFormValues, member, type, index, key, value) => {

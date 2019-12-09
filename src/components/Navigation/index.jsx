@@ -61,17 +61,21 @@ function ButtonAppBar(props) {
           <Typography variant="h6" color="inherit" className={classes.grow}>
             MoneyFlux
           </Typography>
-          { loading ? <Loading /> : showAuthedNavBar(authUser) }
+          {loading ? <Loading /> : showAuthedNavBar(authUser)}
         </Toolbar>
       </AppBar>
     </div>
   );
 }
 
+ButtonAppBar.defaultProps = {
+  authUser: {},
+};
+
 ButtonAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
-  authUser: PropTypes.object.isRequired,
+  authUser: PropTypes.object,
 };
 
 const styledAppBar = withStyles(styles1)(ButtonAppBar);

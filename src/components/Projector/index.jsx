@@ -57,8 +57,8 @@ renderProjector.propTypes = {
 
 const mapStateToProps = state => ({
   loading: state.sessionState.loading,
-  isLoggedIn: state.sessionState.authUser,
-  loadingForm: state.recurrencesState.loading,
+  isLoggedIn: Boolean(state.sessionState.authUser),
+  loadingForm: Boolean(state.recurrencesState.loading),
   loadedFormData: path(['recurrencesState', 'formData', 'loadedCounter'], state) > 0,
 });
 

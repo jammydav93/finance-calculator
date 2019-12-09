@@ -152,11 +152,18 @@ class CustomizedSnackbars extends React.Component {
   }
 }
 
+CustomizedSnackbars.defaultProps = {
+  notification: {
+    level: null,
+    message: null,
+  },
+};
+
 CustomizedSnackbars.propTypes = {
   notification: PropTypes.shape({
-    level: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
-  }).isRequired,
+    level: PropTypes.string,
+    message: PropTypes.string,
+  }),
 };
 
 const StyledSnackbars = withStyles(styles2)(CustomizedSnackbars);

@@ -64,6 +64,7 @@ class AlertDialog extends React.Component {
                   this.handleClose();
                 }}
                 color={button.type}
+                key={button.text}
               >
                 {button.text}
               </Button>
@@ -78,7 +79,7 @@ class AlertDialog extends React.Component {
 AlertDialog.propTypes = {
   buttonTitle: PropTypes.string.isRequired,
   dialogueText: PropTypes.string.isRequired,
-  dialogueButtons: PropTypes.string.isRequired,
+  dialogueButtons: PropTypes.array.isRequired,
 };
 
 export default AlertDialog;

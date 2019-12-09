@@ -8,24 +8,29 @@ import AlertDialogue from '../Alert';
 const mapStateToProps = state => (
   {
     authUser: state.sessionState.authUser,
-    selectingFormValues: path(['form', 'selectingFormValues', 'values'], state),
+    formValues: path(['form', 'selectingFormValues', 'values'], state),
   }
 );
 
-const SaveButton = ({ authUser, selectingFormValues }) => (
+const SaveButton = ({ authUser, formValues }) => (
   <AlertDialogue
     buttonTitle="Save"
     dialogueText="Are you sure you wish to save?"
     dialogueButtons={[
       { text: 'Cancel', type: 'secondary' },
-      { text: 'Confirm', onClick: () => db.saveUserFormData(authUser.uid, selectingFormValues), type: 'primary' },
+      { text: 'Confirm', onClick: () => db.saveUserFormData(authUser.uid, formValues), type: 'primary' },
     ]}
   />
 );
 
+SaveButton.defaultProps = {
+  formValues: {},
+  authUser: {},
+};
+
 SaveButton.propTypes = {
-  authUser: PropTypes.object.isRequired,
-  selectingFormValues: PropTypes.object.isRequired,
+  authUser: PropTypes.object,
+  formValues: PropTypes.object,
 };
 
 export default connect(mapStateToProps)(SaveButton);
