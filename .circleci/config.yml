@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build-and-test:
+  test-and-build:
     working_directory: ~/repo
     docker:
       - image: circleci/node:10.15.0
@@ -10,6 +10,7 @@ jobs:
       - run: echo "{\"firebase\":{\"apiKey\":\"${firebaseApiKey}\",\"authDomain\":\"${firebaseAuthDomain}\",\"databaseURL\":\"${firebaseDatabaseUrl}\",\"storageBucket\":\"${firebaseStorageBucket}\"}}" >> ~/repo/src/secrets.json
       - run: echo "34.247.104.70 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBsEknIA1gczEAnqUbKKFgczdKn33k9vyya8LIn79Jyh/C/8+v4o/Ui5ZZkeZQuEVKaDrxTwebf+uXYMvRAkJLQ=" >> ~/.ssh/known_hosts
       - run: npm run test-with-coverage
+      - run: npm run build
   deploy-s3:
     working_directory: ~/repo
     docker:
@@ -28,12 +29,12 @@ jobs:
 
 workflows:
   version: 2
-  build_and_test:
+  test_and_build:
     jobs:
-      - build-and-test
+      - test-and-build
       - deploy-s3:
           requires:
-            - build-and-test
+            - test-and-build
           filters:
             branches:
               only:
