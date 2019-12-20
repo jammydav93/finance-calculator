@@ -3,7 +3,7 @@ jobs:
   test-and-build:
     working_directory: ~/repo
     docker:
-      - image: circleci/node:10.15.0
+      - image: circleci/node:12.14.0
     steps:
       - checkout
       - run: npm install
@@ -12,7 +12,7 @@ jobs:
   deploy-s3:
     working_directory: ~/repo
     docker:
-      - image: circleci/node:10.15.0
+      - image: circleci/node:12.14.0
     steps:
       - checkout
       - run: npm install
