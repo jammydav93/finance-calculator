@@ -16,7 +16,14 @@ export const App = () => (
     <div className={styles.content}>
       <Switch>
         <Route path="/version">
-          <div>{process.env.REACT_APP_VERSION}</div>
+          <div>
+            Version =
+            {process.env.REACT_APP_VERSION}
+          </div>
+          <div>
+            Last commit =
+            {process.env.REACT_APP_LATEST_COMMIT}
+          </div>
         </Route>
         <Route path="/">
           <Projector />
