@@ -35,9 +35,9 @@
     "express": "^4.17.1"
   },
   "scripts": {
-    "start": "REACT_APP_VERSION=local react-scripts start",
+    "start": "REACT_APP_VERSION=local REACT_APP_LAST_COMMIT_ID=local react-scripts start",
     "lint": "eslint --ext .js --ext .jsx .",
-    "build": "REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version') react-scripts build",
+    "build": "REACT_APP_VERSION=$(node -pe 'require(\"./package.json\").version') REACT_APP_LAST_COMMIT_ID=$(git rev-parse HEAD) react-scripts build",
     "test": "npm run lint && react-scripts test --env=jsdom",
     "test-with-coverage": "npm test -- --coverage",
     "eject": "react-scripts eject"
