@@ -1,31 +1,39 @@
-version: 2
-jobs:
-  test-and-build:
-    working_directory: ~/repo
+
+version: 2.1
+
+executors:
+  my-executor:
     docker:
-      - image: circleci/node:10.15.0
+      - image: circleci/node:12.14.0
+    working_directory: ~/repo
+
+jobs:
+  test-and-build: 
+    executor: my-executor
     steps:
       - checkout
       - run: npm install
       - run: npm run test-with-coverage
       - run: npm run build
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - build
+
   deploy-s3:
-    working_directory: ~/repo
-    docker:
-      - image: circleci/node:10.15.0
+    executor: my-executor
     steps:
-      - checkout
-      - run: npm install
+      - attach_workspace:
+          at: ~/repo/
       - run: sudo apt-get update && sudo apt-get install -y python-dev
       - run: sudo curl -O https://bootstrap.pypa.io/get-pip.py
       - run: sudo python get-pip.py
       - run: sudo pip install awscli --upgrade
-      - run: npm run build
       - run: aws s3 sync build/ s3://moneyflux.co.uk --delete
 
 workflows:
   version: 2
-  test_and_build:
+  money-flux-ci:
     jobs:
       - test-and-build
       - deploy-s3:
