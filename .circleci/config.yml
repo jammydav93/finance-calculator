@@ -7,8 +7,6 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: echo "{\"firebase\":{\"apiKey\":\"${firebaseApiKey}\",\"authDomain\":\"${firebaseAuthDomain}\",\"databaseURL\":\"${firebaseDatabaseUrl}\",\"storageBucket\":\"${firebaseStorageBucket}\"}}" >> ~/repo/src/secrets.json
-      - run: echo "34.247.104.70 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBsEknIA1gczEAnqUbKKFgczdKn33k9vyya8LIn79Jyh/C/8+v4o/Ui5ZZkeZQuEVKaDrxTwebf+uXYMvRAkJLQ=" >> ~/.ssh/known_hosts
       - run: npm run test-with-coverage
       - run: npm run build
   deploy-s3:
@@ -22,8 +20,6 @@ jobs:
       - run: sudo curl -O https://bootstrap.pypa.io/get-pip.py
       - run: sudo python get-pip.py
       - run: sudo pip install awscli --upgrade
-      - run: echo "{\"firebase\":{\"apiKey\":\"${firebaseApiKey}\",\"authDomain\":\"${firebaseAuthDomain}\",\"databaseURL\":\"${firebaseDatabaseUrl}\",\"storageBucket\":\"${firebaseStorageBucket}\"}}" >> ~/repo/src/secrets.json
-      - run: echo "34.247.104.70 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBsEknIA1gczEAnqUbKKFgczdKn33k9vyya8LIn79Jyh/C/8+v4o/Ui5ZZkeZQuEVKaDrxTwebf+uXYMvRAkJLQ=" >> ~/.ssh/known_hosts
       - run: npm run build
       - run: aws s3 sync build/ s3://moneyflux.co.uk --delete
 
