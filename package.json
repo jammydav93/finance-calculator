@@ -24,7 +24,7 @@
     "redux-form": "^8.2.6"
   },
   "devDependencies": {
-    "@applitools/eyes-selenium": "^4.33.4",
+    "@applitools/eyes-selenium": "^4.33.6",
     "@applitools/eyes-storybook": "^3.2.3",
     "@storybook/react": "^5.3.1",
     "body-parser": "^1.19.0",
