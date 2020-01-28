@@ -31,6 +31,7 @@ jobs:
       - run: sudo python get-pip.py
       - run: sudo pip install awscli --upgrade
       - run: aws s3 sync build/ s3://moneyflux.co.uk --delete
+      - run: aws cloudfront create-invalidation --distribution-id E3LB6NM1TECKEI --paths /index.html
 
 workflows:
   version: 2
