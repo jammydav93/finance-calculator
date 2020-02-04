@@ -21,7 +21,7 @@
     "react-scripts": "^3.3.0",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "redux-form": "^8.2.6"
+    "redux-form": "^8.3.0"
   },
   "devDependencies": {
     "@applitools/eyes-selenium": "^4.33.8",
